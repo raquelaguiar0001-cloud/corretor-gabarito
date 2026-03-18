@@ -2,6 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230f0f1a'/><stop offset='1' stop-color='%231a1a3e'/></linearGradient><linearGradient id='liq' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23ff6b6b'/><stop offset='1' stop-color='%23c8202e'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='url(%23bg)'/><rect x='30' y='8' width='40' height='6' rx='3' fill='%23e63946'/><path d='M36 40 L20 70 Q15 82 26 87 L74 87 Q85 82 80 70 L64 40 Z' fill='%23ffffff' opacity='.07' stroke='%236699ff' stroke-width='2.5'/><path d='M33 58 Q36 55 40 58 L22 80 Q17 87 28 88 L72 88 Q83 87 78 80 Z' fill='url(%23liq)' opacity='.92'/><circle cx='38' cy='71' r='4' fill='%23ffffff' opacity='.25'/><circle cx='30' cy='52' r='3' fill='%236699ff' opacity='.7'/><circle cx='70' cy='48' r='2' fill='%2366ffcc' opacity='.6'/></svg>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BioLab</title>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
@@ -43,9 +44,9 @@
     </style>
 </head>
 <body onclick="fecharPaineis(event)">
-
+ 
 <div id="loading"><b>🧪 SINCRONIZANDO BIOLAB...</b></div>
-
+ 
 <header onclick="event.stopPropagation()">
     <div class="header-top">
         <div style="display:flex;align-items:center;gap:12px;">
@@ -73,12 +74,12 @@
         <div id="bim-tabs" style="display:flex;gap:3px;margin-left:auto;"></div>
     </nav>
 </header>
-
+ 
 <main class="main-content">
     <aside class="students-area"><div id="stu-list"></div></aside>
     <section class="track-container"><div id="lanes-box"></div></section>
 </main>
-
+ 
 <div id="p-crit" class="config-overlay" onclick="event.stopPropagation()">
     <h3>Configurações e Backup</h3>
     <p>Vistos Totais: <input type="number" id="tot-at" onchange="setVistos(this.value)" style="width:60px;"></p>
@@ -98,7 +99,7 @@
     <textarea id="in-nm" style="width:100%;height:80px;" placeholder="Nomes (um por linha)..."></textarea>
     <button onclick="addStus()" style="width:100%;background:#e91e63;color:white;padding:10px;margin-top:5px;border:none;border-radius:10px;">ADICIONAR</button>
 </div>
-
+ 
 <script>
     const firebaseConfig = { apiKey: "AIzaSyDNuA_OeQDU-tNLW93afXEQ_UzfH00yP2A", authDomain: "biolab-natividade.firebaseapp.com", databaseURL: "https://biolab-natividade-default-rtdb.firebaseio.com", projectId: "biolab-natividade", storageBucket: "biolab-natividade.firebasestorage.app", messagingSenderId: "268434655206", appId: "1:268434655206:web:e64592c269837f9ae87827" };
     firebase.initializeApp(firebaseConfig);
@@ -106,17 +107,17 @@
     let dados = { cs: [], ci: 0, b: 1 };
     let lastFocusId = null;
     const emojis = ['🧪','🧬','🔬','⚛️','🪐','🌍'];
-
+ 
     db.ref('biolab_v15').on('value', (snap) => {
         const val = snap.val(); if(val) dados = val;
         document.getElementById('loading').style.display = 'none';
         renderizar();
     });
-
+ 
     function salvar() { db.ref('biolab_v15').set(dados); }
     function abrirPainel(id) { document.querySelectorAll('.config-overlay').forEach(p => p.style.display = 'none'); document.getElementById(id).style.display = 'block'; }
     function fecharPaineis(e) { if(!e || (!e.target.closest('.config-overlay') && !e.target.closest('.nav-btn'))) document.querySelectorAll('.config-overlay').forEach(p => p.style.display = 'none'); }
-
+ 
     function getNota(aluno, b, si) {
         const c = dados.cs[dados.ci]; if(!c) return 0;
         let kA = `${si}_${b}_ativ`, totA = (c.mTotA?.[si]) || 10;
@@ -126,16 +127,16 @@
         let res = (nV + nC) / (crits.length + 1);
         return isNaN(res) ? 0 : res;
     }
-
+ 
     function renderizar() {
         const c = dados.cs[dados.ci]; if(!c) return;
         const activeEl = document.activeElement;
         if(activeEl && activeEl.id) lastFocusId = activeEl.id;
-
+ 
         document.getElementById('txt-turma').innerText = `🚀 ${c.n}`;
         document.getElementById('txt-materia').innerText = `🧬 ${c.ss[c.si]}`;
         document.getElementById('txt-total-alunos').innerText = `👥 ${c.st?.length || 0}`;
-
+ 
         const listDiv = document.getElementById('stu-list');
         listDiv.innerHTML = (c.st || []).map((s, si) => {
             let nBim = getNota(s, dados.b, c.si);
@@ -150,7 +151,7 @@
             }).join('');
             return `<div class="stu-row"><div class="stu-info-box"><span class="stu-name">${s.n}</span><div class="mini-check-grid">${vistosHTML}</div></div><div class="stu-inputs-group">${critsHTML}</div><div class="stu-total-box"><span class="stu-total-val" style="color:${nBim<7?'#ff4757':'#2ecc71'}">${nBim.toFixed(1)}</span><span class="stu-anual-val">An: ${nAnual.toFixed(1)}</span></div></div>`;
         }).join('');
-
+ 
         const trackBox = document.getElementById('lanes-box'); trackBox.innerHTML = '';
         (c.st || []).forEach(s => {
             let n = getNota(s, dados.b, c.si);
@@ -158,7 +159,7 @@
             lane.innerHTML = `<div class="runner" style="left:${n*8.8}%"><span class="runner-emoji">${s.em||'🧬'}</span><div class="runner-tag" style="border-color:${n<7?'#ff4757':'#2ecc71'}">${s.n} | ${n.toFixed(1)}</div></div>`;
             trackBox.appendChild(lane);
         });
-
+ 
         document.getElementById('bim-tabs').innerHTML = [1,2,3,4].map(b=>`<button tabindex="-1" class="nav-btn ${b===dados.b?'active':''}" onclick="dados.b=${b};salvar()">${b}º BIM</button>`).join('');
         document.getElementById('class-list').innerHTML = dados.cs.map((x,i)=>`<div class="del-item"><span onclick="dados.ci=${i};salvar()" style="cursor:pointer">${x.n}</span><span onclick="delT(${i})" style="color:red">✖</span></div>`).join('');
         document.getElementById('subj-list').innerHTML = (c.ss||[]).map((s,i)=>`<div class="del-item"><span onclick="dados.cs[dados.ci].si=${i};salvar()" style="cursor:pointer">${s}</span><span onclick="delM(${i})" style="color:red">✖</span></div>`).join('');
@@ -166,7 +167,7 @@
         document.getElementById('stu-manage-list').innerHTML = (c.st||[]).map((s,i)=>`<div class="del-item"><span>${s.n}</span><span onclick="delStu(${i})" style="color:red;cursor:pointer;">✖</span></div>`).join('');
         if(lastFocusId) { const el=document.getElementById(lastFocusId); if(el){el.focus();const v=el.value;el.value='';el.value=v;} }
     }
-
+ 
     function upNota(si,k,v){if(!dados.cs[dados.ci].st[si].sc)dados.cs[dados.ci].st[si].sc={};dados.cs[dados.ci].st[si].sc[k]=parseFloat(v);salvar();}
     function tglV(si,k,idx){let s=dados.cs[dados.ci].st[si];if(!s.sc)s.sc={};if(!s.sc[k])s.sc[k]=[];let p=s.sc[k].indexOf(idx);if(p>-1)s.sc[k].splice(p,1);else s.sc[k].push(idx);salvar();}
     function addT(){let v=document.getElementById('in-cl').value;if(v){if(!dados.cs)dados.cs=[];dados.cs.push({n:v,ss:['Ciências'],si:0,mCrits:{},mTotA:{},st:[]});dados.ci=dados.cs.length-1;salvar();}}
