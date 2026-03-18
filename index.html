@@ -4,280 +4,252 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ReagiLab — Profª Raquel Aguiar</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230f0f1a'/><stop offset='1' stop-color='%231a1a3e'/></linearGradient><linearGradient id='liq' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23ff6b6b'/><stop offset='1' stop-color='%23c8202e'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='url(%23bg)'/><rect x='30' y='8' width='40' height='6' rx='3' fill='%23e63946'/><rect x='36' y='14' width='28' height='26' rx='3' fill='%23ffffff' opacity='.08'/><path d='M36 40 L20 70 Q15 82 26 87 L74 87 Q85 82 80 70 L64 40 Z' fill='%23ffffff' opacity='.07' stroke='%236699ff' stroke-width='2.5' stroke-linejoin='round'/><path d='M33 58 Q36 55 40 58 L22 80 Q17 87 28 88 L72 88 Q83 87 78 80 Z' fill='url(%23liq)' opacity='.92'/><circle cx='38' cy='71' r='4' fill='%23ffffff' opacity='.25'/><circle cx='58' cy='76' r='2.8' fill='%23ffffff' opacity='.18'/><circle cx='30' cy='52' r='3' fill='%236699ff' opacity='.7'/><circle cx='70' cy='48' r='2' fill='%2366ffcc' opacity='.6'/></svg>">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500;700&family=Fredoka:wght@400;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
-
-<!-- Firebase modular -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getDatabase, ref, set, get }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCHR8cuC25TCDyZJNkV2R_04oTdUSdVAyk",
-  authDomain: "corretor-gabarito.firebaseapp.com",
-  databaseURL: "https://corretor-gabarito-default-rtdb.firebaseio.com",
-  projectId: "corretor-gabarito",
-  storageBucket: "corretor-gabarito.firebasestorage.app",
-  messagingSenderId: "823312147686",
-  appId: "1:823312147686:web:196d3492a3a37d8a460727"
-};
-
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getDatabase(app);
-const provider = new GoogleAuthProvider();
-
-window._fbSignIn  = () => signInWithPopup(auth, provider)
-  .catch(e => { document.getElementById('login-status').textContent = '❌ ' + e.message; });
-window._fbSignOut = () => signOut(auth);
-window._fbSave    = (uid, data) => set(ref(db, 'usuarios/' + uid), data);
-window._fbLoad    = async (uid) => { const s = await get(ref(db,'usuarios/'+uid)); return s.exists()?s.val():null; };
-
-onAuthStateChanged(auth, user => {
-  window._fbUser = user;
-  if(typeof window._onAuthChange === 'function') window._onAuthChange(user);
-});
+const cfg={apiKey:"AIzaSyCHR8cuC25TCDyZJNkV2R_04oTdUSdVAyk",authDomain:"corretor-gabarito.firebaseapp.com",databaseURL:"https://corretor-gabarito-default-rtdb.firebaseio.com",projectId:"corretor-gabarito",storageBucket:"corretor-gabarito.firebasestorage.app",messagingSenderId:"823312147686",appId:"1:823312147686:web:196d3492a3a37d8a460727"};
+const app=initializeApp(cfg),auth=getAuth(app),db=getDatabase(app),prov=new GoogleAuthProvider();
+window._fbSignIn=()=>signInWithPopup(auth,prov).catch(e=>{document.getElementById('ls').textContent='❌ '+e.message;});
+window._fbSignOut=()=>signOut(auth);
+window._fbSave=(uid,d)=>set(ref(db,'usuarios/'+uid),d);
+window._fbLoad=async uid=>{const s=await get(ref(db,'usuarios/'+uid));return s.exists()?s.val():null;};
+onAuthStateChanged(auth,u=>{window._fbUser=u;if(typeof window._onAuth==='function')window._onAuth(u);});
 </script>
-
 <style>
-/* ═══ RESET ═══ */
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family:'DM Sans',sans-serif}
-
-/* ═══ LOGIN SCREEN ═══ */
-#login-screen{
-  position:fixed;inset:0;background:linear-gradient(135deg,#0f0f1a,#1a1a3e);
-  z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px
-}
-.login-logo{font-size:4rem;animation:float 3s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.login-title{font-size:2rem;font-weight:800;color:#fff;letter-spacing:-1px}
-.login-sub{font-size:.9rem;color:rgba(255,255,255,.5);margin-top:-16px}
-.login-google-btn{
-  display:flex;align-items:center;gap:12px;background:#fff;color:#333;
-  border:none;border-radius:12px;padding:14px 28px;font-size:1rem;font-weight:700;
-  cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 24px rgba(0,0,0,.4);
-  transition:transform .15s,box-shadow .15s
-}
-.login-google-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.5)}
-#login-status{font-size:.8rem;color:rgba(255,255,255,.4);min-height:20px}
-
-/* ═══ HOME SCREEN ═══ */
-#home-screen{
-  display:none;min-height:100vh;
-  background:linear-gradient(135deg,#0f0f1a 0%,#1a1a3e 50%,#0d1117 100%);
-  align-items:center;justify-content:center;flex-direction:column;gap:32px;padding:20px
-}
-#home-screen.visible{display:flex}
-.home-header{text-align:center;color:#fff}
-.home-logo{font-size:3.5rem;margin-bottom:12px;animation:float 3s ease-in-out infinite}
-.home-title{font-size:2rem;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
-.home-sub{font-size:.85rem;color:rgba(255,255,255,.45)}
-.home-user{
-  display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.15);border-radius:40px;padding:8px 16px 8px 8px
-}
-.home-user img{width:32px;height:32px;border-radius:50%;border:2px solid rgba(255,255,255,.3)}
-.home-user span{font-size:.82rem;color:rgba(255,255,255,.8);font-weight:600}
-.home-user button{
-  background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;
-  font-size:.75rem;margin-left:8px;font-family:'DM Sans',sans-serif
-}
-.home-user button:hover{color:rgba(255,255,255,.8)}
-
-.modules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:760px;width:100%}
-@media(max-width:600px){.modules-grid{grid-template-columns:1fr}}
-.module-card{
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
-  border-radius:20px;padding:28px 20px;text-align:center;cursor:pointer;
-  transition:all .2s;color:#fff;position:relative;overflow:hidden
-}
-.module-card::before{
-  content:'';position:absolute;inset:0;opacity:0;transition:opacity .2s;border-radius:20px
-}
-.module-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.3)}
-.module-card:hover::before{opacity:1}
-.mc-corretor::before{background:linear-gradient(135deg,rgba(230,57,70,.15),rgba(200,32,46,.08))}
-.mc-corretor:hover{box-shadow:0 12px 40px rgba(230,57,70,.25)}
-.mc-biolab::before{background:linear-gradient(135deg,rgba(233,30,99,.15),rgba(155,77,202,.08))}
-.mc-biolab:hover{box-shadow:0 12px 40px rgba(233,30,99,.25)}
-.mc-planejador::before{background:linear-gradient(135deg,rgba(84,110,122,.3),rgba(69,90,100,.15))}
-.mc-planejador:hover{box-shadow:0 12px 40px rgba(84,110,122,.3)}
-.mc-icon{font-size:2.8rem;margin-bottom:12px;display:block;position:relative;z-index:1}
-.mc-name{font-size:1.1rem;font-weight:800;margin-bottom:6px;position:relative;z-index:1}
-.mc-desc{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.5;position:relative;z-index:1}
-.mc-badge{
-  position:absolute;top:12px;right:12px;
-  background:rgba(255,255,255,.12);border-radius:20px;
-  padding:2px 8px;font-size:.65rem;font-weight:700;color:rgba(255,255,255,.6)
-}
-
-/* ═══ MODULE WRAPPER ═══ */
-#module-wrap{display:none;flex-direction:column;height:100vh}
-#module-wrap.visible{display:flex}
-.module-topbar{
-  height:48px;background:#161616;color:#fff;
-  display:flex;align-items:center;padding:0 16px;gap:12px;
-  flex-shrink:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3)
-}
-.mtb-back{
-  background:rgba(255,255,255,.1);border:none;color:#fff;
-  padding:6px 12px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;
-  font-size:.8rem;font-weight:700;display:flex;align-items:center;gap:6px;
-  transition:background .15s
-}
-.mtb-back:hover{background:rgba(255,255,255,.2)}
-.mtb-title{font-weight:800;font-size:.95rem;letter-spacing:-.2px}
-.mtb-sub{font-size:.7rem;color:rgba(255,255,255,.4);margin-left:2px}
-#module-frame{flex:1;border:none;width:100%;background:#fff}
-
-/* ═══ TOAST ═══ */
-.toast-box{position:fixed;bottom:18px;right:18px;z-index:600;display:flex;flex-direction:column;gap:7px}
-.toast{
-  background:#161616;color:#fff;padding:11px 16px;border-radius:9px;
-  font-size:.82rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.3);
-  display:flex;align-items:center;gap:7px;animation:tIn .25s ease
-}
-@keyframes tIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
-.toast.ok{background:#1a7a4a}.toast.err{background:#c8202e}.toast.info{background:#2752e8}
+html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:#060612}
+#cv{position:fixed;inset:0;z-index:0;pointer-events:none}
+.scr{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s,transform .5s}
+.scr.off{opacity:0;pointer-events:none;transform:scale(.96)}
+@keyframes orbit{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes fp{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.3);opacity:1}}
+@keyframes ns{0%,100%{filter:drop-shadow(0 0 20px rgba(230,57,70,.3))}50%{filter:drop-shadow(0 0 55px rgba(230,57,70,.75))}}
+@keyframes bg2{0%,100%{box-shadow:0 8px 40px rgba(0,0,0,.5)}50%{box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 32px rgba(255,255,255,.14)}}
+@keyframes aIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes tIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+.anim-in{animation:aIn .7s cubic-bezier(.34,1.56,.64,1) both}
+.anim-in:nth-child(1){animation-delay:.05s}.anim-in:nth-child(2){animation-delay:.15s}
+.anim-in:nth-child(3){animation-delay:.25s}.anim-in:nth-child(4){animation-delay:.33s}
+.anim-in:nth-child(5){animation-delay:.42s}.anim-in:nth-child(6){animation-delay:.5s}
+#s-login{background:transparent}
+.login-wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding:20px;width:100%;max-width:480px}
+.l-tag{font-size:.57rem;font-weight:800;letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.l-tag::before,.l-tag::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
+.l-flask-wrap{position:relative;width:88px;height:88px;margin-bottom:16px}
+.l-flask-bg{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(230,57,70,.2),transparent 70%);animation:fp 2.8s ease-in-out infinite}
+.l-flask{font-size:3.2rem;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;height:100%;filter:drop-shadow(0 0 22px rgba(230,57,70,.8))}
+.l-profa-label{font-size:.56rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:4px}
+.l-profa-name{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6.5vw,3.6rem);font-weight:900;line-height:1.05;text-align:center;background:linear-gradient(135deg,#fff 0%,#ffb3b9 40%,#e63946 70%,#ff9aaa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:ns 4s ease-in-out infinite;margin-bottom:16px}
+.l-school-box{margin-bottom:24px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 32px;text-align:center;position:relative;overflow:hidden;width:100%}
+.l-school-box::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(230,57,70,.04),rgba(102,153,255,.04))}
+.l-school-lbl{font-size:.5rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:5px;position:relative;z-index:1}
+.l-school-nm{font-size:clamp(.88rem,2.4vw,1.06rem);font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#fff;position:relative;z-index:1;line-height:1.4}
+.l-school-nm span{background:linear-gradient(135deg,#6699ff,#66ffcc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.l-btn{display:flex;align-items:center;gap:12px;background:#fff;color:#1a1a1a;border:none;border-radius:16px;padding:15px 36px;font-size:.95rem;font-weight:800;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 8px 40px rgba(0,0,0,.5);transition:all .22s;animation:bg2 3s ease-in-out infinite}
+.l-btn:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 20px 55px rgba(0,0,0,.6)}
+.l-btn img{width:20px;height:20px;flex-shrink:0}
+#ls{font-size:.7rem;color:rgba(255,255,255,.22);min-height:18px;margin-top:14px;letter-spacing:.3px}
+.l-year{position:fixed;bottom:14px;font-size:.56rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.1)}
+#s-home{background:transparent;padding:0;justify-content:flex-start}
+.h-bar{width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;backdrop-filter:blur(10px)}
+.h-brand{display:flex;align-items:center;gap:10px}
+.h-flask{font-size:1.5rem;filter:drop-shadow(0 0 8px rgba(230,57,70,.6))}
+.h-bname{font-size:.9rem;font-weight:800;color:#fff;letter-spacing:-.2px}
+.h-bsub{font-size:.6rem;color:rgba(255,255,255,.25);margin-top:1px}
+.h-pill{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:40px;padding:5px 12px 5px 5px}
+.h-pill img{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.25)}
+.h-pill span{font-size:.74rem;color:rgba(255,255,255,.65);font-weight:600}
+.h-pill button{background:none;border:none;color:rgba(255,255,255,.28);cursor:pointer;font-size:.68rem;margin-left:6px;font-family:'DM Sans',sans-serif;padding:2px 6px;border-radius:5px}
+.h-pill button:hover{color:rgba(255,255,255,.75);background:rgba(255,255,255,.08)}
+.h-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 20px;gap:4px;position:relative}
+.h-hero::before{content:'';position:absolute;width:600px;height:360px;background:radial-gradient(ellipse,rgba(230,57,70,.07),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.h-tag{font-size:.54rem;font-weight:800;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:8px}
+.h-profa{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,4.5vw,2.8rem);font-weight:900;line-height:1.1;background:linear-gradient(135deg,#fff 0%,#ffb3b9 45%,#e63946 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 24px rgba(230,57,70,.3))}
+.h-school{font-size:clamp(.62rem,1.8vw,.8rem);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:5px}
+.h-school strong{background:linear-gradient(135deg,rgba(102,153,255,.9),rgba(102,255,204,.9));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.h-rule{width:55px;height:2px;margin:11px auto 7px;background:linear-gradient(90deg,transparent,rgba(230,57,70,.5),transparent)}
+.h-hint{font-size:.68rem;color:rgba(255,255,255,.2);letter-spacing:.5px}
+.h-mods{width:100%;max-width:880px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 20px 20px;flex-shrink:0}
+@media(max-width:600px){.h-mods{grid-template-columns:1fr;max-width:340px;padding:0 16px 16px}}
+.mc{position:relative;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.08);cursor:pointer;padding:22px 16px 18px;text-align:center;color:#fff;background:rgba(255,255,255,.04);transition:transform .28s cubic-bezier(.34,1.56,.64,1),box-shadow .28s,border-color .28s}
+.mc::after{content:'';position:absolute;inset:0;border-radius:18px;background:linear-gradient(160deg,rgba(255,255,255,.07) 0%,transparent 60%);pointer-events:none}
+.mc::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);transition:left .5s ease}
+.mc:hover::before{left:140%}
+.mc:hover{transform:translateY(-7px)}
+.mc-r{border-color:rgba(230,57,70,.2)}.mc-r:hover{box-shadow:0 20px 50px rgba(230,57,70,.22);border-color:rgba(230,57,70,.5)}
+.mc-b{border-color:rgba(233,30,99,.2)}.mc-b:hover{box-shadow:0 20px 50px rgba(155,77,202,.22);border-color:rgba(233,30,99,.5)}
+.mc-p{border-color:rgba(84,110,122,.25)}.mc-p:hover{box-shadow:0 20px 50px rgba(84,110,122,.25);border-color:rgba(84,110,122,.6)}
+.mc-glow{position:absolute;width:130px;height:130px;border-radius:50%;top:-25px;left:50%;transform:translateX(-50%);opacity:0;transition:opacity .3s;pointer-events:none}
+.mc-r .mc-glow{background:radial-gradient(circle,rgba(230,57,70,.22),transparent 70%)}
+.mc-b .mc-glow{background:radial-gradient(circle,rgba(233,30,99,.22),transparent 70%)}
+.mc-p .mc-glow{background:radial-gradient(circle,rgba(84,110,122,.3),transparent 70%)}
+.mc:hover .mc-glow{opacity:1}
+.mc-ai{position:absolute;top:10px;right:10px;font-size:.55rem;font-weight:800;letter-spacing:1.5px;padding:2px 7px;border-radius:20px;text-transform:uppercase;background:rgba(230,57,70,.18);color:#ff9999;border:1px solid rgba(230,57,70,.3)}
+.mc-ico{font-size:2.4rem;margin-bottom:10px;display:block;position:relative;z-index:1;transition:transform .28s cubic-bezier(.34,1.56,.64,1)}
+.mc:hover .mc-ico{transform:scale(1.2) rotate(-6deg)}
+.mc-name{font-size:.95rem;font-weight:800;margin-bottom:5px;position:relative;z-index:1;letter-spacing:-.2px}
+.mc-desc{font-size:.7rem;color:rgba(255,255,255,.38);line-height:1.55;position:relative;z-index:1}
+.mc-arr{display:inline-flex;align-items:center;gap:4px;margin-top:11px;font-size:.68rem;font-weight:700;color:rgba(255,255,255,.22);position:relative;z-index:1;transition:all .22s}
+.mc:hover .mc-arr{color:rgba(255,255,255,.6);transform:translateX(5px)}
+#s-mod{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;background:#fff}
+#s-mod.off{display:none}
+.m-bar{height:44px;background:#0d0d1a;color:#fff;flex-shrink:0;display:flex;align-items:center;padding:0 14px;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,.4)}
+.m-back{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:none;color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:700;transition:background .15s}
+.m-back:hover{background:rgba(255,255,255,.2)}
+.m-tname{font-weight:800;font-size:.88rem}.m-tsub{font-size:.65rem;color:rgba(255,255,255,.3);margin-left:2px}
+#m-if{flex:1;border:none;width:100%}
+.tb{position:fixed;bottom:14px;right:14px;z-index:99;display:flex;flex-direction:column;gap:5px}
+.tk{background:#0d0d1a;color:#fff;padding:10px 16px;border-radius:9px;font-size:.78rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.4);animation:tIn .2s ease}
+.tk.ok{background:#155d35}.tk.err{background:#9b1c1c}.tk.info{background:#1e3a8a}
 </style>
 </head>
 <body>
-
-<!-- ═══ LOGIN ═══ -->
-<div id="login-screen">
-  <div class="login-logo">⚗️</div>
-  <div style="text-align:center">
-    <div class="login-title">ReagiLab</div>
-    <div class="login-sub">Profª Raquel Aguiar · UE Natividade Marinho</div>
+<canvas id="cv"></canvas>
+ 
+<!-- LOGIN -->
+<div class="scr" id="s-login">
+  <div style="position:absolute;inset:0;background:linear-gradient(160deg,#04040f 0%,#0a0a2e 50%,#120820 100%)"></div>
+  <div style="position:absolute;width:700px;height:700px;border-radius:50%;border:1px solid rgba(230,57,70,.06);top:50%;left:50%;transform:translate(-50%,-50%);animation:orbit 35s linear infinite;pointer-events:none"></div>
+  <div style="position:absolute;width:450px;height:450px;border-radius:50%;border:1px solid rgba(102,153,255,.05);top:50%;left:50%;transform:translate(-50%,-50%);animation:orbit 22s linear infinite reverse;pointer-events:none"></div>
+  <div style="position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(230,57,70,.08),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none"></div>
+  <div class="login-wrap">
+    <div class="l-tag anim-in">Sistema de Gestão Escolar</div>
+    <div class="l-flask-wrap anim-in"><div class="l-flask-bg"></div><div class="l-flask">⚗️</div></div>
+    <div class="l-profa-label anim-in">Professora</div>
+    <div class="l-profa-name anim-in">Raquel Aguiar</div>
+    <div class="l-school-box anim-in">
+      <div class="l-school-lbl">Unidade Escolar</div>
+      <div class="l-school-nm">U.E. <span>NATIVIDADE MARINHO</span></div>
+    </div>
+    <button class="l-btn anim-in" onclick="fbSignIn()">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
+      Entrar com Google
+    </button>
+    <div id="ls" class="anim-in">Faça login para acessar o sistema</div>
   </div>
-  <button class="login-google-btn" onclick="fbSignIn()">
-    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:22px;height:22px">
-    Entrar com Google
-  </button>
-  <div id="login-status">Faça login para acessar</div>
+  <div class="l-year">ReagiLab · 2025</div>
 </div>
-
-<!-- ═══ HOME ═══ -->
-<div id="home-screen">
-  <div class="home-header">
-    <div class="home-logo">⚗️</div>
-    <div class="home-title">ReagiLab</div>
-    <div class="home-sub">Profª Raquel Aguiar · UE Natividade Marinho</div>
+ 
+<!-- HOME -->
+<div class="scr off" id="s-home">
+  <div style="position:absolute;inset:0;background:linear-gradient(160deg,#04040f 0%,#0a0a2e 50%,#120820 100%);z-index:-1"></div>
+  <div class="h-bar">
+    <div class="h-brand">
+      <div class="h-flask">⚗️</div>
+      <div><div class="h-bname">ReagiLab</div><div class="h-bsub">Sistema de Gestão Escolar</div></div>
+    </div>
+    <div class="h-pill">
+      <img id="h-av" src="" alt="">
+      <span id="h-nm"></span>
+      <button onclick="fbSignOut()">Sair</button>
+    </div>
   </div>
-
-  <div class="home-user">
-    <img id="home-avatar" src="" alt="">
-    <span id="home-name"></span>
-    <button onclick="fbSignOut()">Sair</button>
+  <div class="h-hero">
+    <div class="h-tag">Unidade Escolar · Ciências da Natureza</div>
+    <div class="h-profa">Profª Raquel Aguiar</div>
+    <div class="h-school"><strong>U.E. NATIVIDADE MARINHO</strong></div>
+    <div class="h-rule"></div>
+    <div class="h-hint">Selecione um módulo abaixo para começar</div>
   </div>
-
-  <div class="modules-grid">
-    <div class="module-card mc-corretor" onclick="abrirModulo('corretor')">
-      <span class="mc-badge">IA</span>
-      <span class="mc-icon">📋</span>
+  <div class="h-mods">
+    <div class="mc mc-r" onclick="abrirMod('corretor')">
+      <div class="mc-glow"></div><span class="mc-ai">IA</span>
+      <span class="mc-ico">📋</span>
       <div class="mc-name">ReagiNota</div>
       <div class="mc-desc">Corretor inteligente de gabaritos com leitura por foto e IA</div>
+      <div class="mc-arr">Abrir →</div>
     </div>
-    <div class="module-card mc-biolab" onclick="abrirModulo('biolab')">
-      <span class="mc-icon">🔭</span>
+    <div class="mc mc-b" onclick="abrirMod('biolab')">
+      <div class="mc-glow"></div>
+      <span class="mc-ico">🔭</span>
       <div class="mc-name">BioLab</div>
       <div class="mc-desc">Notas, vistos, atividades e desempenho bimestral dos alunos</div>
+      <div class="mc-arr">Abrir →</div>
     </div>
-    <div class="module-card mc-planejador" onclick="abrirModulo('planejador')">
-      <span class="mc-icon">📅</span>
+    <div class="mc mc-p" onclick="abrirMod('planejador')">
+      <div class="mc-glow"></div>
+      <span class="mc-ico">📅</span>
       <div class="mc-name">Planejador</div>
       <div class="mc-desc">Planejamento semanal de aulas, conteúdos e histórico</div>
+      <div class="mc-arr">Abrir →</div>
     </div>
   </div>
 </div>
-
-<!-- ═══ MODULE FRAME ═══ -->
-<div id="module-wrap">
-  <div class="module-topbar">
-    <button class="mtb-back" onclick="voltarHome()">← Início</button>
-    <div>
-      <span class="mtb-title" id="mtb-title"></span>
-      <span class="mtb-sub" id="mtb-sub"></span>
-    </div>
+ 
+<!-- MODULE -->
+<div id="s-mod" class="off">
+  <div class="m-bar">
+    <button class="m-back" onclick="voltarHome()">← Início</button>
+    <div><span class="m-tname" id="m-tn"></span><span class="m-tsub" id="m-ts"></span></div>
   </div>
-  <iframe id="module-frame" allowfullscreen allow="camera; microphone"></iframe>
+  <iframe id="m-if" allowfullscreen allow="camera; microphone"></iframe>
 </div>
-
-<div class="toast-box" id="toast-box"></div>
-
+<div class="tb" id="tb"></div>
+ 
 <script>
-// ═══ MÓDULOS ═══
-const MODULES = {
-  corretor: {
-    name: 'ReagiNota',
-    sub: 'Corretor de Gabaritos',
-    src: 'reagiNota.html'
-  },
-  biolab: {
-    name: 'BioLab',
-    sub: 'Notas e Desempenho',
-    src: 'biolab.html'
-  },
-  planejador: {
-    name: 'Planejador',
-    sub: 'Planejamento Semanal',
-    src: 'planejador.html'
+// PARTICLES
+const cv=document.getElementById('cv'),ct=cv.getContext('2d');
+let W,H,ps=[];
+function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+rsz();window.addEventListener('resize',()=>{rsz();init();});
+function rp(){return{x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.3,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,a:Math.random(),c:['rgba(230,57,70,','rgba(102,153,255,','rgba(102,255,204,','rgba(255,200,80,'][Math.floor(Math.random()*4)]};}
+function init(){ps=Array.from({length:80},rp);}
+init();
+function draw(){
+  ct.clearRect(0,0,W,H);
+  ps.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.a+=.005;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    const al=(.25+.25*Math.sin(p.a)).toFixed(2);
+    ct.beginPath();ct.arc(p.x,p.y,p.r,0,Math.PI*2);ct.fillStyle=p.c+al+')';ct.fill();
+  });
+  for(let i=0;i<ps.length;i++)for(let j=i+1;j<ps.length;j++){
+    const dx=ps[i].x-ps[j].x,dy=ps[i].y-ps[j].y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<90){ct.beginPath();ct.moveTo(ps[i].x,ps[i].y);ct.lineTo(ps[j].x,ps[j].y);ct.strokeStyle=`rgba(255,255,255,${(.05*(1-d/90)).toFixed(3)})`;ct.lineWidth=.4;ct.stroke();}
   }
-};
-
-function abrirModulo(id) {
-  const m = MODULES[id];
-  document.getElementById('home-screen').classList.remove('visible');
-  document.getElementById('module-wrap').classList.add('visible');
-  document.getElementById('mtb-title').textContent = m.name;
-  document.getElementById('mtb-sub').textContent = '· ' + m.sub;
-  document.getElementById('module-frame').src = m.src;
+  requestAnimationFrame(draw);
 }
-
-function voltarHome() {
-  document.getElementById('module-wrap').classList.remove('visible');
-  document.getElementById('module-frame').src = '';
-  document.getElementById('home-screen').classList.add('visible');
+draw();
+ 
+// MODULES
+const MODS={corretor:{name:'ReagiNota',sub:'Corretor de Gabaritos',src:'reagiNota.html'},biolab:{name:'BioLab',sub:'Notas e Desempenho',src:'biolab.html'},planejador:{name:'Planejador',sub:'Planejamento Semanal',src:'planejador.html'}};
+ 
+function abrirMod(id){
+  const m=MODS[id];
+  document.getElementById('s-home').classList.add('off');
+  document.getElementById('s-mod').classList.remove('off');
+  document.getElementById('m-tn').textContent=m.name;
+  document.getElementById('m-ts').textContent='· '+m.sub;
+  document.getElementById('m-if').src=m.src;
 }
-
-// ═══ AUTH ═══
-function fbSignIn() {
-  document.getElementById('login-status').textContent = '⏳ Abrindo login do Google...';
-  window._fbSignIn();
+function voltarHome(){
+  document.getElementById('s-mod').classList.add('off');
+  document.getElementById('m-if').src='';
+  document.getElementById('s-home').classList.remove('off');
 }
-function fbSignOut() {
-  window._fbSignOut();
-  document.getElementById('home-screen').classList.remove('visible');
-  document.getElementById('module-wrap').classList.remove('visible');
-  document.getElementById('login-screen').style.display = 'flex';
-  toast('Você saiu da conta.');
-}
-
-window._onAuthChange = function(user) {
-  if(user) {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('home-screen').classList.add('visible');
-    document.getElementById('home-avatar').src = user.photoURL || '';
-    document.getElementById('home-name').textContent = user.displayName || user.email;
-    toast(`Bem-vinda, ${user.displayName?.split(' ')[0] || 'professora'}! ✨`, 'ok');
+ 
+// AUTH
+function fbSignIn(){document.getElementById('ls').textContent='⏳ Abrindo login...';window._fbSignIn();}
+function fbSignOut(){window._fbSignOut();document.getElementById('s-home').classList.add('off');document.getElementById('s-mod').classList.add('off');document.getElementById('s-login').classList.remove('off');toast('Você saiu da conta.');}
+ 
+window._onAuth=function(u){
+  if(u){
+    document.getElementById('s-login').classList.add('off');
+    document.getElementById('s-home').classList.remove('off');
+    document.getElementById('h-av').src=u.photoURL||'';
+    document.getElementById('h-nm').textContent=u.displayName?.split(' ')[0]||u.email;
+    toast(`Bem-vinda, ${u.displayName?.split(' ')[0]||'professora'}! ✨`,'ok');
   } else {
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('home-screen').classList.remove('visible');
+    document.getElementById('s-login').classList.remove('off');
+    document.getElementById('s-home').classList.add('off');
   }
 };
-
-function toast(msg, type='') {
-  const b = document.getElementById('toast-box');
-  const t = document.createElement('div');
-  t.className = 'toast ' + type;
-  t.textContent = msg;
-  b.appendChild(t);
-  setTimeout(() => t.remove(), 3500);
-}
+ 
+function toast(msg,type=''){const b=document.getElementById('tb');const t=document.createElement('div');t.className='tk '+type;t.textContent=msg;b.appendChild(t);setTimeout(()=>t.remove(),3500);}
 </script>
 </body>
 </html>
