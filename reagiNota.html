@@ -1,3 +1,6 @@
+Reaginota · HTML
+Copiar
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -14,7 +17,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getDatabase, ref, set, get, onValue }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
-
+ 
 const firebaseConfig = {
   apiKey: "AIzaSyCHR8cuC25TCDyZJNkV2R_04oTdUSdVAyk",
   authDomain: "corretor-gabarito.firebaseapp.com",
@@ -24,27 +27,27 @@ const firebaseConfig = {
   messagingSenderId: "823312147686",
   appId: "1:823312147686:web:196d3492a3a37d8a460727"
 };
-
+ 
 const app      = initializeApp(firebaseConfig);
 const auth     = getAuth(app);
 const db       = getDatabase(app);
 const provider = new GoogleAuthProvider();
-
+ 
 window._fbSignIn  = () => signInWithPopup(auth, provider)
   .catch(e => { document.getElementById('login-status').textContent = '❌ ' + e.message; });
 window._fbSignOut = () => signOut(auth);
-
+ 
 // Salva todos os dados do usuário no Realtime Database
 window._fbSave = async (uid, data) => {
   await set(ref(db, 'usuarios/' + uid), data);
 };
-
+ 
 // Carrega dados do usuário
 window._fbLoad = async (uid) => {
   const snap = await get(ref(db, 'usuarios/' + uid));
   return snap.exists() ? snap.val() : null;
 };
-
+ 
 onAuthStateChanged(auth, user => {
   window._fbUser = user;
   if(typeof window._onAuthChange === 'function') window._onAuthChange(user);
@@ -74,7 +77,7 @@ onAuthStateChanged(auth, user => {
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
 body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);display:flex;flex-direction:column}
-
+ 
 /* ───── TOPBAR ───── */
 .topbar{
   height:54px;background:var(--ink);color:#fff;display:flex;align-items:center;
@@ -104,10 +107,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);d
   font-size:.8rem;cursor:pointer;min-width:160px
 }
 .tb-turma option{background:var(--ink);color:#fff}
-
+ 
 /* ───── LAYOUT ───── */
 .body{display:flex;flex:1;overflow:hidden}
-
+ 
 /* ───── SIDEBAR ───── */
 .sidebar{
   width:270px;background:#fff;border-right:1px solid var(--line);
@@ -120,12 +123,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);d
   color:var(--ink3);margin-bottom:10px
 }
 .sb-scroll{overflow-y:auto;flex:1;padding:4px 0}
-
+ 
 /* ───── MAIN ───── */
 .main{flex:1;overflow-y:auto;background:var(--paper)}
 .page{display:none;padding:26px 28px;min-height:100%}
 .page.on{display:block}
-
+ 
 /* ───── BUTTONS ───── */
 .btn{
   border:none;border-radius:8px;cursor:pointer;
@@ -144,7 +147,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);d
 .btn-sm{padding:6px 12px;font-size:.76rem}
 .btn-xs{padding:4px 9px;font-size:.71rem}
 .btn-block{width:100%;justify-content:center}
-
+ 
 /* ───── FORMS ───── */
 .field{display:flex;flex-direction:column;gap:5px;margin-bottom:13px}
 .field label{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--ink3)}
@@ -156,12 +159,12 @@ input[type=text],input[type=number],select,textarea{
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
 input::placeholder,textarea::placeholder{color:var(--ink3)}
 textarea{resize:vertical}
-
+ 
 /* ───── CARD ───── */
 .card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--sh)}
 .card+.card{margin-top:14px}
 .card-sm{padding:14px}
-
+ 
 /* ───── PROVA ITEM ───── */
 .prova-item{
   padding:9px 12px;border-radius:8px;cursor:pointer;
@@ -177,7 +180,7 @@ textarea{resize:vertical}
   padding:2px 7px;border-radius:20px;font-size:.64rem;font-weight:800;
   flex-shrink:0
 }
-
+ 
 /* ───── STUDENT ROW ───── */
 .st-row{
   display:flex;align-items:center;gap:9px;padding:8px 12px;
@@ -198,7 +201,7 @@ textarea{resize:vertical}
 .s-a{background:var(--amber-bg);color:var(--amber)}
 .s-r{background:var(--red-bg);color:var(--red)}
 .s-n{background:var(--paper2);color:var(--ink3)}
-
+ 
 /* ───── SCAN MODES ───── */
 .scan-tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
 .scan-tab{
@@ -209,7 +212,7 @@ textarea{resize:vertical}
 }
 .scan-tab:hover{border-color:var(--blue);color:var(--blue)}
 .scan-tab.on{background:var(--blue);border-color:var(--blue);color:#fff}
-
+ 
 .drop-zone{
   border:2.5px dashed var(--line);border-radius:var(--r);
   padding:36px 20px;text-align:center;cursor:pointer;
@@ -219,11 +222,11 @@ textarea{resize:vertical}
 .drop-zone h3{font-size:.95rem;font-weight:700;margin:10px 0 5px}
 .drop-zone p{font-size:.79rem;color:var(--ink3)}
 .dz-icon{font-size:2.6rem}
-
+ 
 /* Camera */
 #camera-stream{width:100%;max-height:300px;border-radius:var(--r);display:none;object-fit:cover}
 #canvas-hidden{display:none}
-
+ 
 /* Paste area */
 #paste-zone{
   min-height:120px;border:2px dashed var(--line);border-radius:var(--r);
@@ -234,10 +237,10 @@ textarea{resize:vertical}
 }
 #paste-zone:focus{border-color:var(--blue);background:var(--blue-bg)}
 #paste-zone img{max-width:100%;max-height:300px;border-radius:8px}
-
+ 
 /* Preview */
 #img-preview{width:100%;max-height:260px;object-fit:contain;border-radius:var(--r);display:none;margin-top:12px}
-
+ 
 /* Manual gabarito input */
 .manual-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}
 .man-cell{display:flex;flex-direction:column;align-items:center;gap:4px}
@@ -251,7 +254,7 @@ textarea{resize:vertical}
 }
 .man-opt:hover{border-color:var(--blue);color:var(--blue)}
 .man-opt.sel{background:var(--blue);border-color:var(--blue);color:#fff}
-
+ 
 /* ───── LOADER ───── */
 .loader{display:none;flex-direction:column;align-items:center;gap:12px;padding:28px}
 .loader.on{display:flex}
@@ -263,7 +266,7 @@ textarea{resize:vertical}
 @keyframes spin{to{transform:rotate(360deg)}}
 .load-msg{font-size:.85rem;color:var(--ink2);font-weight:500}
 .load-step{font-family:'DM Mono',monospace;font-size:.73rem;color:#e63946;font-weight:700}
-
+ 
 /* ───── RESULTS ───── */
 .score-ring{
   width:86px;height:86px;border-radius:50%;display:flex;
@@ -274,7 +277,7 @@ textarea{resize:vertical}
 .sr-g{background:var(--green-bg);color:var(--green);border:3px solid #5ec490}
 .sr-a{background:var(--amber-bg);color:var(--amber);border:3px solid #e9c46a}
 .sr-r{background:var(--red-bg);color:var(--red);border:3px solid #f4a0a5}
-
+ 
 .q-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:7px;margin:14px 0}
 .q-card{
   border-radius:9px;padding:11px 7px;text-align:center;
@@ -291,7 +294,7 @@ textarea{resize:vertical}
 .q-card .qg{font-size:.62rem;margin-top:2px;color:var(--ink3)}
 .q-card.err .qg{color:var(--green);font-weight:700}
 .q-card .qt{font-size:.58rem;color:var(--ink3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
+ 
 /* ───── BIMESTRE ORGANIZER ───── */
 .bim-header{
   display:flex;align-items:center;gap:10px;
@@ -316,7 +319,7 @@ textarea{resize:vertical}
   background:rgba(0,0,0,.08);padding:1px 7px;border-radius:20px
 }
 .mat-body{padding:2px 0 2px 10px}
-
+ 
 /* ───── ORGANIZER PAGE ───── */
 .org-bim{
   background:#fff;border:1px solid var(--line);border-radius:var(--r);
@@ -341,7 +344,7 @@ textarea{resize:vertical}
   margin-bottom:6px;font-size:.82rem;transition:box-shadow .15s
 }
 .org-prova-row:hover{box-shadow:var(--sh)}
-
+ 
 /* ───── BAR CHART ───── */
 .bar-row{
   display:grid;grid-template-columns:28px 1fr 56px 38px;
@@ -356,7 +359,7 @@ textarea{resize:vertical}
 .bf-a{background:linear-gradient(90deg,var(--amber),#e9c46a)}
 .bpct{font-family:'DM Mono',monospace;font-size:.73rem;font-weight:700;text-align:right}
 .bgab{font-family:'DM Mono',monospace;font-size:.68rem;background:var(--paper2);padding:1px 6px;border-radius:4px;text-align:center;color:var(--ink3)}
-
+ 
 /* ───── TABS ───── */
 .tab-bar{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:18px}
 .tab-btn{
@@ -369,7 +372,7 @@ textarea{resize:vertical}
 .tab-btn.on{color:var(--blue);border-bottom-color:var(--blue)}
 .tab-pane{display:none}
 .tab-pane.on{display:block}
-
+ 
 /* ───── SECTION ───── */
 .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .sec-title{font-size:.98rem;font-weight:800;display:flex;align-items:center;gap:7px}
@@ -377,7 +380,7 @@ textarea{resize:vertical}
 .bdg-b{background:var(--blue)}
 .bdg-g{background:var(--green)}
 .bdg-r{background:#e63946}
-
+ 
 /* ───── CHIPS ───── */
 .chip{
   display:inline-flex;align-items:center;gap:4px;
@@ -388,7 +391,7 @@ textarea{resize:vertical}
 .chip-a{background:var(--amber-bg);color:var(--amber);border:1px solid #e9c46a}
 .chip-n{background:var(--paper2);color:var(--ink3);border:1px solid var(--line)}
 .chip-b{background:var(--blue-bg);color:var(--blue);border:1px solid #b3c4f8}
-
+ 
 /* ───── MODALS ───── */
 .overlay{
   position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;
@@ -411,7 +414,7 @@ textarea{resize:vertical}
   border:none;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center
 }
 hr{border:none;border-top:1px solid var(--line);margin:12px 0}
-
+ 
 /* ───── TOAST ───── */
 .toast-box{position:fixed;bottom:18px;right:18px;z-index:600;display:flex;flex-direction:column;gap:7px}
 .toast{
@@ -424,45 +427,27 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
 .toast.ok{background:var(--green)}
 .toast.err{background:var(--red)}
 .toast.info{background:var(--blue)}
-
+ 
 /* ───── EMPTY ───── */
 .empty{text-align:center;padding:40px 20px;color:var(--ink3);font-size:.87rem}
 .empty .ei{font-size:2.4rem;margin-bottom:10px;opacity:.35}
-
+ 
 /* ───── MATERIAL COLORS ───── */
 .mc-0{background:#dbeafe;color:#1e40af}.mc-1{background:#dcfce7;color:#166534}
 .mc-2{background:#fce7f3;color:#9d174d}.mc-3{background:#fef3c7;color:#92400e}
 .mc-4{background:#ede9fe;color:#5b21b6}.mc-5{background:#ffedd5;color:#9a3412}
 .mc-6{background:#e0f2fe;color:#075985}.mc-7{background:#f0fdf4;color:#14532d}
-
+ 
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
 </style>
 </head>
 <body>
-
-<!-- LOGIN SCREEN -->
-<div id="login-screen" style="
-  position:fixed;inset:0;background:var(--ink);z-index:9999;
-  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px">
-  <div style="text-align:center;color:#fff">
-    <div style="font-size:3rem;margin-bottom:8px">⚗️</div>
-    <div style="font-size:1.6rem;font-weight:800;letter-spacing:-.5px">ReagiNota</div>
-    <div style="font-size:.85rem;opacity:.5;margin-top:4px">Profª Raquel Aguiar</div>
-  </div>
-  <button onclick="fbSignIn()" style="
-    display:flex;align-items:center;gap:12px;
-    background:#fff;color:#333;border:none;border-radius:10px;
-    padding:13px 24px;font-size:.95rem;font-weight:700;cursor:pointer;
-    font-family:'DM Sans',sans-serif;box-shadow:0 4px 20px rgba(0,0,0,.3);
-    transition:transform .15s" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform=''">
-    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:22px;height:22px">
-    Entrar com Google
-  </button>
-  <div id="login-status" style="font-size:.78rem;color:rgba(255,255,255,.4)">Faça login para acessar seus dados</div>
-</div>
-
+ 
+<!-- Login gerenciado pelo index.html -->
+<div id="login-screen" style="display:none"><div id="login-status"></div></div>
+ 
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="tb-logo">
@@ -485,18 +470,16 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
         <span id="tb-user-name" style="font-size:.78rem;opacity:.8;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
         <button class="tb-btn" onclick="fbSignOut()" style="font-size:.73rem;padding:4px 10px;opacity:.7">Sair</button>
       </div>
-      <button id="tb-login-btn" class="tb-btn" onclick="fbSignIn()" style="border:1px solid rgba(255,255,255,.3);gap:7px">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:16px;height:16px;background:#fff;border-radius:3px;padding:1px"> Entrar com Google
-      </button>
+<button id="tb-login-btn" style="display:none"></button>
     </div>
     <select class="tb-turma" id="turma-sel" onchange="trocarTurma()">
       <option value="">— Selecionar Turma —</option>
     </select>
   </div>
 </div>
-
+ 
 <div class="body">
-
+ 
 <!-- SIDEBAR -->
 <div class="sidebar">
   <!-- Provas por bimestre/matéria -->
@@ -520,10 +503,10 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     <div id="aluno-list" class="sb-scroll" style="flex:1"></div>
   </div>
 </div>
-
+ 
 <!-- MAIN -->
 <div class="main">
-
+ 
 <!-- PAGE: CORREÇÃO -->
 <div id="p-correcao" class="page on">
   <div id="no-sel" class="empty" style="margin-top:80px">
@@ -542,7 +525,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
         <button class="btn btn-blue btn-sm" onclick="novaCorrecao()">🔄 Nova Correção</button>
       </div>
     </div>
-
+ 
     <!-- Resultado atual -->
     <div id="result-wrap" style="display:none">
       <div class="card" style="margin-bottom:14px">
@@ -564,12 +547,12 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
         <div class="q-grid" id="q-detail"></div>
       </div>
     </div>
-
+ 
     <!-- Painel de scan -->
     <div id="scan-wrap">
       <div class="card">
         <div class="sec-title" style="margin-bottom:14px">📷 Modo de Entrada do Gabarito</div>
-
+ 
         <!-- Modo tabs -->
         <div class="scan-tabs">
           <button class="scan-tab on" onclick="scanMode('upload')" id="sm-upload">📂 Upload</button>
@@ -577,7 +560,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
           <button class="scan-tab" onclick="scanMode('paste')" id="sm-paste">📋 Colar Imagem</button>
           <button class="scan-tab" onclick="scanMode('manual')" id="sm-manual">✏️ Manual</button>
         </div>
-
+ 
         <!-- UPLOAD -->
         <div id="mode-upload">
           <div class="drop-zone" id="dz"
@@ -592,7 +575,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
           <input type="file" id="f-input" accept="image/*" style="display:none" onchange="onFile(event)">
           <img id="img-preview" class="img-preview" style="width:100%;max-height:250px;object-fit:contain;border-radius:var(--r);display:none;margin-top:12px">
         </div>
-
+ 
         <!-- CÂMERA AO VIVO -->
         <div id="mode-camera" style="display:none">
           <div style="position:relative;border-radius:var(--r);overflow:hidden;background:#000;margin-bottom:10px">
@@ -607,7 +590,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
           </div>
           <img id="cam-preview" style="width:100%;max-height:200px;object-fit:contain;border-radius:var(--r);display:none;margin-top:10px">
         </div>
-
+ 
         <!-- COLAR IMAGEM -->
         <div id="mode-paste" style="display:none">
           <p style="font-size:.8rem;color:var(--ink3);margin-bottom:10px">
@@ -620,7 +603,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
           </div>
           <img id="paste-preview" style="width:100%;max-height:250px;object-fit:contain;border-radius:var(--r);display:none;margin-top:10px">
         </div>
-
+ 
         <!-- MANUAL BOLINHAS -->
         <div id="mode-manual" style="display:none">
           <p style="font-size:.8rem;color:var(--ink3);margin-bottom:12px">
@@ -637,14 +620,14 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
             </div>
           </div>
         </div>
-
+ 
         <!-- LOADER -->
         <div class="loader" id="ai-load">
           <div class="spin"></div>
           <div class="load-msg">Analisando gabarito com IA...</div>
           <div class="load-step" id="load-step">🔍 Detectando bolinhas preenchidas</div>
         </div>
-
+ 
         <!-- AÇÃO após imagem carregada -->
         <div id="img-action" style="display:none;margin-top:12px">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -659,7 +642,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     </div>
   </div>
 </div>
-
+ 
 <!-- PAGE: TURMAS -->
 <div id="p-turmas" class="page">
   <div class="sec-head">
@@ -668,7 +651,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
   </div>
   <div id="turmas-wrap"></div>
 </div>
-
+ 
 <!-- PAGE: ORGANIZAR -->
 <div id="p-organizar" class="page">
   <div class="sec-head">
@@ -677,7 +660,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
   </div>
   <div id="org-wrap"></div>
 </div>
-
+ 
 <!-- PAGE: RELATÓRIOS -->
 <div id="p-relatorios" class="page">
   <div class="tab-bar">
@@ -689,12 +672,12 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
   <div id="tp-questao" class="tab-pane"></div>
   <div id="tp-evolucao" class="tab-pane"></div>
 </div>
-
+ 
 </div><!-- /main -->
 </div><!-- /body -->
-
+ 
 <!-- ════ MODALS ════ -->
-
+ 
 <!-- Turma -->
 <div class="overlay" id="m-turma">
   <div class="modal">
@@ -708,7 +691,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     </div>
   </div>
 </div>
-
+ 
 <!-- Prova -->
 <div class="overlay" id="m-prova">
   <div class="modal">
@@ -754,7 +737,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     </div>
   </div>
 </div>
-
+ 
 <!-- Aluno -->
 <div class="overlay" id="m-aluno">
   <div class="modal">
@@ -767,7 +750,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     </div>
   </div>
 </div>
-
+ 
 <!-- Ver Prova -->
 <div class="overlay" id="m-edit-gabarito">
   <div class="modal" style="max-width:620px">
@@ -782,15 +765,15 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     </div>
   </div>
 </div>
-
-
+ 
+ 
 <div class="overlay" id="m-ver-prova">
   <div class="modal" style="max-width:600px">
     <div class="modal-title" id="ver-prova-title">Detalhes da Avaliação <button class="modal-x" onclick="closeModal('m-ver-prova')">✕</button></div>
     <div id="ver-prova-body"></div>
   </div>
 </div>
-
+ 
 <!-- Lista em lote -->
 <div class="overlay" id="m-lista">
   <div class="modal" style="max-width:560px">
@@ -812,7 +795,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     </div>
   </div>
 </div>
-
+ 
 <!-- Revisão Visual -->
 <div class="overlay" id="m-revisao">
   <div class="modal" style="max-width:760px;padding:20px">
@@ -834,16 +817,16 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     </div>
   </div>
 </div>
-
+ 
 <!-- Backup / Sincronizar -->
 <div class="overlay" id="m-backup">
   <div class="modal" style="max-width:480px">
     <div class="modal-title">☁️ Sincronizar entre Dispositivos <button class="modal-x" onclick="closeModal('m-backup')">✕</button></div>
-
+ 
     <p style="font-size:.8rem;color:var(--ink3);margin-bottom:18px;line-height:1.6">
       Para usar o ReagiNota no <strong>notebook e no tablet</strong>: exporte o backup num dispositivo e importe no outro. Todos os dados são preservados.
     </p>
-
+ 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
       <!-- Exportar -->
       <div style="background:var(--green-bg);border:1.5px solid #74c69d;border-radius:var(--r);padding:16px;text-align:center">
@@ -861,12 +844,12 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
         <input type="file" id="backup-input" accept=".json" style="display:none" onchange="importarBackup(event)">
       </div>
     </div>
-
+ 
     <div id="backup-stats" style="background:var(--paper2);border-radius:8px;padding:12px;font-size:.78rem;margin-bottom:16px">
       <div style="font-weight:800;margin-bottom:6px;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--ink3)">Dados atuais neste dispositivo</div>
       <div style="display:flex;gap:16px;flex-wrap:wrap" id="backup-stats-body"></div>
     </div>
-
+ 
     <div style="background:var(--amber-bg);border:1px solid #e9c46a;border-radius:8px;padding:10px 12px;font-size:.76rem;color:var(--amber);line-height:1.6">
       ⚠️ <strong>Como sincronizar:</strong><br>
       1. No dispositivo A → clique <em>Baixar Backup</em><br>
@@ -876,7 +859,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     </div>
   </div>
 </div>
-
+ 
 <!-- Confirmação -->
 <div class="overlay" id="m-confirm">
   <div class="modal" style="max-width:380px;text-align:center">
@@ -889,7 +872,7 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     </div>
   </div>
 </div>
-
+ 
 <!-- Histórico -->
 <div class="overlay" id="m-hist">
   <div class="modal modal-lg">
@@ -897,9 +880,9 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     <div id="hist-body"></div>
   </div>
 </div>
-
+ 
 <div class="toast-box" id="toast-box"></div>
-
+ 
 <script>
 // ════════════════════════════════════════════
 //  STATE
@@ -909,7 +892,7 @@ let S = {
   turmas:[], provas:[], alunos:[], correcoes:[],
   turmaId:null, provaId:null, alunoId:null
 };
-
+ 
 // Salva localmente E no Firebase (se logado)
 function save(){
   localStorage.setItem(SK, JSON.stringify(S));
@@ -920,12 +903,12 @@ function save(){
       .catch(e => console.warn('Firebase save error:', e));
   }
 }
-
+ 
 function load(){
   try{ const d=localStorage.getItem(SK); if(d) S={...S,...JSON.parse(d)} }catch(e){}
 }
 load();
-
+ 
 // Carrega dados do Firebase e mescla com localStorage
 async function fbLoad(user){
   try{
@@ -949,43 +932,23 @@ async function fbLoad(user){
     }
   } catch(e){ console.warn('fbLoad error:', e); }
 }
-
+ 
 // Callback de autenticação
 window._onAuthChange = async function(user){
-  const loginScreen = document.getElementById('login-screen');
-  const tbUserInfo  = document.getElementById('tb-user-info');
-  const tbLoginBtn  = document.getElementById('tb-login-btn');
-
+  // Login já feito via index.html — apenas carrega os dados
+  const tbUserInfo = document.getElementById('tb-user-info');
   if(user){
-    // Logado
-    loginScreen.style.display = 'none';
-    tbUserInfo.style.display  = 'flex';
-    tbLoginBtn.style.display  = 'none';
-    document.getElementById('tb-avatar').src       = user.photoURL || '';
+    tbUserInfo.style.display = 'flex';
+    document.getElementById('tb-avatar').src = user.photoURL || '';
     document.getElementById('tb-user-name').textContent = user.displayName || user.email;
-
     await fbLoad(user);
     renderTurmaSelect(); renderProvaTree(); renderAlunos();
     if(S.turmaId&&S.alunoId&&S.provaId) abrirCorrecao();
-    toast(`Olá, ${user.displayName?.split(' ')[0] || 'professora'}! ✨`,'ok');
-  } else {
-    // Deslogado
-    loginScreen.style.display = 'flex';
-    tbUserInfo.style.display  = 'none';
-    tbLoginBtn.style.display  = 'flex';
-    document.getElementById('login-status').textContent = 'Faça login para acessar seus dados';
   }
 };
-
-function fbSignIn(){
-  document.getElementById('login-status').textContent = '⏳ Abrindo login do Google...';
-  window._fbSignIn();
-}
-function fbSignOut(){
-  window._fbSignOut();
-  toast('Você saiu da conta.','info');
-}
-
+function fbSignIn(){ window._fbSignIn && window._fbSignIn(); }
+function fbSignOut(){ window._fbSignOut && window._fbSignOut(); }
+ 
 // ════════════════════════════════════════════
 //  NAVIGATION
 // ════════════════════════════════════════════
@@ -998,7 +961,7 @@ function nav(p){
   if(p==='turmas') renderTurmasPage();
   if(p==='organizar') renderOrg();
 }
-
+ 
 // ════════════════════════════════════════════
 //  TURMA SELECT
 // ════════════════════════════════════════════
@@ -1021,7 +984,7 @@ function trocarTurma(){
   S.provaId=null; S.alunoId=null; save();
   renderProvaTree(); renderAlunos(); showNoSel();
 }
-
+ 
 // ════════════════════════════════════════════
 //  PROVA TREE (sidebar)
 // ════════════════════════════════════════════
@@ -1034,12 +997,12 @@ function matColor(mat){
   }
   return matColorMap[mat];
 }
-
+ 
 function renderProvaTree(){
   const el=document.getElementById('prova-tree');
   const provas=S.provas.filter(p=>p.turmaId===S.turmaId);
   if(!provas.length){el.innerHTML='<div style="font-size:.77rem;color:var(--ink3);padding:4px 8px">Nenhuma avaliação.</div>';return;}
-
+ 
   // Group: bimestre → mat → provas
   const tree={};
   provas.forEach(p=>{
@@ -1048,7 +1011,7 @@ function renderProvaTree(){
     if(!tree[b][m]) tree[b][m]=[];
     tree[b][m].push(p);
   });
-
+ 
   let html='';
   Object.keys(tree).sort().forEach(b=>{
     const bOpen=true;
@@ -1082,17 +1045,17 @@ function renderProvaTree(){
   });
   el.innerHTML=html;
 }
-
+ 
 function toggleBim(el){
   el.classList.toggle('open');
   el.nextElementSibling.classList.toggle('open');
 }
-
+ 
 function selProva(id){
   S.provaId=id; S.alunoId=null; save();
   renderProvaTree(); showNoSel();
 }
-
+ 
 // ════════════════════════════════════════════
 //  ALUNOS SIDEBAR
 // ════════════════════════════════════════════
@@ -1116,13 +1079,13 @@ function renderAlunos(q=''){
     </div>`;
   }).join('');
 }
-
+ 
 function selAluno(id){
   S.alunoId=id; save();
   renderAlunos();
   abrirCorrecao();
 }
-
+ 
 // ════════════════════════════════════════════
 //  CRUD
 // ════════════════════════════════════════════
@@ -1134,7 +1097,7 @@ function criarTurma(){
   document.getElementById('t-nome').value=''; document.getElementById('t-disc').value='';
   toast(`Turma "${nome}" criada!`,'ok');
 }
-
+ 
 function previewGab(){
   const gab=v('p-gab'); const nq=parseInt(v('p-nq'))||0;
   const el=document.getElementById('gab-preview');
@@ -1143,7 +1106,7 @@ function previewGab(){
     `<span style="font-family:'DM Mono',monospace;font-size:.72rem;background:var(--blue-bg);color:var(--blue);padding:2px 6px;border-radius:4px;font-weight:700">Q${i+1}:${c}</span>`
   ).join('');
 }
-
+ 
 function abrirModalNovaProva(){
   // reset to "create" mode
   document.getElementById('p-edit-id').value='';
@@ -1159,7 +1122,7 @@ function abrirModalNovaProva(){
   document.getElementById('gab-preview').innerHTML='';
   openModal('m-prova');
 }
-
+ 
 function salvarProva(){
   if(!S.turmaId){toast('Selecione uma turma!','err');return;}
   const nome=v('p-nome'); const gab=v('p-gab');
@@ -1167,7 +1130,7 @@ function salvarProva(){
   if(!gab){toast('Digite o gabarito!','err');return;}
   const nq=Math.max(parseInt(v('p-nq'))||10,gab.length);
   const editId=document.getElementById('p-edit-id').value;
-
+ 
   if(editId){
     // EDIT — preserve id, turmaId, criado; update only changed fields
     const idx=S.provas.findIndex(p=>p.id===editId);
@@ -1197,7 +1160,7 @@ function salvarProva(){
     toast('Avaliação criada!','ok');
   }
 }
-
+ 
 function verProva(id){
   const p=S.provas.find(x=>x.id===id);
   if(!p) return;
@@ -1235,7 +1198,7 @@ function verProva(id){
     </div>`;
   openModal('m-ver-prova');
 }
-
+ 
 function editarProva(id){
   const p=S.provas.find(x=>x.id===id);
   if(!p) return;
@@ -1253,7 +1216,7 @@ function editarProva(id){
   previewGab();
   openModal('m-prova');
 }
-
+ 
 function delProva(id){
   confirmar('Excluir esta avaliação?','Todas as correções relacionadas também serão removidas.',()=>{
     S.provas=S.provas.filter(p=>p.id!==id);
@@ -1262,7 +1225,7 @@ function delProva(id){
     save(); renderProvaTree(); showNoSel(); toast('Avaliação excluída.','ok');
   });
 }
-
+ 
 function criarAluno(){
   if(!S.turmaId){toast('Selecione uma turma!','err');return;}
   const nome=v('a-nome'); if(!nome){toast('Digite o nome!','err');return;}
@@ -1272,7 +1235,7 @@ function criarAluno(){
   document.getElementById('a-nome').value=''; document.getElementById('a-num').value='';
   toast(`${nome} adicionado(a)!`,'ok');
 }
-
+ 
 function parseLista(){
   const raw=document.getElementById('lista-nomes').value;
   return raw.split('\n')
@@ -1283,7 +1246,7 @@ function parseLista(){
       return m ? {num:m[1], nome:m[2].trim()} : {num:String(i+1).padStart(2,'0'), nome};
     });
 }
-
+ 
 function previewLista(){
   if(!S.turmaId){toast('Selecione uma turma primeiro!','err');return;}
   const novos=parseLista();
@@ -1310,7 +1273,7 @@ function previewLista(){
     </div>
   </div>`;
 }
-
+ 
 function importarLista(){
   if(!S.turmaId){toast('Selecione uma turma!','err');return;}
   const novos=parseLista();
@@ -1327,7 +1290,7 @@ function importarLista(){
   document.getElementById('lista-preview').style.display='none';
   toast(`${paraAdicionar.length} aluno(s) adicionado(s)!`,'ok');
 }
-
+ 
 // ════════════════════════════════════════════
 //  SCAN MODES
 // ════════════════════════════════════════════
@@ -1337,9 +1300,9 @@ function normalizeMime(type){
   // HEIC, HEIF, AVIF, BMP, TIFF → convert canvas to jpeg
   return 'image/jpeg';
 }
-
+ 
 let currentB64=null, currentMime='image/jpeg', cameraStream=null;
-
+ 
 function scanMode(m){
   ['upload','camera','paste','manual'].forEach(x=>{
     document.getElementById('mode-'+x).style.display=x===m?'block':'none';
@@ -1349,7 +1312,7 @@ function scanMode(m){
   currentB64=null;
   if(m!=='camera') pararCamera();
 }
-
+ 
 // ── Converte QUALQUER imagem para JPEG limpo via canvas ──
 function processarImagem(src, onDone){
   const img = new Image();
@@ -1371,7 +1334,7 @@ function processarImagem(src, onDone){
   img.onerror = () => toast('Não foi possível carregar a imagem.','err');
   img.src = src;
 }
-
+ 
 // Upload
 function onDrop(e){
   e.preventDefault();
@@ -1391,7 +1354,7 @@ function loadFile(f){
   };
   r.readAsDataURL(f);
 }
-
+ 
 // Camera
 async function iniciarCamera(){
   try{
@@ -1424,7 +1387,7 @@ function capturarFoto(){
   pararCamera();
   toast('Foto capturada! Clique em Analisar.','info');
 }
-
+ 
 // Paste
 function onPaste(e){
   const items=e.clipboardData.items;
@@ -1447,7 +1410,7 @@ function onPaste(e){
   }
   toast('Nenhuma imagem encontrada na área de transferência.','err');
 }
-
+ 
 // Manual grid
 let manualSel={};
 function buildManualGrid(){
@@ -1492,21 +1455,21 @@ function corrigirTexto(){
   if(!raw){toast('Digite as respostas!','err');return;}
   salvar(raw.slice(0,prova.nq).padEnd(prova.nq,'X'));
 }
-
+ 
 // ════════════════════════════════════════════
 //  REVISÃO VISUAL (imagem + clique nas alternativas)
 // ════════════════════════════════════════════
 let revisaoSel = {};
-
+ 
 function abrirRevisaoVisual(){
   const prova = S.provas.find(p=>p.id===S.provaId);
   if(!prova){ toast('Selecione uma prova!','err'); return; }
   if(!currentB64){ toast('Nenhuma imagem carregada!','err'); return; }
-
+ 
   revisaoSel = {};
   // Mostrar imagem no modal
   document.getElementById('revisao-img').src = 'data:image/jpeg;base64,' + currentB64;
-
+ 
   // Montar grid de questões com alternativas do gabarito
   const opts = opcoesProva(prova);
   const gab = prova.gabarito.split('');
@@ -1525,10 +1488,10 @@ function abrirRevisaoVisual(){
       </div>
       <div style="font-size:.6rem;color:var(--green);font-family:'DM Mono',monospace;margin-top:4px" id="rv-gab-${i}">✓${gab[i]}</div>
     </div>`).join('');
-
+ 
   openModal('m-revisao');
 }
-
+ 
 function toggleRevisao(q, opt){
   const old = revisaoSel[q];
   const opts = ['A','B','C','D','E'];
@@ -1546,7 +1509,7 @@ function toggleRevisao(q, opt){
   revisaoSel[q] = opt;
   const b = document.getElementById(`rv-${q}-${opt}`);
   if(b){ b.style.background='var(--blue)'; b.style.borderColor='var(--blue)'; b.style.color='#fff'; }
-
+ 
   // Cor da borda do card: verde se acertou, vermelho se errou
   const prova = S.provas.find(p=>p.id===S.provaId);
   if(prova){
@@ -1556,7 +1519,7 @@ function toggleRevisao(q, opt){
     card.style.background = opt===correta ? 'var(--green-bg)' : 'var(--red-bg)';
   }
 }
-
+ 
 function limparRevisao(){
   const prova = S.provas.find(p=>p.id===S.provaId);
   if(!prova) return;
@@ -1570,7 +1533,7 @@ function limparRevisao(){
     if(card){ card.style.borderColor='var(--line)'; card.style.background='var(--paper)'; }
   });
 }
-
+ 
 function salvarRevisao(){
   const prova = S.provas.find(p=>p.id===S.provaId);
   if(!prova) return;
@@ -1598,35 +1561,35 @@ async function enviarParaIA(){
   stepEl.textContent=steps[0];
   const iv=setInterval(()=>{ si=(si+1)%steps.length; stepEl.textContent=steps[si]; },900);
   const prompt=`Você é um especialista em leitura de gabaritos escolares impressos. Analise a imagem com muito cuidado.
-
+ 
 LAYOUT EXATO DESTE GABARITO:
 A folha tem grupos de questões organizados assim:
 - Linha superior: grupos lado a lado (ex: 01+02 | 03+04 | 05+06)
 - Linha inferior: grupos lado a lado (ex: 07+08 | 09+10)
 - Dentro de cada grupo, as questões aparecem UMA EMBAIXO DA OUTRA (01 em cima, 02 embaixo)
 - Cada questão tem 4 círculos na horizontal: A  B  C  D
-
+ 
 COMO IDENTIFICAR A RESPOSTA MARCADA:
 - Círculo MARCADO: preenchido, pintado, escurecido, rabiscado com caneta — claramente diferente dos outros
 - Círculo NÃO marcado: apenas o contorno com a letra, vazio por dentro
 - A marcação pode ser imperfeita (rabisco, borrão) mas estará visivelmente mais escura que os outros
-
+ 
 PROCESSO OBRIGATÓRIO — faça passo a passo:
 1. Localize a questão 01 (número "01" visível na folha)
 2. Olhe os 4 círculos A B C D dessa questão — qual está preenchido/escuro?
 3. Registre a letra
 4. Repita para 02, 03, 04... até ${String(prova.nq).padStart(2,'0')}
 5. NUNCA pule uma questão nem inverta a ordem
-
+ 
 REGRAS:
 - Se marcado claramente: registre A, B, C ou D
 - Se nenhum marcado: registre X
 - Se dois marcados: registre ?
 - Total de respostas deve ser EXATAMENTE ${prova.nq}
-
+ 
 Responda SOMENTE com este JSON (sem markdown, sem texto extra):
 {"respostas":"ABCD...","obs":"descreva brevemente o que viu em cada questão"}`;
-
+ 
   try{
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
@@ -1658,7 +1621,7 @@ Responda SOMENTE com este JSON (sem markdown, sem texto extra):
     toast('Erro IA: '+err.message,'err');
   }
 }
-
+ 
 // ════════════════════════════════════════════
 //  CORREÇÃO
 // ════════════════════════════════════════════
@@ -1666,7 +1629,7 @@ function showNoSel(){
   document.getElementById('no-sel').style.display='block';
   document.getElementById('corr-content').style.display='none';
 }
-
+ 
 function abrirCorrecao(){
   if(!S.alunoId||!S.provaId){
     if(!S.provaId) toast('Selecione uma avaliação!','err');
@@ -1683,7 +1646,7 @@ function abrirCorrecao(){
   if(c){ mostrarResultado(c); }
   else{ novaCorrecao(); }
 }
-
+ 
 function novaCorrecao(){
   document.getElementById('result-wrap').style.display='none';
   document.getElementById('scan-wrap').style.display='block';
@@ -1699,7 +1662,7 @@ function novaCorrecao(){
   currentB64=null;
   buildManualGrid();
 }
-
+ 
 function salvar(respostas){
   const prova=S.provas.find(p=>p.id===S.provaId);
   const aluno=S.alunos.find(a=>a.id===S.alunoId);
@@ -1716,7 +1679,7 @@ function salvar(respostas){
   renderAlunos(); mostrarResultado(c);
   toast(`✅ ${acertos}/${prova.nq} · ${pct}% · Nota: ${nota}`,'ok');
 }
-
+ 
 function mostrarResultado(c){
   const prova=S.provas.find(p=>p.id===c.provaId);
   const aluno=S.alunos.find(a=>a.id===c.alunoId);
@@ -1751,7 +1714,7 @@ function mostrarResultado(c){
     </div>`;
   }).join('');
 }
-
+ 
 function deletarCorrecaoAtual(){
   confirmar('Excluir esta correção?','Esta ação não pode ser desfeita.',()=>{
     const id=document.getElementById('result-wrap').dataset.correcaoId;
@@ -1760,9 +1723,9 @@ function deletarCorrecaoAtual(){
     save(); renderAlunos(); novaCorrecao(); toast('Correção excluída.','ok');
   });
 }
-
+ 
 let editGabSel={};
-
+ 
 function abrirEdicaoGabarito(){
   const prova=S.provas.find(p=>p.id===S.provaId);
   const corId=document.getElementById('result-wrap').dataset.correcaoId;
@@ -1791,7 +1754,7 @@ function abrirEdicaoGabarito(){
   }).join('');
   openModal('m-edit-gabarito');
 }
-
+ 
 function toggleEditGab(q,opt){
   const old=editGabSel[q];
   // deselect old
@@ -1808,7 +1771,7 @@ function toggleEditGab(q,opt){
     if(card) card.style.borderColor=opt===g?'#74c69d':'#f4a0a5';
   }
 }
-
+ 
 function salvarEdicaoGabarito(){
   const prova=S.provas.find(p=>p.id===S.provaId);
   const corId=document.getElementById('result-wrap').dataset.correcaoId;
@@ -1830,7 +1793,7 @@ function salvarEdicaoGabarito(){
   renderAlunos();
   toast(`✅ Gabarito atualizado — ${acertos}/${prova.nq} · ${pct}%`,'ok');
 }
-
+ 
 function verHistorico(){
   const aluno=S.alunos.find(a=>a.id===S.alunoId);
   if(!aluno) return;
@@ -1864,14 +1827,14 @@ function verHistorico(){
   }).join('');
   openModal('m-hist');
 }
-
+ 
 function delCById(id){
   confirmar('Excluir esta correção?','',()=>{
     S.correcoes=S.correcoes.filter(c=>c.id!==id);
     save(); renderAlunos(); verHistorico(); toast('Excluído.','ok');
   });
 }
-
+ 
 // ════════════════════════════════════════════
 //  TURMAS PAGE
 // ════════════════════════════════════════════
@@ -1909,11 +1872,11 @@ function renderTurmasPage(){
     </div>`;
   }).join('');
 }
-
+ 
 function stBox(val,label,icon){
   return `<div style="text-align:center"><div style="font-size:1.35rem;font-weight:800">${val}</div><div style="font-size:.64rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.8px">${icon} ${label}</div></div>`;
 }
-
+ 
 function delTurma(id){
   confirmar('Excluir turma?','Alunos, avaliações e correções serão removidos permanentemente.',()=>{
     S.turmas=S.turmas.filter(t=>t.id!==id);
@@ -1924,7 +1887,7 @@ function delTurma(id){
     save(); renderTurmaSelect(); renderTurmasPage(); showNoSel(); toast('Turma excluída.','ok');
   });
 }
-
+ 
 // ════════════════════════════════════════════
 //  ORGANIZAR PAGE
 // ════════════════════════════════════════════
@@ -1933,7 +1896,7 @@ function renderOrg(){
   const provas=S.provas.filter(p=>p.turmaId===S.turmaId);
   if(!S.turmaId){el.innerHTML='<div class="empty"><div class="ei">🏫</div>Selecione uma turma.</div>';return;}
   if(!provas.length){el.innerHTML='<div class="empty"><div class="ei">📋</div>Nenhuma avaliação. Crie uma nova!</div>';return;}
-
+ 
   const tree={};
   provas.forEach(p=>{
     const b=p.bim||'1'; const m=p.mat||'Geral';
@@ -1941,7 +1904,7 @@ function renderOrg(){
     if(!tree[b][m]) tree[b][m]=[];
     tree[b][m].push(p);
   });
-
+ 
   let html='';
   [1,2,3,4].forEach(b=>{
     if(!tree[b]) return;
@@ -1990,7 +1953,7 @@ function renderOrg(){
   });
   el.innerHTML=html;
 }
-
+ 
 // ════════════════════════════════════════════
 //  RELATÓRIOS
 // ════════════════════════════════════════════
@@ -2006,23 +1969,23 @@ function renderRel(t){
   if(t==='questao') renderRelQuestao();
   if(t==='evolucao') renderRelEvolucao();
 }
-
+ 
 function renderRelGeral(){
   const el=document.getElementById('tp-geral');
   const alunos=S.alunos.filter(a=>a.turmaId===S.turmaId);
   const provas=S.provas.filter(p=>p.turmaId===S.turmaId);
   if(!alunos.length){el.innerHTML='<div class="empty"><div class="ei">📊</div>Selecione uma turma.</div>';return;}
-
+ 
   const cs=S.correcoes.filter(c=>c.turmaId===S.turmaId);
   const mediasAluno=alunos.map(a=>{
     const ac=cs.filter(c=>c.alunoId===a.id);
     const m=ac.length?Math.round(ac.reduce((s,c)=>s+c.pct,0)/ac.length):null;
     return{aluno:a,n:ac.length,media:m,ultima:ac.sort((x,y)=>new Date(y.data)-new Date(x.data))[0]};
   }).sort((a,b)=>(b.media||0)-(a.media||0));
-
+ 
   const mt=mediasAluno.filter(r=>r.media!==null);
   const mediaT=mt.length?Math.round(mt.reduce((s,r)=>s+r.media,0)/mt.length):null;
-
+ 
   el.innerHTML=`
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px">
       ${miniStat('👥',alunos.length,'Alunos')}
@@ -2049,7 +2012,7 @@ function renderRelGeral(){
       </table>
     </div>`;
 }
-
+ 
 function miniStat(icon,val,label,color='var(--blue)'){
   return `<div class="card card-sm" style="text-align:center">
     <div style="font-size:1.5rem;margin-bottom:2px">${icon}</div>
@@ -2057,17 +2020,17 @@ function miniStat(icon,val,label,color='var(--blue)'){
     <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.8px;color:var(--ink3)">${label}</div>
   </div>`;
 }
-
+ 
 function renderRelQuestao(){
   const el=document.getElementById('tp-questao');
   const provas=S.provas.filter(p=>p.turmaId===S.turmaId);
   if(!provas.length){el.innerHTML='<div class="empty"><div class="ei">📋</div>Nenhuma avaliação.</div>';return;}
-
+ 
   let html='';
   // group by mat
   const byMat={};
   provas.forEach(p=>{ if(!byMat[p.mat]) byMat[p.mat]=[]; byMat[p.mat].push(p); });
-
+ 
   Object.entries(byMat).forEach(([mat,ps])=>{
     html+=`<div class="card" style="margin-bottom:16px">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
@@ -2101,7 +2064,7 @@ function renderRelQuestao(){
   });
   el.innerHTML=html||'<div class="empty">Nenhuma correção.</div>';
 }
-
+ 
 function bRow(s,isAc){
   const pct=isAc?s.pct:100-s.pct;
   const cls=isAc?'bf-g':'bf-r';
@@ -2113,14 +2076,14 @@ function bRow(s,isAc){
     <div class="bpct" style="color:${col}">${pct}%</div>
   </div>`;
 }
-
+ 
 function renderRelEvolucao(){
   const el=document.getElementById('tp-evolucao');
   const alunos=S.alunos.filter(a=>a.turmaId===S.turmaId);
   const provas=S.provas.filter(p=>p.turmaId===S.turmaId)
     .sort((a,b)=>parseInt(a.bim)-parseInt(b.bim)||(a.mat||'').localeCompare(b.mat||''));
   if(!alunos.length){el.innerHTML='<div class="empty"><div class="ei">📈</div>Nenhum aluno.</div>';return;}
-
+ 
   const cols=provas.length;
   el.innerHTML=`<div class="card">
     <div class="sec-title" style="margin-bottom:14px">📈 Evolução — todas as avaliações</div>
@@ -2156,7 +2119,7 @@ function renderRelEvolucao(){
     </div>
   </div>`;
 }
-
+ 
 // ════════════════════════════════════════════
 //  HELPERS
 // ════════════════════════════════════════════
@@ -2191,7 +2154,7 @@ function toast(msg,type=''){
   t.className='toast '+type; t.textContent=msg; b.appendChild(t);
   setTimeout(()=>t.remove(),3500);
 }
-
+ 
 // ════════════════════════════════════════════
 //  BACKUP / SINCRONIZAÇÃO
 // ════════════════════════════════════════════
@@ -2213,7 +2176,7 @@ function exportarBackup(){
   a.click(); URL.revokeObjectURL(url);
   toast('Backup exportado com sucesso!','ok');
 }
-
+ 
 function importarBackup(event){
   const file = event.target.files[0];
   if(!file) return;
@@ -2222,22 +2185,22 @@ function importarBackup(event){
     try{
       const dados = JSON.parse(e.target.result);
       if(!dados.turmas || !dados.alunos) throw new Error('Arquivo inválido');
-
+ 
       let addT=0, addP=0, addA=0, addC=0;
-
+ 
       // Mesclar — adiciona apenas o que não existe (por id)
       const idsT = new Set(S.turmas.map(x=>x.id));
       dados.turmas.forEach(t=>{ if(!idsT.has(t.id)){ S.turmas.push(t); addT++; } });
-
+ 
       const idsP = new Set(S.provas.map(x=>x.id));
       dados.provas.forEach(p=>{ if(!idsP.has(p.id)){ S.provas.push(p); addP++; } });
-
+ 
       const idsA = new Set(S.alunos.map(x=>x.id));
       dados.alunos.forEach(a=>{ if(!idsA.has(a.id)){ S.alunos.push(a); addA++; } });
-
+ 
       const idsC = new Set(S.correcoes.map(x=>x.id));
       dados.correcoes.forEach(c=>{ if(!idsC.has(c.id)){ S.correcoes.push(c); addC++; } });
-
+ 
       save();
       renderTurmaSelect(); renderProvaTree(); renderAlunos(); renderBackupStats();
       closeModal('m-backup');
@@ -2249,7 +2212,7 @@ function importarBackup(event){
   };
   reader.readAsText(file);
 }
-
+ 
 function renderBackupStats(){
   document.getElementById('backup-stats-body').innerHTML =
     `<span><strong>${S.turmas.length}</strong> turmas</span>
@@ -2257,7 +2220,7 @@ function renderBackupStats(){
      <span><strong>${S.provas.length}</strong> avaliações</span>
      <span><strong>${S.correcoes.length}</strong> correções</span>`;
 }
-
+ 
 // ════════════════════════════════════════════
 //  CONFIRMAR (substitui confirm() bloqueado em iframe)
 // ════════════════════════════════════════════
@@ -2271,7 +2234,7 @@ function confirmar(msg, sub, onOk){
   novo.addEventListener('click', ()=>{ closeModal('m-confirm'); onOk(); });
   openModal('m-confirm');
 }
-
+ 
 // ════════════════════════════════════════════
 //  INIT — Firebase auth callback cuida do render
 // ════════════════════════════════════════════
