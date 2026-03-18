@@ -2,6 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230f0f1a'/><stop offset='1' stop-color='%231a1a3e'/></linearGradient><linearGradient id='liq' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23ff6b6b'/><stop offset='1' stop-color='%23c8202e'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='url(%23bg)'/><rect x='30' y='8' width='40' height='6' rx='3' fill='%23e63946'/><path d='M36 40 L20 70 Q15 82 26 87 L74 87 Q85 82 80 70 L64 40 Z' fill='%23ffffff' opacity='.07' stroke='%236699ff' stroke-width='2.5'/><path d='M33 58 Q36 55 40 58 L22 80 Q17 87 28 88 L72 88 Q83 87 78 80 Z' fill='url(%23liq)' opacity='.92'/><circle cx='38' cy='71' r='4' fill='%23ffffff' opacity='.25'/><circle cx='30' cy='52' r='3' fill='%236699ff' opacity='.7'/><circle cx='70' cy='48' r='2' fill='%2366ffcc' opacity='.6'/></svg>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planejador</title>
     <style>
@@ -60,7 +61,7 @@
         </div>
     </div>
 </div>
-
+ 
 <div id="modalEdicao" class="modal">
     <div class="modal-content">
         <h3 style="color:var(--header-bg)">Editar Registro</h3>
@@ -72,29 +73,29 @@
         <button onclick="excluirRegistro()" style="width:100%;background:none;border:none;color:#d32f2f;cursor:pointer;margin-top:20px;font-weight:bold;">🗑️ EXCLUIR</button>
     </div>
 </div>
-
+ 
 <script>
     const URL_FIREBASE = "https://planejador-raquel-default-rtdb.firebaseio.com/natividade_data.json";
     const CORES = { "6º ano": "#546e7a", "7º ano": "#78909c", "8º ano": "#8d6e63", "9º ano": "#6d4c41" };
     let banco = {}; let turmaAtiva = ""; let indexEditando = null;
     let idsAbertos = new Set();
-
+ 
     async function carregar() {
         const res = await fetch(URL_FIREBASE);
         banco = await res.json() || {};
         renderizarTurmas(); renderizarHome();
         if(turmaAtiva) renderizarHistorico();
     }
-
+ 
     setInterval(() => { if(document.getElementById('modalEdicao').style.display !== 'flex') carregar(); }, 5000);
-
+ 
     function mascaraData(i) {
         let v = i.value.replace(/\D/g, "");
         if(v.length > 2 && v.length <= 4) v = v.substring(0,2) + "/" + v.substring(2);
         else if(v.length > 4) v = v.substring(0,2) + "/" + v.substring(2,4) + "/" + v.substring(4,8);
         i.value = v;
     }
-
+ 
     function renderizarTurmas() {
         const grid = document.getElementById('turmaGrid'); grid.innerHTML = '';
         ["6º ano","7º ano","8º ano","9º ano"].forEach(nome => {
@@ -106,7 +107,7 @@
             grid.appendChild(btn);
         });
     }
-
+ 
     function renderizarHome() {
         const grid = document.getElementById('homeDaysGrid'); grid.innerHTML = '';
         ["Quinta","Sexta"].forEach(dia => {
@@ -120,12 +121,12 @@
             grid.innerHTML += html;
         });
     }
-
+ 
     function gerenciarAbertura(idx, elemento) {
         if(idsAbertos.has(idx)){idsAbertos.delete(idx);elemento.classList.remove('open');}
         else{idsAbertos.add(idx);elemento.classList.add('open');}
     }
-
+ 
     function renderizarHistorico() {
         const lista = document.getElementById('listaHistorico');
         lista.innerHTML = '<h3>📚 Histórico de Planejamento</h3>';
@@ -152,16 +153,16 @@
             lista.appendChild(item);
         });
     }
-
+ 
     async function sincronizar() { await fetch(URL_FIREBASE,{method:'PUT',body:JSON.stringify(banco)}); }
-
+ 
     function toggleCheck(roteiroIdx, subIdx) {
         let sub = banco[turmaAtiva].roteiros[roteiroIdx].subtopicos[subIdx];
         if(typeof sub==='string') banco[turmaAtiva].roteiros[roteiroIdx].subtopicos[subIdx]={texto:sub,feito:true};
         else banco[turmaAtiva].roteiros[roteiroIdx].subtopicos[subIdx].feito = !banco[turmaAtiva].roteiros[roteiroIdx].subtopicos[subIdx].feito;
         sincronizar(); renderizarHistorico();
     }
-
+ 
     function salvarNovo() {
         const d=document.getElementById('dataInput').value, a=document.getElementById('aulaInput').value, t=document.getElementById('textoPrincipal').value;
         if(!d||!t) return alert("Preencha data e conteúdo.");
@@ -170,7 +171,7 @@
         sincronizar(); renderizarHistorico();
         document.getElementById('dataInput').value=''; document.getElementById('aulaInput').value=''; document.getElementById('textoPrincipal').value='';
     }
-
+ 
     function abrirModal(idx) {
         indexEditando=idx; const r=banco[turmaAtiva].roteiros[idx];
         document.getElementById('editData').value=r.data; document.getElementById('editAula').value=r.aula; document.getElementById('editTitulo').value=r.titulo;
@@ -181,13 +182,13 @@
         });
         document.getElementById('modalEdicao').style.display='flex';
     }
-
+ 
     function adicionarLinhaSubtopico() {
         const div=document.createElement('div'); div.style.display="flex"; div.style.gap="10px";
         div.innerHTML=`<textarea class="input-sub" style="min-height:45px;margin:5px 0;" placeholder="Novo tópico..."></textarea><button onclick="this.parentElement.remove()">❌</button>`;
         document.getElementById('areaSubtopicosEdit').appendChild(div);
     }
-
+ 
     function salvarAlteracoes() {
         const inputs=document.querySelectorAll('.input-sub');
         const subsAntigos=banco[turmaAtiva].roteiros[indexEditando].subtopicos||[];
@@ -197,7 +198,7 @@
         banco[turmaAtiva].roteiros[indexEditando].titulo=document.getElementById('editTitulo').value;
         sincronizar(); renderizarHistorico(); fecharModal();
     }
-
+ 
     function fecharModal(){document.getElementById('modalEdicao').style.display='none';}
     function excluirRegistro(){if(confirm("Apagar permanentemente?")){banco[turmaAtiva].roteiros.splice(indexEditando,1);sincronizar();renderizarHistorico();fecharModal();}}
     carregar();
