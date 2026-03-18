@@ -5,6 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ReagiNota — Profª Raquel Aguiar</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script type="module">
+// ── FIREBASE ──────────────────────────────────────────
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getDatabase, ref, set, get, onValue }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+ 
+const firebaseConfig = {
+  apiKey: "AIzaSyCHR8cuC25TCDyZJNkV2R_04oTdUSdVAyk",
+  authDomain: "corretor-gabarito.firebaseapp.com",
+  databaseURL: "https://corretor-gabarito-default-rtdb.firebaseio.com",
+  projectId: "corretor-gabarito",
+  storageBucket: "corretor-gabarito.firebasestorage.app",
+  messagingSenderId: "823312147686",
+  appId: "1:823312147686:web:196d3492a3a37d8a460727"
+};
+ 
+const app      = initializeApp(firebaseConfig);
+const auth     = getAuth(app);
+const db       = getDatabase(app);
+const provider = new GoogleAuthProvider();
+ 
+window._fbSignIn  = () => signInWithPopup(auth, provider)
+  .catch(e => { document.getElementById('login-status').textContent = '❌ ' + e.message; });
+window._fbSignOut = () => signOut(auth);
+ 
+// Salva todos os dados do usuário no Realtime Database
+window._fbSave = async (uid, data) => {
+  await set(ref(db, 'usuarios/' + uid), data);
+};
+ 
+// Carrega dados do usuário
+window._fbLoad = async (uid) => {
+  const snap = await get(ref(db, 'usuarios/' + uid));
+  return snap.exists() ? snap.val() : null;
+};
+ 
+onAuthStateChanged(auth, user => {
+  window._fbUser = user;
+  if(typeof window._onAuthChange === 'function') window._onAuthChange(user);
+});
+</script>
 <style>
 :root {
   --ink:      #161616;
@@ -397,6 +440,27 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
 </head>
 <body>
  
+<!-- LOGIN SCREEN -->
+<div id="login-screen" style="
+  position:fixed;inset:0;background:var(--ink);z-index:9999;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px">
+  <div style="text-align:center;color:#fff">
+    <div style="font-size:3rem;margin-bottom:8px">⚗️</div>
+    <div style="font-size:1.6rem;font-weight:800;letter-spacing:-.5px">ReagiNota</div>
+    <div style="font-size:.85rem;opacity:.5;margin-top:4px">Profª Raquel Aguiar</div>
+  </div>
+  <button onclick="fbSignIn()" style="
+    display:flex;align-items:center;gap:12px;
+    background:#fff;color:#333;border:none;border-radius:10px;
+    padding:13px 24px;font-size:.95rem;font-weight:700;cursor:pointer;
+    font-family:'DM Sans',sans-serif;box-shadow:0 4px 20px rgba(0,0,0,.3);
+    transition:transform .15s" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform=''">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:22px;height:22px">
+    Entrar com Google
+  </button>
+  <div id="login-status" style="font-size:.78rem;color:rgba(255,255,255,.4)">Faça login para acessar seus dados</div>
+</div>
+ 
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="tb-logo">
@@ -412,9 +476,21 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
     <button class="tb-btn" onclick="nav('organizar')" id="n-organizar">📂 Organizar</button>
     <button class="tb-btn" onclick="nav('relatorios')" id="n-relatorios">📊 Relatórios</button>
   </div>
-  <select class="tb-turma" id="turma-sel" onchange="trocarTurma()">
-    <option value="">— Selecionar Turma —</option>
-  </select>
+  <div style="display:flex;align-items:center;gap:10px;margin-left:auto">
+    <div id="tb-user" style="display:flex;align-items:center;gap:8px">
+      <div id="tb-user-info" style="display:none;align-items:center;gap:8px">
+        <img id="tb-avatar" style="width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.3)" src="" alt="">
+        <span id="tb-user-name" style="font-size:.78rem;opacity:.8;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+        <button class="tb-btn" onclick="fbSignOut()" style="font-size:.73rem;padding:4px 10px;opacity:.7">Sair</button>
+      </div>
+      <button id="tb-login-btn" class="tb-btn" onclick="fbSignIn()" style="border:1px solid rgba(255,255,255,.3);gap:7px">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:16px;height:16px;background:#fff;border-radius:3px;padding:1px"> Entrar com Google
+      </button>
+    </div>
+    <select class="tb-turma" id="turma-sel" onchange="trocarTurma()">
+      <option value="">— Selecionar Turma —</option>
+    </select>
+  </div>
 </div>
  
 <div class="body">
@@ -757,6 +833,48 @@ hr{border:none;border-top:1px solid var(--line);margin:12px 0}
   </div>
 </div>
  
+<!-- Backup / Sincronizar -->
+<div class="overlay" id="m-backup">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-title">☁️ Sincronizar entre Dispositivos <button class="modal-x" onclick="closeModal('m-backup')">✕</button></div>
+ 
+    <p style="font-size:.8rem;color:var(--ink3);margin-bottom:18px;line-height:1.6">
+      Para usar o ReagiNota no <strong>notebook e no tablet</strong>: exporte o backup num dispositivo e importe no outro. Todos os dados são preservados.
+    </p>
+ 
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+      <!-- Exportar -->
+      <div style="background:var(--green-bg);border:1.5px solid #74c69d;border-radius:var(--r);padding:16px;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:6px">📤</div>
+        <div style="font-weight:800;font-size:.9rem;margin-bottom:4px">Exportar</div>
+        <div style="font-size:.75rem;color:var(--ink3);margin-bottom:12px;line-height:1.5">Salva todos os dados em um arquivo <strong>.json</strong> no seu dispositivo</div>
+        <button class="btn btn-green btn-block btn-sm" onclick="exportarBackup()">⬇ Baixar Backup</button>
+      </div>
+      <!-- Importar -->
+      <div style="background:var(--blue-bg);border:1.5px solid #b3c4f8;border-radius:var(--r);padding:16px;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:6px">📥</div>
+        <div style="font-weight:800;font-size:.9rem;margin-bottom:4px">Importar</div>
+        <div style="font-size:.75rem;color:var(--ink3);margin-bottom:12px;line-height:1.5">Carrega um backup <strong>.json</strong> e mescla com os dados atuais</div>
+        <button class="btn btn-blue btn-block btn-sm" onclick="document.getElementById('backup-input').click()">⬆ Carregar Backup</button>
+        <input type="file" id="backup-input" accept=".json" style="display:none" onchange="importarBackup(event)">
+      </div>
+    </div>
+ 
+    <div id="backup-stats" style="background:var(--paper2);border-radius:8px;padding:12px;font-size:.78rem;margin-bottom:16px">
+      <div style="font-weight:800;margin-bottom:6px;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--ink3)">Dados atuais neste dispositivo</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap" id="backup-stats-body"></div>
+    </div>
+ 
+    <div style="background:var(--amber-bg);border:1px solid #e9c46a;border-radius:8px;padding:10px 12px;font-size:.76rem;color:var(--amber);line-height:1.6">
+      ⚠️ <strong>Como sincronizar:</strong><br>
+      1. No dispositivo A → clique <em>Baixar Backup</em><br>
+      2. Transfira o arquivo para o dispositivo B (e-mail, WhatsApp, Drive…)<br>
+      3. No dispositivo B → clique <em>Carregar Backup</em><br>
+      4. Os dados são <strong>mesclados</strong> — nada é apagado
+    </div>
+  </div>
+</div>
+ 
 <!-- Confirmação -->
 <div class="overlay" id="m-confirm">
   <div class="modal" style="max-width:380px;text-align:center">
@@ -789,11 +907,82 @@ let S = {
   turmas:[], provas:[], alunos:[], correcoes:[],
   turmaId:null, provaId:null, alunoId:null
 };
-function save(){ localStorage.setItem(SK, JSON.stringify(S)) }
+ 
+// Salva localmente E no Firebase (se logado)
+function save(){
+  localStorage.setItem(SK, JSON.stringify(S));
+  if(window._fbUser){
+    // Salva apenas os dados (não IDs de seleção de tela)
+    const dados = { turmas:S.turmas, provas:S.provas, alunos:S.alunos, correcoes:S.correcoes };
+    window._fbSave(window._fbUser.uid, dados)
+      .catch(e => console.warn('Firebase save error:', e));
+  }
+}
+ 
 function load(){
   try{ const d=localStorage.getItem(SK); if(d) S={...S,...JSON.parse(d)} }catch(e){}
 }
 load();
+ 
+// Carrega dados do Firebase e mescla com localStorage
+async function fbLoad(user){
+  try{
+    document.getElementById('login-status').textContent = '⏳ Carregando seus dados...';
+    const dados = await window._fbLoad(user.uid);
+    if(dados){
+      // Firebase tem prioridade — substitui dados locais
+      S.turmas    = dados.turmas    || [];
+      S.provas    = dados.provas    || [];
+      S.alunos    = dados.alunos    || [];
+      S.correcoes = dados.correcoes || [];
+      // Preserva seleção de tela do localStorage
+      localStorage.setItem(SK, JSON.stringify(S));
+    } else {
+      // Primeira vez: envia dados locais para o Firebase
+      const temDados = S.turmas.length||S.alunos.length||S.provas.length;
+      if(temDados){
+        await window._fbSave(user.uid,{turmas:S.turmas,provas:S.provas,alunos:S.alunos,correcoes:S.correcoes});
+        toast('Dados locais sincronizados com o Firebase!','ok');
+      }
+    }
+  } catch(e){ console.warn('fbLoad error:', e); }
+}
+ 
+// Callback de autenticação
+window._onAuthChange = async function(user){
+  const loginScreen = document.getElementById('login-screen');
+  const tbUserInfo  = document.getElementById('tb-user-info');
+  const tbLoginBtn  = document.getElementById('tb-login-btn');
+ 
+  if(user){
+    // Logado
+    loginScreen.style.display = 'none';
+    tbUserInfo.style.display  = 'flex';
+    tbLoginBtn.style.display  = 'none';
+    document.getElementById('tb-avatar').src       = user.photoURL || '';
+    document.getElementById('tb-user-name').textContent = user.displayName || user.email;
+ 
+    await fbLoad(user);
+    renderTurmaSelect(); renderProvaTree(); renderAlunos();
+    if(S.turmaId&&S.alunoId&&S.provaId) abrirCorrecao();
+    toast(`Olá, ${user.displayName?.split(' ')[0] || 'professora'}! ✨`,'ok');
+  } else {
+    // Deslogado
+    loginScreen.style.display = 'flex';
+    tbUserInfo.style.display  = 'none';
+    tbLoginBtn.style.display  = 'flex';
+    document.getElementById('login-status').textContent = 'Faça login para acessar seus dados';
+  }
+};
+ 
+function fbSignIn(){
+  document.getElementById('login-status').textContent = '⏳ Abrindo login do Google...';
+  window._fbSignIn();
+}
+function fbSignOut(){
+  window._fbSignOut();
+  toast('Você saiu da conta.','info');
+}
  
 // ════════════════════════════════════════════
 //  NAVIGATION
@@ -1988,7 +2177,10 @@ function ultCorrecao(aid){
 function ultCorrecaoProva(aid,pid){
   return S.correcoes.filter(c=>c.alunoId===aid&&c.provaId===pid).sort((a,b)=>new Date(b.data)-new Date(a.data))[0]||null;
 }
-function openModal(id){ document.getElementById(id).classList.add('on') }
+function openModal(id){
+  document.getElementById(id).classList.add('on');
+  if(id==='m-backup') renderBackupStats();
+}
 function closeModal(id){ document.getElementById(id).classList.remove('on') }
 document.querySelectorAll('.overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('on')}));
 function toast(msg,type=''){
@@ -1996,6 +2188,72 @@ function toast(msg,type=''){
   const t=document.createElement('div');
   t.className='toast '+type; t.textContent=msg; b.appendChild(t);
   setTimeout(()=>t.remove(),3500);
+}
+ 
+// ════════════════════════════════════════════
+//  BACKUP / SINCRONIZAÇÃO
+// ════════════════════════════════════════════
+function exportarBackup(){
+  const dados = {
+    versao: 2,
+    exportado: new Date().toISOString(),
+    turmas: S.turmas,
+    provas: S.provas,
+    alunos: S.alunos,
+    correcoes: S.correcoes
+  };
+  const json = JSON.stringify(dados, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const data = new Date().toLocaleDateString('pt-BR').replace(/\//g,'-');
+  a.href = url; a.download = `reagiNota_backup_${data}.json`;
+  a.click(); URL.revokeObjectURL(url);
+  toast('Backup exportado com sucesso!','ok');
+}
+ 
+function importarBackup(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try{
+      const dados = JSON.parse(e.target.result);
+      if(!dados.turmas || !dados.alunos) throw new Error('Arquivo inválido');
+ 
+      let addT=0, addP=0, addA=0, addC=0;
+ 
+      // Mesclar — adiciona apenas o que não existe (por id)
+      const idsT = new Set(S.turmas.map(x=>x.id));
+      dados.turmas.forEach(t=>{ if(!idsT.has(t.id)){ S.turmas.push(t); addT++; } });
+ 
+      const idsP = new Set(S.provas.map(x=>x.id));
+      dados.provas.forEach(p=>{ if(!idsP.has(p.id)){ S.provas.push(p); addP++; } });
+ 
+      const idsA = new Set(S.alunos.map(x=>x.id));
+      dados.alunos.forEach(a=>{ if(!idsA.has(a.id)){ S.alunos.push(a); addA++; } });
+ 
+      const idsC = new Set(S.correcoes.map(x=>x.id));
+      dados.correcoes.forEach(c=>{ if(!idsC.has(c.id)){ S.correcoes.push(c); addC++; } });
+ 
+      save();
+      renderTurmaSelect(); renderProvaTree(); renderAlunos(); renderBackupStats();
+      closeModal('m-backup');
+      toast(`✅ Importado: +${addT} turmas, +${addA} alunos, +${addP} provas, +${addC} correções`,'ok');
+    } catch(err){
+      toast('Erro ao importar: arquivo inválido.','err');
+    }
+    event.target.value='';
+  };
+  reader.readAsText(file);
+}
+ 
+function renderBackupStats(){
+  document.getElementById('backup-stats-body').innerHTML =
+    `<span><strong>${S.turmas.length}</strong> turmas</span>
+     <span><strong>${S.alunos.length}</strong> alunos</span>
+     <span><strong>${S.provas.length}</strong> avaliações</span>
+     <span><strong>${S.correcoes.length}</strong> correções</span>`;
 }
  
 // ════════════════════════════════════════════
@@ -2013,13 +2271,12 @@ function confirmar(msg, sub, onOk){
 }
  
 // ════════════════════════════════════════════
-//  INIT
+//  INIT — Firebase auth callback cuida do render
 // ════════════════════════════════════════════
+// Renderização inicial com dados locais (antes do Firebase responder)
 renderTurmaSelect();
 renderProvaTree();
 renderAlunos();
-if(S.turmaId&&S.alunoId&&S.provaId) abrirCorrecao();
 </script>
 </body>
 </html>
- 
