@@ -120,12 +120,28 @@
  
     function getNota(aluno, b, si) {
         const c = dados.cs[dados.ci]; if(!c) return 0;
-        let kA = `${si}_${b}_ativ`, totA = (c.mTotA?.[si]) || 10;
-        let nV = ((aluno.sc?.[kA] || []).length / totA) * 10;
-        let nC = 0, crits = (c.mCrits?.[si]) || [];
-        crits.forEach(cr => nC += parseFloat(aluno.sc?.[`${si}_${b}_${cr.n}`] || 0));
-        let res = (nV + nC) / (crits.length + 1);
-        return isNaN(res) ? 0 : res;
+        
+        // 1. Cálculo da Nota de Vistos (Atividades) - Vale de 0 a 10
+        let kA = `${si}_${b}_ativ`;
+        let totA = (c.mTotA?.[si]) || 1; // Evita divisão por zero
+        let vistosMarcados = (aluno.sc?.[kA] || []).length;
+        let notaVistos = (vistosMarcados / totA) * 10;
+        
+        // 2. Soma das notas dos Critérios Extras
+        let somaCrit = 0;
+        let crits = (c.mCrits?.[si]) || [];
+        crits.forEach(cr => {
+            let valor = parseFloat(aluno.sc?.[`${si}_${b}_${cr.n}`] || 0);
+            somaCrit += valor;
+        });
+        
+        // 3. Média Final: (Nota Vistos + Soma Critérios) / (1 + Quantidade de Critérios)
+        // Isso garante que se todos forem 10, o resultado é 10.
+        let divisor = crits.length + 1;
+        let res = (notaVistos + somaCrit) / divisor;
+        
+        // Trava de segurança para nunca exceder 10
+        return Math.min(10, isNaN(res) ? 0 : res);
     }
  
     function renderizar() {
@@ -147,7 +163,7 @@
                 let k = `${c.si}_${dados.b}_${cr.n}`;
                 let inputId = `input_${si}_${cri}`;
                 let tabIdx = (cri * 100) + si + 1;
-                return `<div class="input-wrapper"><span class="input-label">${cr.n[0].toUpperCase()}</span><input type="number" id="${inputId}" step="0.1" tabindex="${tabIdx}" class="input-nota" value="${s.sc?.[k] || 0}" onchange="upNota(${si},'${k}',this.value)"></div>`;
+                return `<div class="input-wrapper"><span class="input-label">${cr.n[0].toUpperCase()}</span><input type="number" id="${inputId}" step="0.1" min="0" max="10" tabindex="${tabIdx}" class="input-nota" value="${s.sc?.[k] || 0}" onchange="upNota(${si},'${k}',this.value)"></div>`;
             }).join('');
             return `<div class="stu-row"><div class="stu-info-box"><span class="stu-name">${s.n}</span><div class="mini-check-grid">${vistosHTML}</div></div><div class="stu-inputs-group">${critsHTML}</div><div class="stu-total-box"><span class="stu-total-val" style="color:${nBim<7?'#ff4757':'#2ecc71'}">${nBim.toFixed(1)}</span><span class="stu-anual-val">An: ${nAnual.toFixed(1)}</span></div></div>`;
         }).join('');
@@ -168,7 +184,12 @@
         if(lastFocusId) { const el=document.getElementById(lastFocusId); if(el){el.focus();const v=el.value;el.value='';el.value=v;} }
     }
  
-    function upNota(si,k,v){if(!dados.cs[dados.ci].st[si].sc)dados.cs[dados.ci].st[si].sc={};dados.cs[dados.ci].st[si].sc[k]=parseFloat(v);salvar();}
+    function upNota(si,k,v){
+        if(!dados.cs[dados.ci].st[si].sc)dados.cs[dados.ci].st[si].sc={};
+        let val = Math.min(10, Math.max(0, parseFloat(v) || 0)); // Garante entrada entre 0 e 10
+        dados.cs[dados.ci].st[si].sc[k]=val;
+        salvar();
+    }
     function tglV(si,k,idx){let s=dados.cs[dados.ci].st[si];if(!s.sc)s.sc={};if(!s.sc[k])s.sc[k]=[];let p=s.sc[k].indexOf(idx);if(p>-1)s.sc[k].splice(p,1);else s.sc[k].push(idx);salvar();}
     function addT(){let v=document.getElementById('in-cl').value;if(v){if(!dados.cs)dados.cs=[];dados.cs.push({n:v,ss:['Ciências'],si:0,mCrits:{},mTotA:{},st:[]});dados.ci=dados.cs.length-1;salvar();}}
     function addM(){let v=document.getElementById('in-sb').value;if(v){dados.cs[dados.ci].ss.push(v);salvar();}}
