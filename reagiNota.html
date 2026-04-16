@@ -1,88 +1,633 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planejador - Marinho</title>
-    <style>
-        :root { --primary: #f0f2f5; --card-bg: #ffffff; --text-dark: #263238; --header-bg: #455a64; --accent: #80cbc4; --shadow: 0 4px 12px rgba(0,0,0,0.1); --bg-6: #90a4ae; --bg-7: #4db6ac; --bg-8: #7986cb; --bg-9: #607d8b; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--primary); color: var(--text-dark); margin: 0; padding: 0; }
-        .turmas-nav { background: #fff; padding: 15px; display: flex; justify-content: center; gap: 10px; border-bottom: 2px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        .btn-turma { padding: 10px 20px; border: 2px solid var(--header-bg); border-radius: 8px; background: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-turma.active { background: var(--header-bg); color: white; }
-        .main-layout { display: grid; grid-template-columns: 350px 1fr; gap: 20px; padding: 20px; max-width: 1400px; margin: auto; }
-        .left-col { background: #fff; border-radius: 12px; padding: 20px; box-shadow: var(--shadow); height: fit-content; border-left: 6px solid var(--header-bg); }
-        .left-col h2 { font-size: 1.2rem; text-align: center; color: var(--header-bg); border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
-        .day-box { margin-bottom: 20px; }
-        .day-box h4 { margin: 10px 0; color: #546e7a; text-transform: uppercase; font-size: 0.8rem; }
-        .schedule-tag { padding: 8px; border-radius: 6px; color: white; font-size: 0.85rem; margin-bottom: 5px; font-weight: bold; }
-        .right-col { display: flex; flex-direction: column; gap: 15px; }
-        .collapsible-section { background: #fff; border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 10px; }
-        .collapsible-header { padding: 15px 20px; background: #f8f9fa; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; border-bottom: 1px solid #eee; }
-        .collapsible-content { padding: 20px; display: none; }
-        .collapsible-section.open .collapsible-content { display: block; }
-        .line-6 { background: var(--bg-6); } .line-7 { background: var(--bg-7); } .line-8 { background: var(--bg-8); } .line-9 { background: var(--bg-9); }
-        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
-        .btn-main { background: var(--header-bg); color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
-        .roteiro-item { border: 1px solid #ddd; border-radius: 10px; margin-bottom: 10px; background: #fff; overflow: hidden; }
-        .roteiro-header { padding: 12px; display: flex; justify-content: space-between; cursor: pointer; background: #fff; }
-        .roteiro-content { padding: 15px; display: none; border-top: 1px solid #eee; }
-        .roteiro-item.open .roteiro-content { display: block; }
-        .subtopico-view { display: flex; align-items: center; gap: 10px; padding: 8px; background: #f1f8e9; border-radius: 8px; margin-top: 5px; font-size: 0.9rem; border: 1px solid #dcedc8; cursor: pointer; }
-        .subtopico-view.checked { background: #f8f9fa; border-color: #e0e0e0; color: #9e9e9e; text-decoration: line-through; }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 600px; max-height: 85vh; overflow-y: auto; }
-        @media (max-width: 850px) { .main-layout { grid-template-columns: 1fr; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReagiNota — Corretor de Gabaritos</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --bg2: #eef0f3;
+    --surface: #ffffff;
+    --border: #e2e5ea;
+    --border2: #d0d4db;
+    --text: #1a1d23;
+    --text2: #5a6072;
+    --text3: #8b94a8;
+    --teal: #0e6b52;
+    --teal-light: #e3f5ee;
+    --teal-mid: #c2ead8;
+    --amber: #b96b00;
+    --amber-light: #fef3e2;
+    --red: #c0392b;
+    --red-light: #fdecea;
+    --blue: #1a5fa5;
+    --blue-light: #e8f0fb;
+    --nav-bg: #12151e;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.10), 0 8px 32px rgba(0,0,0,0.06);
+  }
+ 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+  }
+ 
+  /* NAV */
+  .nav {
+    background: var(--nav-bg);
+    color: #fff;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-icon {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, var(--teal), #1a9e78);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+  .nav-title { font-weight: 600; font-size: 15px; letter-spacing: -0.01em; }
+  .nav-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-left: 4px; }
+ 
+  /* APP */
+  .app { max-width: 960px; margin: 0 auto; padding: 24px 20px; }
+ 
+  /* TURMA TABS */
+  .turma-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .turma-tab {
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: 10px;
+    padding: 8px 24px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text2);
+    transition: all .15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .turma-tab:hover { border-color: var(--teal); color: var(--teal); }
+  .turma-tab.active {
+    background: var(--teal);
+    color: #fff;
+    border-color: var(--teal);
+    box-shadow: 0 2px 8px rgba(14,107,82,0.25);
+  }
+ 
+  /* STATS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .stat-num { font-size: 28px; font-weight: 600; color: var(--teal); line-height: 1; }
+  .stat-lbl { font-size: 11px; color: var(--text3); margin-top: 5px; }
+ 
+  /* SECTION TABS */
+  .section-tabs {
+    display: flex;
+    border-bottom: 1.5px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .section-tab {
+    padding: 10px 22px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text3);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1.5px;
+    transition: all .15s;
+    font-family: 'DM Sans', sans-serif;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  .section-tab:hover { color: var(--text); }
+  .section-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+ 
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .section-title { font-size: 15px; font-weight: 600; color: var(--teal); margin-bottom: 3px; }
+  .divider { height: 2px; width: 48px; background: var(--teal); border-radius: 2px; margin-bottom: 14px; }
+ 
+  /* BUTTONS */
+  .btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+    border: 1px solid var(--border2);
+    background: var(--bg);
+    color: var(--text);
+    transition: all .15s;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+  }
+  .btn:hover { background: var(--bg2); }
+  .btn-primary { background: var(--teal); color: #fff; border-color: var(--teal); }
+  .btn-primary:hover { background: #0a5a44; }
+  .btn-danger { background: var(--red-light); color: var(--red); border-color: #f5c6c2; }
+  .btn-danger:hover { background: #fadbd8; }
+ 
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: var(--bg);
+    padding: 9px 12px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 11px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--bg); }
+ 
+  /* BADGES */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .badge-teal { background: var(--teal-light); color: var(--teal); }
+  .badge-amber { background: var(--amber-light); color: var(--amber); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+  .badge-blue { background: var(--blue-light); color: var(--blue); }
+ 
+  /* FORM */
+  .form-row { margin-bottom: 16px; }
+  .form-row label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 5px; }
+  .form-row input, .form-row select {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border2);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color .15s;
+    outline: none;
+  }
+  .form-row input:focus, .form-row select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(14,107,82,0.08); }
+ 
+  /* GABARITO GRID */
+  .gab-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .gab-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .gab-item label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+  .gab-item select {
+    width: 54px !important;
+    padding: 5px 4px !important;
+    text-align: center;
+    font-family: 'DM Mono', monospace !important;
+    font-weight: 500 !important;
+  }
+ 
+  /* RESULTADO */
+  .resultado-card {
+    background: linear-gradient(135deg, var(--bg) 0%, var(--teal-light) 100%);
+    border: 1px solid var(--teal-mid);
+    border-radius: 14px;
+    padding: 28px 24px;
+    margin-top: 18px;
+    text-align: center;
+  }
+  .resultado-nota {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 6px;
+    font-family: 'DM Mono', monospace;
+  }
+  .resultado-sub { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
+  .erros-wrap { margin-top: 14px; }
+  .erros-wrap p { font-size: 12px; color: var(--text3); margin-bottom: 8px; }
+  .erros-list { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .erro-item {
+    background: var(--red-light);
+    color: var(--red);
+    border-radius: 7px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+  }
+  .perfeito { color: var(--teal); font-size: 15px; font-weight: 600; }
+ 
+  /* EMPTY */
+  .empty {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text3);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .empty-icon { font-size: 36px; margin-bottom: 12px; display: block; }
+ 
+  /* MODAL */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200;
+    backdrop-filter: blur(2px);
+  }
+  .modal {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 28px;
+    width: min(540px, 94vw);
+    max-height: 88vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-md);
+    animation: modalIn .18s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.96) translateY(8px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+  .modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+ 
+  /* PROGRESS BAR */
+  .progress-bar-wrap { background: var(--bg2); border-radius: 99px; height: 6px; overflow: hidden; margin: 8px 0 4px; }
+  .progress-bar { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--teal), #1a9e78); transition: width .4s ease; }
+ 
+  @media (max-width: 600px) {
+    .app { padding: 16px 12px; }
+    .turma-tab { padding: 7px 16px; font-size: 13px; }
+    .resultado-nota { font-size: 48px; }
+  }
+</style>
 </head>
 <body>
-<nav class="turmas-nav" id="turmaGrid"></nav>
-<div class="main-layout">
-    <aside class="left-col">
-        <h2>Quadro de Horários da Semana</h2>
-        <div id="homeDaysGrid"></div>
-    </aside>
-    <main class="right-col" id="painelTurma" style="display:none;">
-        <h2 id="tituloTurmaDinamico" style="margin: 0 0 10px 10px; color: var(--header-bg);"></h2>
-        <div class="collapsible-section">
-            <div class="collapsible-header" onclick="toggleSection(this)">Horário da Turma <span>▽</span></div>
-            <div class="collapsible-content"><div id="gradeHorario" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;"></div></div>
-        </div>
-        <div class="collapsible-section">
-            <div class="collapsible-header" onclick="toggleSection(this)">Novo Planejamento <span>▽</span></div>
-            <div class="collapsible-content">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><input type="text" id="dataInput" placeholder="Data (Apenas números)" onkeyup="mascaraData(this)"><input type="text" id="aulaInput" placeholder="Aula (ex: 1ª)"></div>
-                <textarea id="textoPrincipal" rows="4" placeholder="Escreva o conteúdo aqui..."></textarea>
-                <button class="btn-main" onclick="salvarNovo()">💾 Salvar na Pasta</button>
-            </div>
-        </div>
-        <div id="listaHistorico"></div>
-    </main>
+ 
+<div class="nav">
+  <div class="nav-logo">
+    <div class="nav-icon">📝</div>
+    <span class="nav-title">ReagiNota</span>
+    <span class="nav-sub">Corretor de Gabaritos — Escola Natividade</span>
+  </div>
 </div>
-<div id="modalEdicao" class="modal"><div class="modal-content"><h3 style="color:var(--header-bg)">Editar Registro</h3><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><input type="text" id="editData" onkeyup="mascaraData(this)"><input type="text" id="editAula"></div><textarea id="editTitulo" rows="4"></textarea><div id="areaSubtopicosEdit"></div><button onclick="adicionarLinhaSubtopico()" style="width:100%; background:#f0f0f0; border:1px solid #ccc; padding:10px; border-radius:8px; cursor:pointer; margin-top:10px;">+ Adicionar Tópico</button><div style="margin-top:20px; display:flex; gap:10px;"><button class="btn-main" onclick="salvarAlteracoes()" style="flex:2">Salvar Alterações</button><button class="btn-main" onclick="fecharModal()" style="flex:1; background:#90a4ae;">Cancelar</button></div><button onclick="excluirRegistro()" style="width:100%; background:none; border:none; color:red; cursor:pointer; margin-top:15px; font-weight:bold;">🗑️ Excluir Permanente</button></div></div>
+ 
+<div class="app" id="app"></div>
+ 
 <script>
-    // ENDEREÇO EXCLUSIVO MARINHO
-    const URL_FIREBASE = "https://planejador-raquel-default-rtdb.firebaseio.com/marinho_data.json"; 
-    const CLASSES = { "6º ano": "line-6", "7º ano": "line-7", "8º ano": "line-8", "9º ano": "line-9" };
-    const DIAS = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"];
-    let banco = {}; let turmaAtiva = ""; let idsAbertos = new Set(); let indexEditando = null;
-    function toggleSection(el) { el.parentElement.classList.toggle('open'); }
-    async function carregar() { try { const res = await fetch(URL_FIREBASE); banco = await res.json() || {}; renderizarTurmas(); renderizarHome(); if(turmaAtiva) { renderizarGrade(); renderizarHistorico(); } } catch (e) {} }
-    function mascaraData(i) { let v = i.value.replace(/\D/g, ""); if (v.length >= 2) v = v.substring(0,2) + "/" + v.substring(2); if (v.length >= 5) v = v.substring(0,5) + "/" + v.substring(5,9); i.value = v; }
-    function renderizarTurmas() { const nav = document.getElementById('turmaGrid'); nav.innerHTML = ''; Object.keys(CLASSES).forEach(nome => { const id = `JT_${nome.replace(/\s/g, '_')}`; if(!banco[id]) banco[id] = { roteiros: [], horários: {} }; const btn = document.createElement('button'); btn.className = `btn-turma ${turmaAtiva === id ? 'active' : ''}`; btn.innerHTML = nome; btn.onclick = () => { turmaAtiva = id; idsAbertos.clear(); document.getElementById('painelTurma').style.display = 'flex'; document.getElementById('tituloTurmaDinamico').innerText = nome; renderizarTurmas(); renderizarGrade(); renderizarHistorico(); }; nav.appendChild(btn); }); }
-    function renderizarHome() { const grid = document.getElementById('homeDaysGrid'); grid.innerHTML = ''; DIAS.forEach(dia => { let aulasDia = []; Object.keys(CLASSES).forEach(nome => { const id = `JT_${nome.replace(/\s/g, '_')}`; if(banco[id]?.horários?.[dia]) { banco[id].horários[dia].forEach(h => { if(h && h.trim()) aulasDia.push({h, nome}); }); } }); if(aulasDia.length > 0) { let html = `<div class="day-box"><h4>${dia}</h4>`; aulasDia.sort((a,b) => parseInt(a.h) - parseInt(b.h)); aulasDia.forEach(item => { html += `<div class="schedule-tag ${CLASSES[item.nome]}">${item.h} - ${item.nome}</div>`; }); grid.innerHTML += html + `</div>`; } }); }
-    function renderizarGrade() { const cont = document.getElementById('gradeHorario'); cont.innerHTML = ''; DIAS.slice(0, 3).forEach(dia => { if(!banco[turmaAtiva].horários[dia]) banco[turmaAtiva].horários[dia] = [""]; let html = `<div style="background:#f9f9f9; padding:10px; border-radius:8px;"><b>${dia}</b><br>`; banco[turmaAtiva].horários[dia].forEach((v, idx) => { html += `<div style="display:flex; gap:2px;"><input type="text" value="${v}" style="padding:5px; margin-bottom:2px;" onblur="banco['${turmaAtiva}'].horários['${dia}'][${idx}]=this.value; sincronizar();"></div>`; }); html += `<button onclick="banco['${turmaAtiva}'].horários['${dia}'].push(''); renderizarGrade();" style="width:100%; background:#eee; border:none; cursor:pointer;">+</button></div>`; cont.innerHTML += html; }); }
-    async function sincronizar() { await fetch(URL_FIREBASE, { method: 'PUT', body: JSON.stringify(banco) }); renderizarHome(); }
-    function renderizarHistorico() { const lista = document.getElementById('listaHistorico'); lista.innerHTML = '<h3 style="margin-left:10px; color:#455a64;">Histórico</h3>'; if(!banco[turmaAtiva]?.roteiros) return; banco[turmaAtiva].roteiros.forEach((r, idx) => { let subs = (r.subtopicos || []).map((s, sIdx) => { const isChecked = typeof s === 'object' ? s.feito : false; const texto = typeof s === 'object' ? s.texto : s; return `<div class="subtopico-view ${isChecked ? 'checked' : ''}" onclick="event.stopPropagation();toggleCheck(${idx}, ${sIdx})"><input type="checkbox" ${isChecked ? 'checked' : ''}> <span>${texto}</span></div>`; }).join(''); const isOpen = idsAbertos.has(idx) ? 'open' : ''; const item = document.createElement('div'); item.className = `roteiro-item ${isOpen}`; item.innerHTML = `<div class="roteiro-header" onclick="toggleItem(${idx}, this.parentElement)"><span>${r.data} - ${r.aula}</span> <span>▽</span></div><div class="roteiro-content"><p style="white-space:pre-wrap; font-weight: bold; margin-bottom:10px;">${r.titulo}</p>${subs}<button class="btn-main" onclick="abrirModal(${idx})" style="margin-top:15px; padding:8px; font-size:0.8rem; width:auto;">✏️ Editar Registro</button></div>`; lista.appendChild(item); }); }
-    function toggleItem(idx, el) { if(idsAbertos.has(idx)) idsAbertos.delete(idx); else idsAbertos.add(idx); el.classList.toggle('open'); }
-    function toggleCheck(rIdx, sIdx) { let r = banco[turmaAtiva].roteiros[rIdx]; let s = r.subtopicos[sIdx]; if(typeof s === 'string') r.subtopicos[sIdx] = { texto: s, feito: true }; else r.subtopicos[sIdx].feito = !r.subtopicos[sIdx].feito; sincronizar(); renderizarHistorico(); }
-    function salvarNovo() { const d = document.getElementById('dataInput').value, a = document.getElementById('aulaInput').value, t = document.getElementById('textoPrincipal').value; if(!d || !t) return alert("Preencha Data e Conteúdo!"); if(!banco[turmaAtiva].roteiros) banco[turmaAtiva].roteiros = []; banco[turmaAtiva].roteiros.unshift({ data: d, aula: a, titulo: t, subtopicos: [] }); sincronizar(); renderizarHistorico(); document.getElementById('dataInput').value=''; document.getElementById('aulaInput').value=''; document.getElementById('textoPrincipal').value=''; }
-    function abrirModal(idx) { indexEditando = idx; const r = banco[turmaAtiva].roteiros[idx]; document.getElementById('editData').value = r.data; document.getElementById('editAula').value = r.aula; document.getElementById('editTitulo').value = r.titulo; const area = document.getElementById('areaSubtopicosEdit'); area.innerHTML = ''; (r.subtopicos || []).forEach(s => { const texto = typeof s === 'object' ? s.texto : s; area.innerHTML += `<div style="display:flex; gap:10px;"><input type="text" class="input-sub" value="${texto}" style="margin:5px 0;"> <button onclick="this.parentElement.remove()" style="border:none; background:none; cursor:pointer;">❌</button></div>`; }); document.getElementById('modalEdicao').style.display = 'flex'; }
-    function adicionarLinhaSubtopico() { const div = document.createElement('div'); div.style.display="flex"; div.style.gap="10px"; div.innerHTML = `<input type="text" class="input-sub" placeholder="Novo tópico..." style="margin:5px 0;"> <button onclick="this.parentElement.remove()" style="border:none; background:none; cursor:pointer;">❌</button>`; document.getElementById('areaSubtopicosEdit').appendChild(div); }
-    function fecharModal() { document.getElementById('modalEdicao').style.display = 'none'; indexEditando = null; }
-    function salvarAlteracoes() { const r = banco[turmaAtiva].roteiros[indexEditando]; const subsAntigos = r.subtopicos || []; r.data = document.getElementById('editData').value; r.aula = document.getElementById('editAula').value; r.titulo = document.getElementById('editTitulo').value; const inputs = document.querySelectorAll('.input-sub'); r.subtopicos = Array.from(inputs).map((input, idx) => ({ texto: input.value, feito: (subsAntigos[idx]?.feito || false) })).filter(v => v.texto !== ""); sincronizar(); renderizarHistorico(); fecharModal(); }
-    function excluirRegistro() { if(confirm("Excluir permanentemente?")) { banco[turmaAtiva].roteiros.splice(indexEditando, 1); sincronizar(); renderizarHistorico(); fecharModal(); } }
-    setInterval(carregar, 5000); carregar();
+const TURMAS = ['6º ano', '7º ano', '8º ano', '9º ano'];
+const MATERIAS = ['Português','Matemática','Ciências','História','Geografia','Inglês','Ed. Física','Arte','Religião'];
+const OPTS = ['A','B','C','D','E'];
+ 
+let state = {
+  turma: '6º ano',
+  sub: 'gabaritos',
+  provas: JSON.parse(localStorage.getItem('rn_provas') || '[]'),
+  correcoes: JSON.parse(localStorage.getItem('rn_correcoes') || '[]'),
+  modal: null,
+};
+ 
+function save(k) { localStorage.setItem('rn_' + k, JSON.stringify(state[k])); }
+ 
+/* ── RENDER ── */
+function render() {
+  const el = document.getElementById('app');
+  el.innerHTML = buildApp() + (state.modal ? buildModal() : '');
+}
+ 
+function buildApp() {
+  const turmas = TURMAS.map(t =>
+    `<button class="turma-tab${state.turma===t?' active':''}" onclick="setTurma('${t}')">${t}</button>`
+  ).join('');
+ 
+  const tabs = ['gabaritos','corrigir','resultados'];
+  const tabLabels = {'gabaritos':'📋 Gabaritos','corrigir':'✏️ Corrigir Prova','resultados':'📊 Resultados'};
+  const secTabs = tabs.map(t =>
+    `<button class="section-tab${state.sub===t?' active':''}" onclick="setSub('${t}')">${tabLabels[t]}</button>`
+  ).join('');
+ 
+  const corr = state.correcoes.filter(c => c.turma === state.turma);
+  const provas = state.provas.filter(p => p.turma === state.turma);
+  const med = corr.length ? (corr.reduce((a,b) => a + b.nota, 0) / corr.length).toFixed(1) : '—';
+  const apr = corr.filter(c => c.nota >= 5).length;
+ 
+  const stats = `
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-num">${provas.length}</div><div class="stat-lbl">Gabaritos</div></div>
+      <div class="stat"><div class="stat-num">${corr.length}</div><div class="stat-lbl">Correções</div></div>
+      <div class="stat"><div class="stat-num">${med}</div><div class="stat-lbl">Média geral</div></div>
+      <div class="stat"><div class="stat-num">${apr}</div><div class="stat-lbl">Aprovados</div></div>
+    </div>`;
+ 
+  let content = '';
+  if (state.sub === 'gabaritos') content = buildGabaritos();
+  else if (state.sub === 'corrigir') content = buildCorrigir();
+  else content = buildResultados();
+ 
+  return `
+    <div class="turma-tabs">${turmas}</div>
+    ${stats}
+    <div class="section-tabs">${secTabs}</div>
+    ${content}`;
+}
+ 
+/* ── GABARITOS ── */
+function buildGabaritos() {
+  const provas = state.provas.filter(p => p.turma === state.turma);
+  return `
+    <div class="card">
+      <div class="card-header">
+        <div><div class="section-title">Gabaritos — ${state.turma}</div><div class="divider"></div></div>
+        <button class="btn btn-primary" onclick="openModal('novaProva')">+ Novo Gabarito</button>
+      </div>
+      ${provas.length ? `
+        <table>
+          <thead><tr><th>Matéria</th><th>Descrição</th><th>Questões</th><th>Data</th><th></th></tr></thead>
+          <tbody>
+            ${provas.map(p => `
+              <tr>
+                <td><span class="badge badge-teal">${p.materia}</span></td>
+                <td>${p.desc || '—'}</td>
+                <td><span style="font-family:'DM Mono',monospace;font-size:12px">${p.gab.length}q</span></td>
+                <td>${p.data || '—'}</td>
+                <td><button class="btn btn-danger" style="padding:4px 12px;font-size:12px" onclick="delProva('${p.id}')">Excluir</button></td>
+              </tr>`).join('')}
+          </tbody>
+        </table>` :
+        `<div class="empty"><span class="empty-icon">📋</span>Nenhum gabarito cadastrado para o ${state.turma}.<br>Clique em <strong>+ Novo Gabarito</strong> para começar.</div>`}
+    </div>`;
+}
+ 
+/* ── CORRIGIR ── */
+function buildCorrigir() {
+  const provas = state.provas.filter(p => p.turma === state.turma);
+  if (!provas.length) return `
+    <div class="card">
+      <div class="empty"><span class="empty-icon">✏️</span>Nenhum gabarito cadastrado para o ${state.turma}.<br>
+      <button class="btn btn-primary" onclick="setSub('gabaritos')" style="margin-top:14px">Cadastrar Gabarito</button></div>
+    </div>`;
+ 
+  return `
+    <div class="card">
+      <div class="section-title">Corrigir Prova — ${state.turma}</div>
+      <div class="divider"></div>
+      <div class="form-row">
+        <label>Selecionar gabarito</label>
+        <select id="selProva" onchange="renderRespostas()">
+          <option value="">-- Selecione a prova --</option>
+          ${provas.map(p => `<option value="${p.id}">${p.materia} — ${p.desc || p.data || 's/d'} (${p.gab.length} questões)</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Nome do aluno</label>
+        <input id="nomeAluno" type="text" placeholder="Nome completo do aluno">
+      </div>
+      <div id="respostasArea"></div>
+    </div>`;
+}
+ 
+function renderRespostas() {
+  const id = document.getElementById('selProva').value;
+  const area = document.getElementById('respostasArea');
+  if (!id) { area.innerHTML = ''; return; }
+  const prova = state.provas.find(p => p.id === id);
+  if (!prova) return;
+  area.innerHTML = `
+    <div class="form-row">
+      <label>Respostas do aluno — ${prova.gab.length} questões</label>
+      <div class="gab-grid">
+        ${prova.gab.map((_,i) => `
+          <div class="gab-item">
+            <label>Q${i+1}</label>
+            <select id="resp_${i}">${OPTS.map(o => `<option>${o}</option>`).join('')}</select>
+          </div>`).join('')}
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="calcular('${id}')">Calcular Nota →</button>
+    <div id="resultadoDiv"></div>`;
+}
+ 
+function calcular(provId) {
+  const prova = state.provas.find(p => p.id === provId);
+  if (!prova) return;
+  const aluno = (document.getElementById('nomeAluno').value.trim()) || 'Aluno';
+  const resps = prova.gab.map((_,i) => document.getElementById('resp_'+i)?.value || 'A');
+  const acertos = resps.filter((r,i) => r === prova.gab[i]).length;
+  const erros = prova.gab.map((g,i) => resps[i] !== g ? {q:i+1, deu:resps[i], era:g} : null).filter(Boolean);
+  const nota = (acertos / prova.gab.length) * 10;
+  const cor = nota >= 7 ? '#0e6b52' : nota >= 5 ? '#b96b00' : '#c0392b';
+  const sit = nota >= 7 ? 'Aprovado ✓' : nota >= 5 ? 'Recuperação' : 'Reprovado';
+  const pct = Math.round((acertos / prova.gab.length) * 100);
+ 
+  document.getElementById('resultadoDiv').innerHTML = `
+    <div class="resultado-card">
+      <div class="resultado-nota" style="color:${cor}">${nota.toFixed(1)}</div>
+      <div style="font-size:13px;font-weight:600;color:${cor};margin-bottom:6px">${sit}</div>
+      <div class="resultado-sub">${acertos} de ${prova.gab.length} questões corretas (${pct}%)</div>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%;background:${cor}"></div></div>
+      ${erros.length ? `
+        <div class="erros-wrap">
+          <p>Questões erradas:</p>
+          <div class="erros-list">
+            ${erros.map(e => `<span class="erro-item">Q${e.q}: ${e.deu} → ${e.era}</span>`).join('')}
+          </div>
+        </div>` :
+        `<p class="perfeito" style="margin-top:12px">🎉 Gabarito perfeito!</p>`}
+      <button class="btn btn-primary" style="margin-top:18px" onclick="registrar('${provId}','${aluno.replace(/'/g,"\\'")}',${acertos},${prova.gab.length},${nota.toFixed(2)})">
+        Salvar nos Resultados
+      </button>
+    </div>`;
+}
+ 
+function registrar(provId, aluno, acertos, total, nota) {
+  const prova = state.provas.find(p => p.id === provId);
+  state.correcoes.push({
+    id: Date.now().toString(), turma: state.turma, provId,
+    aluno, materia: prova.materia, desc: prova.desc || '',
+    acertos, total, nota: parseFloat(nota),
+    data: new Date().toLocaleDateString('pt-BR')
+  });
+  save('correcoes');
+  setSub('resultados');
+}
+ 
+/* ── RESULTADOS ── */
+function buildResultados() {
+  const corr = state.correcoes.filter(c => c.turma === state.turma);
+  return `
+    <div class="card">
+      <div class="section-title">Resultados — ${state.turma}</div>
+      <div class="divider"></div>
+      ${corr.length ? `
+        <table>
+          <thead><tr><th>Aluno</th><th>Matéria</th><th>Descrição</th><th>Acertos</th><th>Nota</th><th>Situação</th><th>Data</th><th></th></tr></thead>
+          <tbody>
+            ${[...corr].reverse().map(c => {
+              const sit = c.nota >= 7 ? 'Aprovado' : c.nota >= 5 ? 'Recuperação' : 'Reprovado';
+              const badge = c.nota >= 7 ? 'badge-teal' : c.nota >= 5 ? 'badge-amber' : 'badge-red';
+              return `<tr>
+                <td>${c.aluno}</td>
+                <td><span class="badge badge-blue">${c.materia}</span></td>
+                <td>${c.desc || '—'}</td>
+                <td style="font-family:'DM Mono',monospace;font-size:12px">${c.acertos}/${c.total}</td>
+                <td><strong style="font-family:'DM Mono',monospace">${parseFloat(c.nota).toFixed(1)}</strong></td>
+                <td><span class="badge ${badge}">${sit}</span></td>
+                <td style="color:var(--text3);font-size:12px">${c.data||'—'}</td>
+                <td><button class="btn btn-danger" style="padding:3px 10px;font-size:11px" onclick="delCorrecao('${c.id}')">✕</button></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>` :
+        `<div class="empty"><span class="empty-icon">📊</span>Nenhuma correção registrada para o ${state.turma}.</div>`}
+    </div>`;
+}
+ 
+/* ── MODAL ── */
+function buildModal() {
+  if (state.modal === 'novaProva') return buildModalNovaProva();
+  return '';
+}
+ 
+function buildModalNovaProva() {
+  return `
+    <div class="modal-bg" onclick="closeModal(event)">
+      <div class="modal">
+        <h3>Novo Gabarito — ${state.turma}</h3>
+        <div class="form-row">
+          <label>Matéria</label>
+          <select id="m_mat">${MATERIAS.map(m => `<option>${m}</option>`).join('')}</select>
+        </div>
+        <div class="form-row">
+          <label>Descrição (ex: 1ª Avaliação Bimestral)</label>
+          <input id="m_desc" type="text" placeholder="Descrição da prova">
+        </div>
+        <div class="form-row">
+          <label>Data da prova</label>
+          <input id="m_data" type="date">
+        </div>
+        <div class="form-row">
+          <label>Número de questões (1–50)</label>
+          <input id="m_nq" type="number" value="10" min="1" max="50" oninput="updateGabGrid(this.value)">
+        </div>
+        <div class="form-row">
+          <label>Gabarito oficial</label>
+          <div class="gab-grid" id="gabGrid">
+            ${buildGabInputs(10)}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" onclick="closeModalBtn()">Cancelar</button>
+          <button class="btn btn-primary" onclick="salvarProva()">Salvar Gabarito</button>
+        </div>
+      </div>
+    </div>`;
+}
+ 
+function buildGabInputs(n) {
+  return Array.from({length: Math.min(parseInt(n)||10, 50)}, (_,i) => `
+    <div class="gab-item">
+      <label>Q${i+1}</label>
+      <select id="gab_${i}">${OPTS.map(o => `<option>${o}</option>`).join('')}</select>
+    </div>`).join('');
+}
+ 
+function updateGabGrid(n) {
+  const g = document.getElementById('gabGrid');
+  if (g) g.innerHTML = buildGabInputs(n);
+}
+ 
+function salvarProva() {
+  const nq = Math.min(parseInt(document.getElementById('m_nq').value) || 10, 50);
+  const gab = Array.from({length: nq}, (_,i) => document.getElementById('gab_'+i)?.value || 'A');
+  state.provas.push({
+    id: Date.now().toString(),
+    turma: state.turma,
+    materia: document.getElementById('m_mat').value,
+    desc: document.getElementById('m_desc').value,
+    data: document.getElementById('m_data').value,
+    gab
+  });
+  save('provas');
+  closeModalBtn();
+  render();
+}
+ 
+function delProva(id) {
+  if (!confirm('Excluir este gabarito?')) return;
+  state.provas = state.provas.filter(p => p.id !== id);
+  save('provas');
+  render();
+}
+ 
+function delCorrecao(id) {
+  if (!confirm('Excluir esta correção?')) return;
+  state.correcoes = state.correcoes.filter(c => c.id !== id);
+  save('correcoes');
+  render();
+}
+ 
+function openModal(m) { state.modal = m; render(); }
+function closeModalBtn() { state.modal = null; render(); }
+function closeModal(e) { if (e.target.classList.contains('modal-bg')) closeModalBtn(); }
+function setTurma(t) { state.turma = t; render(); }
+function setSub(s) { state.sub = s; render(); }
+ 
+render();
 </script>
 </body>
 </html>
