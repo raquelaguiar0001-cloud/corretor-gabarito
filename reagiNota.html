@@ -510,7 +510,11 @@ function buildGabSheet(nq, selecionadas, mostrarErros, gabarito){
   return html;
 }
  
+// respostasTemp: array indexado por questão, valor = letra selecionada
 let respostasTemp = [];
+// pendingCorrecao: guarda os dados calculados aguardando confirmação de salvar
+let pendingCorrecao = null;
+ 
 function selResp(q, o){
   respostasTemp[q] = o;
   const row = document.getElementById('gabrow_'+q);
@@ -525,65 +529,100 @@ function selResp(q, o){
 function calcularNota(){
   const pvId = document.getElementById('selProva')?.value;
   const alId = document.getElementById('selAluno')?.value;
-  if(!pvId){alert('Selecione uma prova!');return}
-  if(!alId){alert('Selecione um aluno!');return}
+  if(!pvId){ alert('Selecione uma prova!'); return; }
+  if(!alId){ alert('Selecione um aluno!'); return; }
   const pv = getProva(pvId);
   const al = getAluno(alId);
-  if(!pv||!al) return;
+  if(!pv || !al) return;
  
-  const resps = Array.from({length:pv.nq},(_,i)=>respostasTemp[i]||null);
-  const sem = resps.filter(r=>!r).length;
-  if(sem>0 && !confirm(`${sem} questão(ões) sem resposta. Continuar assim?`)) return;
+  // Coletar respostas — null para não respondidas
+  const resps = Array.from({length: pv.nq}, (_, i) => respostasTemp[i] || null);
+  const sem = resps.filter(r => !r).length;
+  if(sem > 0 && !confirm(`${sem} questão(ões) sem resposta. Continuar assim?`)) return;
  
-  const acertos = resps.filter((r,i)=>r===pv.gab[i]).length;
-  const nota = (acertos/pv.nq)*10;
-  const valor = pv.valor||10;
-  const notaFinal = nota*valor/10;
-  const pct = Math.round(acertos/pv.nq*100);
-  const sit = nota>=7?'Aprovado ✓':nota>=5?'Recuperação':nota>=0?'Reprovado':'';
-  const sitCor = nota>=7?'rgba(255,255,255,.9)':nota>=5?'#ffe9a0':'#ffd0cc';
-  const bgGrad = nota>=7?'linear-gradient(135deg,#0c6e52,#0a8f68)':nota>=5?'linear-gradient(135deg,#c47600,#e89a00)':'linear-gradient(135deg,#c23b2b,#e04a37)';
+  // Calcular acertos comparando com o gabarito
+  let acertos = 0;
+  for(let i = 0; i < pv.nq; i++){
+    if(resps[i] && resps[i] === pv.gab[i]) acertos++;
+  }
  
-  const erros = pv.gab.map((g,i)=>({q:i+1,correta:g,deu:resps[i]})).filter(e=>e.deu!==e.correta);
+  const valor = parseFloat(pv.valor) || 10;
+  const notaFinal = parseFloat(((acertos / pv.nq) * valor).toFixed(2));
+  const pct = Math.round((acertos / pv.nq) * 100);
  
-  document.getElementById('resultadoArea').innerHTML = `
+  // Situação baseada em nota proporcional ao valor
+  const notaBase10 = (acertos / pv.nq) * 10;
+  const sit = notaBase10 >= 7 ? 'Aprovado ✓' : notaBase10 >= 5 ? 'Recuperação' : 'Reprovado';
+  const sitCor = notaBase10 >= 7 ? 'rgba(255,255,255,.9)' : notaBase10 >= 5 ? '#ffe9a0' : '#ffd0cc';
+  const bgGrad = notaBase10 >= 7
+    ? 'linear-gradient(135deg,#0c6e52,#0a8f68)'
+    : notaBase10 >= 5
+    ? 'linear-gradient(135deg,#c47600,#e89a00)'
+    : 'linear-gradient(135deg,#c23b2b,#e04a37)';
+ 
+  const erros = [];
+  for(let i = 0; i < pv.nq; i++){
+    if(resps[i] !== pv.gab[i]){
+      erros.push({q: i+1, correta: pv.gab[i], deu: resps[i]});
+    }
+  }
+ 
+  // Salvar pendingCorrecao para uso em registrarCorrecao (sem passar por HTML)
+  pendingCorrecao = {
+    pvId, alId, acertos, total: pv.nq,
+    nota: notaFinal,
+    resps: resps.slice(),
+    turma: S.turma
+  };
+ 
+  const areaEl = document.getElementById('resultadoArea');
+  if(!areaEl) return;
+  areaEl.innerHTML = `
     <div class="result-hero" style="background:${bgGrad}">
       <div class="result-nota">${notaFinal.toFixed(1)}</div>
       <div class="result-sit" style="color:${sitCor}">${sit} — ${al.nome}</div>
-      <div class="result-sub">${acertos} de ${pv.nq} corretas (${pct}%) · ${pv.materia} — ${pv.desc||'s/d'}</div>
+      <div class="result-sub">${acertos} de ${pv.nq} corretas (${pct}%) · ${pv.materia}${pv.desc?' — '+pv.desc:''} · Valor: ${valor} pts</div>
       <div class="result-bar-wrap"><div class="result-bar" style="width:${pct}%"></div></div>
     </div>
-    ${erros.length?`
+    ${erros.length ? `
     <div class="card">
       <div class="card-title" style="margin-bottom:12px">Questões erradas — ${erros.length}</div>
       <div class="erros-grid">
-        ${erros.map(e=>`<span class="erro-chip wrong">Q${e.q}: ${e.deu||'—'} → ${e.correta}</span>`).join('')}
+        ${erros.map(e => `<span class="erro-chip wrong">Q${e.q}: ${e.deu||'—'} → ${e.correta}</span>`).join('')}
       </div>
-    </div>`:`<div class="card" style="text-align:center;padding:20px"><span style="font-size:32px">🎉</span><br><strong style="color:var(--teal)">Gabarito perfeito!</strong></div>`}
+    </div>` : `<div class="card" style="text-align:center;padding:20px"><span style="font-size:32px">🎉</span><br><strong style="color:var(--teal)">Gabarito perfeito!</strong></div>`}
     <div style="display:flex;gap:8px;margin-bottom:20px">
-      <button class="btn btn-primary" onclick="registrarCorrecao('${pvId}','${alId}',${acertos},${pv.nq},${notaFinal.toFixed(2)},${JSON.stringify(resps)})">
-        💾 Salvar nos Resultados
-      </button>
+      <button class="btn btn-primary" onclick="registrarCorrecao()">💾 Salvar nos Resultados</button>
       <button class="btn" onclick="limparCorrecao()">Nova Correção</button>
     </div>`;
  
-  document.getElementById('resultadoArea').scrollIntoView({behavior:'smooth',block:'start'});
+  areaEl.scrollIntoView({behavior:'smooth', block:'start'});
 }
  
-function registrarCorrecao(pvId,alId,acertos,total,nota,respsJSON){
-  const resps = typeof respsJSON==='string'?JSON.parse(respsJSON):respsJSON;
+function registrarCorrecao(){
+  // Usa pendingCorrecao — sem risco de quebra por HTML encoding
+  if(!pendingCorrecao){ alert('Nenhuma correção para salvar.'); return; }
+  const c = pendingCorrecao;
   S.correcoes.push({
-    id:uid(), turma:S.turma, provaId:pvId, alunoId:alId,
-    acertos, total, nota:parseFloat(nota), resps,
-    data:new Date().toLocaleDateString('pt-BR')
+    id: uid(),
+    turma: c.turma,
+    provaId: c.pvId,
+    alunoId: c.alId,
+    acertos: c.acertos,
+    total: c.total,
+    nota: c.nota,
+    resps: c.resps,
+    data: new Date().toLocaleDateString('pt-BR')
   });
   save();
+  pendingCorrecao = null;
   respostasTemp = [];
   setPage('resultados');
 }
  
 function limparCorrecao(){
   respostasTemp = [];
+  pendingCorrecao = null;
   setPage('corrigir');
 }
  
@@ -596,9 +635,9 @@ function pageResultados(){
     `<span class="turma-chip${S.turma===t?' active':''}" onclick="setTurmaPage('${t}','resultados')">${t}</span>`
   ).join('');
   const med = cors.length?(cors.reduce((a,b)=>a+b.nota,0)/cors.length).toFixed(1):'—';
-  const apr = cors.filter(c=>c.nota>=5).length;
-  const rec = cors.filter(c=>c.nota>=3&&c.nota<5).length;
-  const rep = cors.filter(c=>c.nota<3).length;
+  const apr = cors.filter(c=>(c.acertos/c.total)>=0.7).length;
+  const rec = cors.filter(c=>(c.acertos/c.total)>=0.5&&(c.acertos/c.total)<0.7).length;
+  const rep = cors.filter(c=>(c.acertos/c.total)<0.5).length;
   return `
     <div class="page-header"><div class="page-title">Resultados</div><div class="page-sub">Histórico completo de correções</div></div>
     <div class="turma-chips">${turmaChips}</div>
@@ -621,8 +660,9 @@ function pageResultados(){
             const al = getAluno(c.alunoId);
             const pv = getProva(c.provaId);
             const pct = Math.round(c.acertos/c.total*100);
-            const sit = c.nota>=7?'Aprovado':c.nota>=5?'Recuperação':'Reprovado';
-            const bc = c.nota>=7?'badge-teal':c.nota>=5?'badge-amber':'badge-red';
+            const notaBase = (c.acertos/c.total)*10;
+            const sit = notaBase>=7?'Aprovado':notaBase>=5?'Recuperação':'Reprovado';
+            const bc = notaBase>=7?'badge-teal':notaBase>=5?'badge-amber':'badge-red';
             return `<tr>
               <td style="font-weight:500">${al?al.nome:'—'}</td>
               <td><span class="badge badge-blue">${pv?pv.materia:'—'}</span></td>
