@@ -6,48 +6,27 @@
 <title>ReagiNota — Escola Natividade</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #f2f4f7;
-  --bg2: #e8ebf0;
-  --surface: #ffffff;
-  --border: #dde1e9;
-  --border2: #c8cdd8;
-  --text: #1c1f2e;
-  --text2: #515773;
-  --text3: #8990ab;
-  --teal: #0c6e52;
-  --teal2: #0a5a44;
-  --teal-light: #e2f5ed;
-  --teal-mid: #a8dfc5;
-  --amber: #c47600;
-  --amber-light: #fff4e0;
-  --red: #c23b2b;
-  --red-light: #fdecea;
-  --blue: #1a5fa5;
-  --blue-light: #e6eefb;
-  --purple: #5b3db5;
-  --purple-light: #ede9fb;
-  --nav: #111827;
-  --shadow: 0 1px 4px rgba(0,0,0,.07), 0 4px 20px rgba(0,0,0,.04);
-  --shadow-lg: 0 4px 16px rgba(0,0,0,.12), 0 16px 48px rgba(0,0,0,.08);
+:root{
+  --bg:#f2f4f7;--bg2:#e8ebf0;--surface:#fff;--border:#dde1e9;--border2:#c8cdd8;
+  --text:#1c1f2e;--text2:#515773;--text3:#8990ab;
+  --teal:#0c6e52;--teal2:#0a5a44;--teal-light:#e2f5ed;--teal-mid:#a8dfc5;
+  --amber:#c47600;--amber-light:#fff4e0;
+  --red:#c23b2b;--red-light:#fdecea;
+  --blue:#1a5fa5;--blue-light:#e6eefb;
+  --nav:#111827;
+  --sh:0 1px 4px rgba(0,0,0,.07),0 4px 20px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.12),0 16px 48px rgba(0,0,0,.08);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
- 
-/* NAV */
-.nav{background:var(--nav);color:#fff;height:54px;display:flex;align-items:center;padding:0 24px;gap:14px;position:sticky;top:0;z-index:40;border-bottom:1px solid rgba(255,255,255,.07)}
-.nav-brand{display:flex;align-items:center;gap:10px}
+.nav{background:var(--nav);color:#fff;height:54px;display:flex;align-items:center;padding:0 24px;gap:14px;position:sticky;top:0;z-index:40}
 .nav-dot{width:32px;height:32px;background:linear-gradient(135deg,#0c6e52,#14b884);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .nav-title{font-weight:700;font-size:15px;letter-spacing:-.02em}
-.nav-sub{font-size:11px;color:rgba(255,255,255,.38);margin-left:6px;font-weight:400}
-.nav-turma{margin-left:auto;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:5px 14px;font-size:13px;font-weight:600;color:#fff;font-family:'Sora',sans-serif;cursor:default}
- 
-/* LAYOUT */
+.nav-sub{font-size:11px;color:rgba(255,255,255,.38);margin-left:4px}
+.nav-turma{margin-left:auto;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:5px 14px;font-size:13px;font-weight:600;color:#fff;font-family:'Sora',sans-serif}
 .layout{display:flex;min-height:calc(100vh - 54px)}
 .sidebar{width:210px;background:var(--surface);border-right:1px solid var(--border);padding:16px 12px;flex-shrink:0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto}
 .main{flex:1;padding:24px;overflow-y:auto;min-width:0}
- 
-/* SIDEBAR */
 .sb-section{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:12px 8px 6px;margin-top:4px}
 .sb-section:first-child{margin-top:0}
 .sb-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .12s;margin-bottom:2px;border:none;background:none;width:100%;text-align:left;font-family:'Sora',sans-serif}
@@ -58,46 +37,31 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-he
 .turma-btn{display:block;width:100%;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border2);background:transparent;color:var(--text2);margin-bottom:5px;text-align:left;font-family:'Sora',sans-serif;transition:all .12s}
 .turma-btn:hover{border-color:var(--teal);color:var(--teal)}
 .turma-btn.active{background:var(--teal);color:#fff;border-color:var(--teal)}
- 
-/* HEADER */
 .page-header{margin-bottom:22px}
-.page-title{font-size:20px;font-weight:700;letter-spacing:-.03em;color:var(--text)}
+.page-title{font-size:20px;font-weight:700;letter-spacing:-.03em}
 .page-sub{font-size:13px;color:var(--text3);margin-top:3px}
- 
-/* STATS */
 .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:22px}
-.stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
-.stat-n{font-size:26px;font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;letter-spacing:-.02em}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;box-shadow:var(--sh)}
+.stat-n{font-size:26px;font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace}
 .stat-l{font-size:11px;color:var(--text3);margin-top:3px}
- 
-/* CARD */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:var(--shadow)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:var(--sh)}
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
-.card-title{font-size:14px;font-weight:600;color:var(--text)}
-.card-actions{display:flex;gap:8px;flex-wrap:wrap}
- 
-/* BUTTONS */
+.card-title{font-size:14px;font-weight:600}
 .btn{padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:500;border:1px solid var(--border2);background:var(--bg);color:var(--text);transition:all .12s;font-family:'Sora',sans-serif;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
-.btn:hover{background:var(--bg2);border-color:var(--border2)}
+.btn:hover{background:var(--bg2)}
 .btn-primary{background:var(--teal);color:#fff;border-color:var(--teal)}
 .btn-primary:hover{background:var(--teal2)}
 .btn-sm{padding:5px 12px;font-size:12px;border-radius:7px}
 .btn-danger{background:var(--red-light);color:var(--red);border-color:#f5c6c2}
 .btn-danger:hover{background:#fadbd8}
-.btn-ghost{background:transparent;border-color:transparent;color:var(--text2)}
-.btn-ghost:hover{background:var(--bg);border-color:var(--border)}
 .btn-amber{background:var(--amber-light);color:var(--amber);border-color:#ffe0a0}
 .btn-amber:hover{background:#ffeec0}
- 
-/* FORM */
 .form-row{margin-bottom:14px}
-.form-row label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
-.form-row input,.form-row select,.form-row textarea{width:100%;padding:9px 12px;border-radius:8px;border:1.5px solid var(--border2);background:var(--surface);color:var(--text);font-size:13px;font-family:'Sora',sans-serif;transition:border-color .12s;outline:none}
+.form-row label{display:block;font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:9px 12px;border-radius:8px;border:1.5px solid var(--border2);background:var(--surface);color:var(--text);font-size:13px;font-family:'Sora',sans-serif;outline:none;transition:border-color .12s}
 .form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(12,110,82,.09)}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .form-grid.col3{grid-template-columns:1fr 1fr 1fr}
- 
-/* TABLE */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px}
 thead tr{border-bottom:2px solid var(--border)}
@@ -105,206 +69,174 @@ th{padding:9px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--t
 td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:var(--bg)}
- 
-/* BADGE */
 .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
 .badge-teal{background:var(--teal-light);color:var(--teal)}
 .badge-amber{background:var(--amber-light);color:var(--amber)}
 .badge-red{background:var(--red-light);color:var(--red)}
 .badge-blue{background:var(--blue-light);color:var(--blue)}
-.badge-purple{background:var(--purple-light);color:var(--purple)}
 .badge-gray{background:var(--bg2);color:var(--text3)}
- 
-/* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(10,12,20,.55);display:flex;align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(3px)}
-.modal{background:var(--surface);border-radius:16px;padding:28px;width:min(580px,95vw);max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);animation:mIn .16s ease}
-.modal-lg{width:min(780px,95vw)}
+.modal{background:var(--surface);border-radius:16px;padding:28px;width:min(580px,95vw);max-height:90vh;overflow-y:auto;box-shadow:var(--sh2);animation:mIn .16s ease}
+.modal-lg{width:min(760px,95vw)}
 @keyframes mIn{from{opacity:0;transform:scale(.96) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.modal h3{font-size:17px;font-weight:700;margin-bottom:20px;letter-spacing:-.02em}
+.modal h3{font-size:17px;font-weight:700;margin-bottom:20px}
 .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:22px;padding-top:18px;border-top:1px solid var(--border)}
- 
 /* GABARITO BOLINHAS */
-.gab-sheet{background:var(--bg);border:1.5px solid var(--border2);border-radius:12px;padding:16px;max-height:420px;overflow-y:auto}
-.gab-row{display:flex;align-items:center;padding:5px 8px;border-radius:8px;gap:10px;transition:background .1s}
-.gab-row:hover{background:rgba(12,110,82,.05)}
-.gab-row.selected-row{background:rgba(12,110,82,.08)}
-.gab-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--text3);width:28px;text-align:right;flex-shrink:0}
-.gab-opts{display:flex;gap:8px}
-.gab-opt{width:34px;height:34px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;transition:all .12s;font-family:'JetBrains Mono',monospace;user-select:none;flex-shrink:0}
+.gab-sheet{background:var(--bg);border:1.5px solid var(--border2);border-radius:12px;padding:12px 16px;max-height:400px;overflow-y:auto}
+.gab-row{display:flex;align-items:center;padding:4px 6px;border-radius:8px;gap:10px}
+.gab-row:hover{background:rgba(12,110,82,.04)}
+.gab-row.done{background:rgba(12,110,82,.07)}
+.gab-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--text3);width:26px;text-align:right;flex-shrink:0}
+.gab-opts{display:flex;gap:7px}
+.gab-opt{width:34px;height:34px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;transition:all .1s;font-family:'JetBrains Mono',monospace;user-select:none;flex-shrink:0}
 .gab-opt:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-light)}
 .gab-opt.filled{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 2px 6px rgba(12,110,82,.3)}
-.gab-opt.filled-wrong{background:var(--red);border-color:var(--red);color:#fff}
-.gab-opt.filled-correct{background:var(--teal);border-color:var(--teal);color:#fff}
-.gab-opt.correct-answer{border-color:var(--teal);color:var(--teal)}
-.gab-sep{height:1px;background:var(--border);margin:4px 0}
- 
+.gab-opt.wrong{background:var(--red);border-color:var(--red);color:#fff}
+.gab-opt.correct-outline{border-color:var(--teal);color:var(--teal);background:var(--teal-light)}
+.gab-sep{height:1px;background:var(--border);margin:3px 0}
 /* RESULTADO */
-.result-hero{background:linear-gradient(135deg,#0c6e52,#0a8f68);border-radius:16px;padding:28px;color:#fff;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
-.result-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.result-hero{border-radius:16px;padding:28px;color:#fff;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
 .result-nota{font-size:72px;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1;position:relative}
-.result-sit{font-size:14px;font-weight:600;opacity:.85;margin-top:6px;position:relative}
-.result-sub{font-size:12px;opacity:.65;margin-top:4px;position:relative}
-.result-bar-wrap{background:rgba(255,255,255,.25);border-radius:99px;height:6px;margin-top:12px;position:relative}
+.result-sit{font-size:14px;font-weight:600;margin-top:6px;position:relative}
+.result-sub{font-size:12px;opacity:.7;margin-top:4px;position:relative}
+.result-bar-bg{background:rgba(255,255,255,.25);border-radius:99px;height:6px;margin-top:14px;position:relative}
 .result-bar{height:100%;border-radius:99px;background:#fff;transition:width .6s ease}
- 
 .erros-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.erro-chip{padding:4px 10px;border-radius:7px;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500}
-.erro-chip.wrong{background:var(--red-light);color:var(--red)}
-.erro-chip.right{background:var(--teal-light);color:var(--teal)}
- 
-/* ALUNO CARD */
-.aluno-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:1px solid var(--border);margin-bottom:6px;background:var(--surface);transition:all .12s}
-.aluno-card:hover{border-color:var(--teal-mid);box-shadow:0 2px 8px rgba(12,110,82,.07)}
-.aluno-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--teal-light),var(--teal-mid));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--teal);flex-shrink:0}
-.aluno-info{flex:1;min-width:0}
-.aluno-nome{font-weight:600;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.aluno-meta{font-size:11px;color:var(--text3);margin-top:1px}
- 
-/* EMPTY */
-.empty{text-align:center;padding:52px 20px;color:var(--text3)}
+.erro-chip{padding:4px 10px;border-radius:7px;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;background:var(--red-light);color:var(--red)}
+/* ALUNO LISTA */
+.aluno-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:1px solid var(--border);margin-bottom:6px;background:var(--surface);transition:all .12s;cursor:default}
+.aluno-card:hover{border-color:var(--teal-mid)}
+.aluno-card.selecionado{border-color:var(--teal);background:var(--teal-light);box-shadow:0 0 0 2px var(--teal)}
+.aluno-card.corrigido{border-color:var(--teal-mid);background:#f0fbf6}
+.aluno-card.cursor-pointer{cursor:pointer}
+.av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--teal-light),var(--teal-mid));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--teal);flex-shrink:0}
+.av.done{background:linear-gradient(135deg,#0c6e52,#14b884);color:#fff}
+.ai{flex:1;min-width:0}
+.an{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.am{font-size:11px;color:var(--text3);margin-top:1px}
+.empty{text-align:center;padding:48px 20px;color:var(--text3)}
 .empty-icon{font-size:40px;display:block;margin-bottom:12px;opacity:.6}
-.empty p{font-size:14px;line-height:1.6}
- 
-/* PROGRESS BAR */
-.prog-wrap{background:var(--bg2);border-radius:99px;height:6px;overflow:hidden;margin:6px 0}
-.prog{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),#14b884);transition:width .5s ease}
- 
-/* TABS */
-.tabs-bar{display:flex;border-bottom:1.5px solid var(--border);margin-bottom:20px;overflow-x:auto}
-.tab{padding:9px 18px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text3);border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:all .12s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:'Sora',sans-serif}
-.tab:hover{color:var(--text)}
-.tab.active{color:var(--teal);border-bottom-color:var(--teal);font-weight:600}
- 
-/* CHIPS turma selector */
 .turma-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
 .turma-chip{padding:6px 18px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--border2);background:var(--surface);color:var(--text2);transition:all .12s}
 .turma-chip:hover{border-color:var(--teal);color:var(--teal)}
-.turma-chip.active{background:var(--teal);color:#fff;border-color:var(--teal);box-shadow:0 2px 8px rgba(12,110,82,.22)}
- 
-@media(max-width:700px){
+.turma-chip.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+.prog-wrap{background:var(--bg2);border-radius:99px;height:5px;overflow:hidden;margin-top:3px}
+.prog{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),#14b884)}
+/* LAYOUT CORRIGIR */
+.corr-layout{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:start}
+.draft-badge{display:inline-flex;align-items:center;gap:5px;background:#fff8e6;border:1px solid #ffe0a0;color:var(--amber);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600;margin-bottom:12px}
+@media(max-width:750px){
   .sidebar{display:none}
   .main{padding:16px 12px}
-  .form-grid{grid-template-columns:1fr}
+  .corr-layout{grid-template-columns:1fr}
   .result-nota{font-size:52px}
 }
 </style>
 </head>
 <body>
- 
 <div class="nav">
-  <div class="nav-brand">
-    <div class="nav-dot">📝</div>
-    <span class="nav-title">ReagiNota</span>
-    <span class="nav-sub">Escola Natividade</span>
-  </div>
-  <span class="nav-turma" id="navTurma">6º ano</span>
+  <div class="nav-dot">📝</div>
+  <span class="nav-title">ReagiNota</span>
+  <span class="nav-sub">Escola Natividade</span>
+  <span class="nav-turma" id="navTurma"></span>
 </div>
- 
 <div class="layout">
   <div class="sidebar" id="sidebar"></div>
   <div class="main" id="main"></div>
 </div>
- 
 <div id="modalRoot"></div>
  
 <script>
-// ══════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════
-const TURMAS = ['6º ano','7º ano','8º ano','9º ano'];
-const MATERIAS = ['Português','Matemática','Ciências','História','Geografia','Inglês','Ed. Física','Arte','Religião'];
-const OPTS = ['A','B','C','D','E'];
+// ═══════════════════════════════════════════════
+//  STORAGE — tudo salvo automaticamente
+// ═══════════════════════════════════════════════
+function ld(k,d){try{const v=localStorage.getItem('rn4_'+k);return v?JSON.parse(v):d}catch{return d}}
+function sv(k,v){try{localStorage.setItem('rn4_'+k,JSON.stringify(v))}catch(e){console.error('Storage:',e)}}
  
-function ld(k,d){try{return JSON.parse(localStorage.getItem('rn3_'+k))||d}catch{return d}}
-function sv(k,v){localStorage.setItem('rn3_'+k,JSON.stringify(v))}
+const TURMAS=['6º ano','7º ano','8º ano','9º ano'];
+const MATERIAS=['Português','Matemática','Ciências','História','Geografia','Inglês','Ed. Física','Arte','Religião'];
+const OPTS=['A','B','C','D','E'];
  
-let S = {
-  turma: '6º ano',
-  page: 'dashboard',
-  alunos: ld('alunos', {}),      // {turma: [{id,nome,numero}]}
-  provas: ld('provas', []),       // [{id,turma,materia,desc,data,gab[],valor,nq}]
-  correcoes: ld('correcoes', []), // [{id,turma,provaId,alunoId,resps[],nota,acertos,data}]
-  modal: null,
-  editProvaId: null,
-  corrigirProvaId: null,
+// Estado — cada campo tem seu próprio salvar
+const S={
+  get turma(){return ld('turma','6º ano')},
+  set turma(v){sv('turma',v)},
+  get page(){return ld('page','dashboard')},
+  set page(v){sv('page',v)},
+  get alunos(){return ld('alunos',{})},
+  set alunos(v){sv('alunos',v)},
+  get provas(){return ld('provas',[])},
+  set provas(v){sv('provas',v)},
+  get correcoes(){return ld('correcoes',[])},
+  set correcoes(v){sv('correcoes',v)},
+  // Rascunho de gabarito em edição (salvo automaticamente bolinha a bolinha)
+  get draft(){return ld('draft',null)},
+  set draft(v){sv('draft',v)},
+  // Sessão de correção em andamento
+  get sessao(){return ld('sessao',null)},
+  set sessao(v){sv('sessao',v)},
+  // Modal
+  modal:null,
+  editProvaId:null,
 };
  
-function save(){sv('alunos',S.alunos);sv('provas',S.provas);sv('correcoes',S.correcoes)}
- 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  HELPERS
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function initials(n){return n.trim().split(' ').slice(0,2).map(x=>x[0]||'').join('').toUpperCase()}
-function alunosDaTurma(){return S.alunos[S.turma]||[]}
-function provasDaTurma(){return S.provas.filter(p=>p.turma===S.turma)}
-function corrDaTurma(){return S.correcoes.filter(c=>c.turma===S.turma)}
-function getAluno(id){return (S.alunos[S.turma]||[]).find(a=>a.id===id)}
+function alunosDaTurma(t){return (S.alunos[t||S.turma]||[])}
+function provasDaTurma(t){return S.provas.filter(p=>p.turma===(t||S.turma))}
+function corrDaTurma(t){return S.correcoes.filter(c=>c.turma===(t||S.turma))}
+function getAluno(id,turma){return (S.alunos[turma||S.turma]||[]).find(a=>a.id===id)}
 function getProva(id){return S.provas.find(p=>p.id===id)}
-function notaFormatada(nota,valor){
-  if(valor && valor!=10) return (nota*valor/10).toFixed(1)+' / '+valor;
-  return nota.toFixed(1);
-}
+function notaBase(c){return c.total>0?(c.acertos/c.total)*10:0}
+function situacao(nb){return nb>=7?'Aprovado':nb>=5?'Recuperação':'Reprovado'}
+function badgeCor(nb){return nb>=7?'badge-teal':nb>=5?'badge-amber':'badge-red'}
+function gradCor(nb){return nb>=7?'linear-gradient(135deg,#0c6e52,#0a8f68)':nb>=5?'linear-gradient(135deg,#c47600,#e89a00)':'linear-gradient(135deg,#c23b2b,#e04a37)'}
  
-// ══════════════════════════════════════════
-//  RENDER PRINCIPAL
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════
 function render(){
-  document.getElementById('navTurma').textContent = S.turma;
+  document.getElementById('navTurma').textContent=S.turma;
   renderSidebar();
   renderMain();
   renderModal();
 }
  
 function renderSidebar(){
-  const pages = [
+  const pages=[
     {id:'dashboard',icon:'🏠',label:'Dashboard'},
     {id:'alunos',icon:'👥',label:'Alunos'},
     {id:'gabaritos',icon:'📋',label:'Gabaritos'},
     {id:'corrigir',icon:'✏️',label:'Corrigir Prova'},
     {id:'resultados',icon:'📊',label:'Resultados'},
   ];
-  const turmasBtns = TURMAS.map(t=>
-    `<button class="turma-btn${S.turma===t?' active':''}" onclick="setTurma('${t}')">${t}</button>`
-  ).join('');
-  const items = pages.map(p=>
-    `<button class="sb-item${S.page===p.id?' active':''}" onclick="setPage('${p.id}')">
-      <span class="icon">${p.icon}</span>${p.label}
-    </button>`
-  ).join('');
-  document.getElementById('sidebar').innerHTML = `
+  document.getElementById('sidebar').innerHTML=`
     <div class="sb-section">Turmas</div>
-    ${turmasBtns}
+    ${TURMAS.map(t=>`<button class="turma-btn${S.turma===t?' active':''}" onclick="setTurma('${t}')">${t}</button>`).join('')}
     <div class="sb-divider"></div>
     <div class="sb-section">Menu</div>
-    ${items}`;
+    ${pages.map(p=>`<button class="sb-item${S.page===p.id?' active':''}" onclick="setPage('${p.id}')"><span class="icon">${p.icon}</span>${p.label}</button>`).join('')}`;
 }
  
 function renderMain(){
-  const pages = {
-    dashboard: pageDashboard,
-    alunos: pageAlunos,
-    gabaritos: pageGabaritos,
-    corrigir: pageCorrigir,
-    resultados: pageResultados,
-  };
-  document.getElementById('main').innerHTML = (pages[S.page]||pageDashboard)();
+  const map={dashboard:pageDashboard,alunos:pageAlunos,gabaritos:pageGabaritos,corrigir:pageCorrigir,resultados:pageResultados};
+  document.getElementById('main').innerHTML=(map[S.page]||pageDashboard)();
 }
  
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  DASHBOARD
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function pageDashboard(){
-  const als = alunosDaTurma();
-  const pvs = provasDaTurma();
-  const cors = corrDaTurma();
-  const med = cors.length?(cors.reduce((a,b)=>a+b.nota,0)/cors.length).toFixed(1):'—';
-  const apr = cors.filter(c=>c.nota>=5).length;
+  const als=alunosDaTurma();
+  const pvs=provasDaTurma();
+  const cors=corrDaTurma();
+  const med=cors.length?(cors.reduce((a,b)=>a+(b.acertos/b.total)*10,0)/cors.length).toFixed(1):'—';
+  const apr=cors.filter(c=>notaBase(c)>=7).length;
   return `
-    <div class="page-header">
-      <div class="page-title">Dashboard — ${S.turma}</div>
-      <div class="page-sub">Visão geral do desempenho da turma</div>
-    </div>
+    <div class="page-header"><div class="page-title">Dashboard — ${S.turma}</div><div class="page-sub">Visão geral da turma</div></div>
     <div class="stats-row">
       <div class="stat"><div class="stat-n">${als.length}</div><div class="stat-l">Alunos</div></div>
       <div class="stat"><div class="stat-n">${pvs.length}</div><div class="stat-l">Provas</div></div>
@@ -312,197 +244,182 @@ function pageDashboard(){
       <div class="stat"><div class="stat-n">${med}</div><div class="stat-l">Média geral</div></div>
       <div class="stat"><div class="stat-n">${apr}</div><div class="stat-l">Aprovados</div></div>
     </div>
-    ${cors.length?`
-    <div class="card">
+    ${cors.length?`<div class="card">
       <div class="card-hd"><div class="card-title">Últimas correções</div></div>
       <div class="tbl-wrap"><table>
         <thead><tr><th>Aluno</th><th>Prova</th><th>Nota</th><th>Situação</th><th>Data</th></tr></thead>
         <tbody>${[...cors].reverse().slice(0,8).map(c=>{
-          const al = getAluno(c.alunoId);
-          const pv = getProva(c.provaId);
-          const sit = c.nota>=7?'Aprovado':c.nota>=5?'Recuperação':'Reprovado';
-          const bc = c.nota>=7?'badge-teal':c.nota>=5?'badge-amber':'badge-red';
-          return `<tr>
-            <td>${al?al.nome:'—'}</td>
-            <td>${pv?pv.materia+' — '+(pv.desc||'s/d'):'—'}</td>
-            <td><strong style="font-family:'JetBrains Mono',monospace">${c.nota.toFixed(1)}</strong></td>
-            <td><span class="badge ${bc}">${sit}</span></td>
-            <td style="color:var(--text3);font-size:12px">${c.data}</td>
-          </tr>`;
+          const al=getAluno(c.alunoId);const pv=getProva(c.provaId);const nb=notaBase(c);
+          return`<tr><td>${al?al.nome:'—'}</td><td>${pv?pv.materia+(pv.desc?' — '+pv.desc:''):'—'}</td>
+          <td><strong style="font-family:'JetBrains Mono',monospace">${((c.acertos/c.total)*(pv?pv.valor||10:10)).toFixed(1)}</strong></td>
+          <td><span class="badge ${badgeCor(nb)}">${situacao(nb)}</span></td>
+          <td style="color:var(--text3);font-size:12px">${c.data}</td></tr>`;
         }).join('')}</tbody>
       </table></div>
-    </div>`:`
-    <div class="card"><div class="empty"><span class="empty-icon">🎯</span><p>Nenhuma correção ainda para o ${S.turma}.<br>Cadastre alunos e gabaritos para começar.</p></div></div>`}`;
+    </div>`:`<div class="card"><div class="empty"><span class="empty-icon">🎯</span><p>Nenhuma correção ainda.<br>Cadastre alunos e gabaritos para começar.</p></div></div>`}`;
 }
  
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  ALUNOS
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function pageAlunos(){
-  const als = alunosDaTurma();
-  const turmaChips = TURMAS.map(t=>
-    `<span class="turma-chip${S.turma===t?' active':''}" onclick="setTurmaPage('${t}','alunos')">${t}</span>`
-  ).join('');
+  const als=alunosDaTurma();
   return `
-    <div class="page-header">
-      <div class="page-title">Alunos</div>
-      <div class="page-sub">Gerencie os alunos de cada turma</div>
-    </div>
-    <div class="turma-chips">${turmaChips}</div>
+    <div class="page-header"><div class="page-title">Alunos</div></div>
+    <div class="turma-chips">${TURMAS.map(t=>`<span class="turma-chip${S.turma===t?' active':''}" onclick="setTurmaPage('${t}','alunos')">${t}</span>`).join('')}</div>
     <div class="card">
       <div class="card-hd">
         <div class="card-title">${S.turma} — ${als.length} aluno${als.length!==1?'s':''}</div>
-        <div class="card-actions">
-          <button class="btn btn-primary btn-sm" onclick="openModal('novoAluno')">+ Adicionar Aluno</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary btn-sm" onclick="openModal('novoAluno')">+ Adicionar</button>
           <button class="btn btn-sm" onclick="openModal('importarAlunos')">📋 Importar lista</button>
         </div>
       </div>
-      ${als.length?`
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px">
-          ${als.sort((a,b)=>a.nome.localeCompare(b.nome)).map(a=>`
-            <div class="aluno-card">
-              <div class="aluno-avatar">${initials(a.nome)}</div>
-              <div class="aluno-info">
-                <div class="aluno-nome">${a.nome}</div>
-                <div class="aluno-meta">Nº ${a.numero||'—'} · ${corrDaTurma().filter(c=>c.alunoId===a.id).length} provas</div>
-              </div>
-              <button class="btn btn-danger btn-sm" onclick="delAluno('${a.id}')">✕</button>
-            </div>`).join('')}
-        </div>`:`
-        <div class="empty"><span class="empty-icon">👥</span><p>Nenhum aluno cadastrado no ${S.turma}.<br>Clique em <strong>+ Adicionar Aluno</strong> ou importe uma lista.</p></div>`}
+      ${als.length?`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px">
+        ${[...als].sort((a,b)=>a.nome.localeCompare(b.nome)).map(a=>`
+          <div class="aluno-card">
+            <div class="av">${initials(a.nome)}</div>
+            <div class="ai"><div class="an">${a.nome}</div>
+            <div class="am">Nº ${a.numero||'—'} · ${corrDaTurma().filter(c=>c.alunoId===a.id).length} provas</div></div>
+            <button class="btn btn-danger btn-sm" onclick="delAluno('${a.id}')">✕</button>
+          </div>`).join('')}
+      </div>`:`<div class="empty"><span class="empty-icon">👥</span><p>Nenhum aluno no ${S.turma}.</p></div>`}
     </div>`;
 }
  
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  GABARITOS
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function pageGabaritos(){
-  const pvs = provasDaTurma();
-  const turmaChips = TURMAS.map(t=>
-    `<span class="turma-chip${S.turma===t?' active':''}" onclick="setTurmaPage('${t}','gabaritos')">${t}</span>`
-  ).join('');
+  const pvs=provasDaTurma();
+  const draft=S.draft;
+  const draftInfo=draft&&draft.turma===S.turma?`<div class="draft-badge">⚠️ Rascunho não finalizado — <button class="btn btn-sm btn-amber" style="padding:2px 8px;font-size:11px" onclick="retomaDraft()">Retomar</button></div>`:'';
   return `
-    <div class="page-header">
-      <div class="page-title">Gabaritos</div>
-      <div class="page-sub">Cadastre e edite os gabaritos oficiais das provas</div>
-    </div>
-    <div class="turma-chips">${turmaChips}</div>
+    <div class="page-header"><div class="page-title">Gabaritos</div></div>
+    <div class="turma-chips">${TURMAS.map(t=>`<span class="turma-chip${S.turma===t?' active':''}" onclick="setTurmaPage('${t}','gabaritos')">${t}</span>`).join('')}</div>
+    ${draftInfo}
     <div class="card">
       <div class="card-hd">
         <div class="card-title">${S.turma} — ${pvs.length} gabarito${pvs.length!==1?'s':''}</div>
         <button class="btn btn-primary btn-sm" onclick="openModal('novaProva')">+ Novo Gabarito</button>
       </div>
-      ${pvs.length?`
-        <div class="tbl-wrap"><table>
-          <thead><tr><th>Matéria</th><th>Descrição</th><th>Questões</th><th>Valor</th><th>Data</th><th>Correções</th><th></th></tr></thead>
-          <tbody>${pvs.map(p=>{
-            const ncor = S.correcoes.filter(c=>c.provaId===p.id).length;
-            return `<tr>
-              <td><span class="badge badge-blue">${p.materia}</span></td>
-              <td style="font-weight:500">${p.desc||'—'}</td>
-              <td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">${p.nq}q</span></td>
-              <td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">${p.valor||10} pts</span></td>
-              <td style="color:var(--text3);font-size:12px">${p.data||'—'}</td>
-              <td><span class="badge badge-gray">${ncor}</span></td>
-              <td>
-                <div style="display:flex;gap:6px">
-                  <button class="btn btn-amber btn-sm" onclick="editarGabarito('${p.id}')">✎ Editar</button>
-                  <button class="btn btn-danger btn-sm" onclick="delProva('${p.id}')">✕</button>
-                </div>
-              </td>
-            </tr>`;
-          }).join('')}</tbody>
-        </table></div>`:`
-        <div class="empty"><span class="empty-icon">📋</span><p>Nenhum gabarito cadastrado para o ${S.turma}.</p></div>`}
+      ${pvs.length?`<div class="tbl-wrap"><table>
+        <thead><tr><th>Matéria</th><th>Descrição</th><th>Questões</th><th>Valor</th><th>Data</th><th>Correções</th><th></th></tr></thead>
+        <tbody>${pvs.map(p=>{
+          const nc=S.correcoes.filter(c=>c.provaId===p.id).length;
+          return`<tr>
+            <td><span class="badge badge-blue">${p.materia}</span></td>
+            <td style="font-weight:500">${p.desc||'—'}</td>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:12px">${p.nq}q</td>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:12px">${p.valor||10} pts</td>
+            <td style="color:var(--text3);font-size:12px">${p.data||'—'}</td>
+            <td><span class="badge badge-gray">${nc}</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-amber btn-sm" onclick="editarGabarito('${p.id}')">✎ Editar</button>
+              <button class="btn btn-danger btn-sm" onclick="delProva('${p.id}')">✕</button>
+            </div></td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table></div>`:`<div class="empty"><span class="empty-icon">📋</span><p>Nenhum gabarito para o ${S.turma}.</p></div>`}
     </div>`;
 }
  
-// ══════════════════════════════════════════
-//  CORRIGIR
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  CORRIGIR — layout com lista de alunos + gabarito lado a lado
+// ═══════════════════════════════════════════════
 function pageCorrigir(){
-  const als = alunosDaTurma();
-  const pvs = provasDaTurma();
-  const turmaChips = TURMAS.map(t=>
-    `<span class="turma-chip${S.turma===t?' active':''}" onclick="setTurmaPage('${t}','corrigir')">${t}</span>`
-  ).join('');
+  const als=alunosDaTurma();
+  const pvs=provasDaTurma();
+  const sess=S.sessao;
  
   if(!als.length||!pvs.length){
     return `
       <div class="page-header"><div class="page-title">Corrigir Prova</div></div>
-      <div class="turma-chips">${turmaChips}</div>
+      <div class="turma-chips">${TURMAS.map(t=>`<span class="turma-chip${S.turma===t?' active':''}" onclick="setTurmaPage('${t}','corrigir')">${t}</span>`).join('')}</div>
       <div class="card"><div class="empty"><span class="empty-icon">✏️</span>
-        <p>${!als.length?'Cadastre alunos no '+S.turma+' antes de corrigir.':''}</p>
-        <p>${!pvs.length?'Cadastre um gabarito para o '+S.turma+' antes de corrigir.':''}</p>
+        <p>${!als.length?`Cadastre alunos no ${S.turma} antes de corrigir.<br>`:``}${!pvs.length?`Cadastre um gabarito para o ${S.turma} antes de corrigir.`:``}</p>
         <div style="display:flex;gap:8px;justify-content:center;margin-top:16px">
-          ${!als.length?'<button class="btn btn-primary" onclick="setPage(\'alunos\')">+ Alunos</button>':''}
-          ${!pvs.length?'<button class="btn btn-primary" onclick="setPage(\'gabaritos\')">+ Gabarito</button>':''}
+          ${!als.length?`<button class="btn btn-primary" onclick="setPage('alunos')">+ Alunos</button>`:''}
+          ${!pvs.length?`<button class="btn btn-primary" onclick="setPage('gabaritos')">+ Gabarito</button>`:''}
         </div>
       </div></div>`;
   }
  
-  return `
-    <div class="page-header"><div class="page-title">Corrigir Prova</div><div class="page-sub">Selecione a prova e o aluno para iniciar a correção</div></div>
-    <div class="turma-chips">${turmaChips}</div>
-    <div class="card">
-      <div class="form-grid">
-        <div class="form-row">
-          <label>Prova / Gabarito</label>
-          <select id="selProva" onchange="onSelProva()">
-            <option value="">-- Selecione a prova --</option>
-            ${pvs.map(p=>`<option value="${p.id}">${p.materia} — ${p.desc||p.data||'s/d'} (${p.nq}q)</option>`).join('')}
-          </select>
-        </div>
-        <div class="form-row">
-          <label>Aluno</label>
-          <select id="selAluno">
-            <option value="">-- Selecione o aluno --</option>
-            ${als.sort((a,b)=>a.nome.localeCompare(b.nome)).map(a=>`<option value="${a.id}">${a.nome}</option>`).join('')}
-          </select>
-        </div>
-      </div>
-      <div id="corrigirArea"></div>
-    </div>
-    <div id="resultadoArea"></div>`;
-}
+  // Prova selecionada
+  const pvId=sess&&sess.turma===S.turma?sess.provaId:'';
+  const pv=pvId?getProva(pvId):null;
  
-function onSelProva(){
-  const pv = getProva(document.getElementById('selProva')?.value);
-  const area = document.getElementById('corrigirArea');
-  if(!pv||!area){return}
-  area.innerHTML = `
-    <div style="background:var(--bg);border-radius:10px;padding:14px 16px;margin-top:4px;margin-bottom:16px;display:flex;gap:20px;flex-wrap:wrap">
-      <span style="font-size:12px;color:var(--text3)">Matéria: <strong style="color:var(--text)">${pv.materia}</strong></span>
-      <span style="font-size:12px;color:var(--text3)">Questões: <strong style="color:var(--text);font-family:'JetBrains Mono',monospace">${pv.nq}</strong></span>
-      <span style="font-size:12px;color:var(--text3)">Valor: <strong style="color:var(--text);font-family:'JetBrains Mono',monospace">${pv.valor||10} pts</strong></span>
+  // Correções já feitas nesta sessão/prova
+  const corrigidosIds=pvId?S.correcoes.filter(c=>c.provaId===pvId&&c.turma===S.turma).map(c=>c.alunoId):[];
+ 
+  // Aluno selecionado
+  const alId=sess&&sess.turma===S.turma?sess.alunoId:'';
+  const al=alId?getAluno(alId):null;
+ 
+  // Respostas do rascunho de correção atual
+  const resps=sess&&sess.turma===S.turma&&sess.provaId===pvId&&sess.alunoId===alId?sess.resps||[]:[];
+ 
+  const alunosList=[...als].sort((a,b)=>a.nome.localeCompare(b.nome)).map(a=>{
+    const jaCorrigido=corrigidosIds.includes(a.id);
+    const isSel=a.id===alId;
+    const corr=jaCorrigido?S.correcoes.find(c=>c.provaId===pvId&&c.alunoId===a.id):null;
+    const nb=corr?notaBase(corr):null;
+    return `
+      <div class="aluno-card${isSel?' selecionado':''}${jaCorrigido?' corrigido':''} cursor-pointer" onclick="selecionarAluno('${a.id}')">
+        <div class="av${jaCorrigido?' done':''}">${jaCorrigido?'✓':initials(a.nome)}</div>
+        <div class="ai">
+          <div class="an">${a.nome}</div>
+          <div class="am">${jaCorrigido?`Nota: <strong>${((corr.acertos/corr.total)*(getProva(corr.provaId)?.valor||10)).toFixed(1)}</strong> — ${situacao(nb)}`:'Aguardando correção'}</div>
+        </div>
+        ${isSel?'<span style="font-size:18px">✏️</span>':''}
+      </div>`;
+  }).join('');
+ 
+  // Gabarito de respostas do aluno
+  let gabHTML='';
+  if(pv&&al){
+    gabHTML=`
+      <div style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div>
+          <div style="font-weight:600;font-size:14px">${al.nome}</div>
+          <div style="font-size:12px;color:var(--text3)">${pv.materia}${pv.desc?' — '+pv.desc:''} · ${pv.nq} questões · ${pv.valor||10} pts</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="calcularNota()">Calcular Nota →</button>
+      </div>
+      <div class="gab-sheet" id="gabRespostas">${buildRespostasSheet(pv,resps)}</div>
+      <div id="resultadoInline"></div>`;
+  } else if(pv){
+    gabHTML=`<div class="empty" style="padding:32px"><span class="empty-icon">👈</span><p>Selecione um aluno ao lado para iniciar a correção</p></div>`;
+  }
+ 
+  return `
+    <div class="page-header"><div class="page-title">Corrigir Prova</div><div class="page-sub">Selecione a prova e depois o aluno</div></div>
+    <div class="turma-chips">${TURMAS.map(t=>`<span class="turma-chip${S.turma===t?' active':''}" onclick="setTurmaPage('${t}','corrigir')">${t}</span>`).join('')}</div>
+    <div class="card" style="margin-bottom:12px">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Prova / Gabarito</label>
+        <select id="selProva" onchange="selecionarProva(this.value)">
+          <option value="">-- Selecione a prova --</option>
+          ${pvs.map(p=>`<option value="${p.id}"${p.id===pvId?' selected':''}>${p.materia}${p.desc?' — '+p.desc:''} (${p.nq}q · ${p.valor||10}pts)</option>`).join('')}
+        </select>
+      </div>
     </div>
-    <div class="card-title" style="margin-bottom:10px">Respostas do aluno</div>
-    <div class="gab-sheet" id="respostasSheet">
-      ${buildGabSheet(pv.nq, [], false, [])}
-    </div>
-    <div style="margin-top:16px">
-      <button class="btn btn-primary" onclick="calcularNota()">Calcular Nota →</button>
+    <div class="corr-layout">
+      <div>
+        <div class="card-title" style="margin-bottom:10px;padding:0 2px">Alunos — ${als.length} <span style="font-size:11px;color:var(--text3);font-weight:400">(${corrigidosIds.length} corrigidos)</span></div>
+        ${pvId?alunosList:`<div class="card"><div class="empty" style="padding:24px"><span class="empty-icon" style="font-size:28px">☝️</span><p style="font-size:13px">Selecione uma prova acima</p></div></div>`}
+      </div>
+      <div class="card">${pv?gabHTML:`<div class="empty"><span class="empty-icon">📋</span><p>Selecione uma prova acima para começar</p></div>`}</div>
     </div>`;
 }
  
-function buildGabSheet(nq, selecionadas, mostrarErros, gabarito){
-  let html = '';
-  for(let i=0;i<nq;i++){
-    const sel = selecionadas[i]||null;
-    const par = i%2===1;
-    const sep = (i>0 && i%5===0)?'<div class="gab-sep"></div>':'';
-    const opts = OPTS.map(o=>{
-      let cls = 'gab-opt';
-      if(mostrarErros && gabarito.length){
-        if(o===gabarito[i]) cls+=' correct-answer';
-        if(o===sel && sel!==gabarito[i]) cls+=' filled-wrong';
-        else if(o===sel && sel===gabarito[i]) cls+=' filled-correct';
-      } else {
-        if(o===sel) cls+=' filled';
-      }
-      return `<div class="${cls}" onclick="selResp(${i},'${o}')" data-q="${i}" data-o="${o}">${o}</div>`;
-    }).join('');
-    html += sep+`<div class="gab-row${sel?' selected-row':''}" id="gabrow_${i}">
+function buildRespostasSheet(pv, resps){
+  let html='';
+  for(let i=0;i<pv.nq;i++){
+    const sel=resps[i]||null;
+    const sep=(i>0&&i%5===0)?'<div class="gab-sep"></div>':'';
+    const opts=OPTS.map(o=>`<div class="gab-opt${o===sel?' filled':''}" onclick="marcarResposta(${i},'${o}')" data-q="${i}" data-o="${o}">${o}</div>`).join('');
+    html+=sep+`<div class="gab-row${sel?' done':''}" id="rrow_${i}">
       <div class="gab-num">${String(i+1).padStart(2,'0')}</div>
       <div class="gab-opts">${opts}</div>
     </div>`;
@@ -510,186 +427,176 @@ function buildGabSheet(nq, selecionadas, mostrarErros, gabarito){
   return html;
 }
  
-// respostasTemp: array indexado por questão, valor = letra selecionada
-let respostasTemp = [];
-// pendingCorrecao: guarda os dados calculados aguardando confirmação de salvar
-let pendingCorrecao = null;
+function selecionarProva(pvId){
+  // Salva sessão com nova prova, limpa aluno e respostas
+  const sess=S.sessao||{};
+  S.sessao={...sess, turma:S.turma, provaId:pvId, alunoId:'', resps:[]};
+  renderMain();
+}
  
-function selResp(q, o){
-  respostasTemp[q] = o;
-  const row = document.getElementById('gabrow_'+q);
-  if(!row) return;
-  row.classList.add('selected-row');
-  row.querySelectorAll('.gab-opt').forEach(el=>{
-    el.classList.remove('filled');
-    if(el.dataset.o===o) el.classList.add('filled');
-  });
+function selecionarAluno(alId){
+  const sess=S.sessao||{};
+  // Se mudar de aluno, limpar respostas e resultado inline
+  const sessAtual=sess.alunoId===alId?sess:{...sess,alunoId:alId,resps:[]};
+  S.sessao=sessAtual;
+  renderMain();
+}
+ 
+function marcarResposta(q, o){
+  // Atualizar visualmente SEM re-render (para não perder o foco)
+  const row=document.getElementById('rrow_'+q);
+  if(row){
+    row.classList.add('done');
+    row.querySelectorAll('.gab-opt').forEach(el=>{
+      el.classList.remove('filled');
+      if(el.dataset.o===o) el.classList.add('filled');
+    });
+  }
+  // Salvar no localStorage imediatamente
+  const sess=S.sessao||{};
+  const resps=[...(sess.resps||[])];
+  resps[q]=o;
+  S.sessao={...sess, resps};
 }
  
 function calcularNota(){
-  const pvId = document.getElementById('selProva')?.value;
-  const alId = document.getElementById('selAluno')?.value;
-  if(!pvId){ alert('Selecione uma prova!'); return; }
-  if(!alId){ alert('Selecione um aluno!'); return; }
-  const pv = getProva(pvId);
-  const al = getAluno(alId);
-  if(!pv || !al) return;
+  const sess=S.sessao;
+  if(!sess||!sess.provaId||!sess.alunoId){alert('Selecione prova e aluno.');return}
+  const pv=getProva(sess.provaId);
+  const al=getAluno(sess.alunoId);
+  if(!pv||!al) return;
  
-  // Coletar respostas — null para não respondidas
-  const resps = Array.from({length: pv.nq}, (_, i) => respostasTemp[i] || null);
-  const sem = resps.filter(r => !r).length;
-  if(sem > 0 && !confirm(`${sem} questão(ões) sem resposta. Continuar assim?`)) return;
+  const resps=Array.from({length:pv.nq},(_,i)=>(sess.resps||[])[i]||null);
+  const sem=resps.filter(r=>!r).length;
+  if(sem>0&&!confirm(`${sem} questão(ões) sem resposta. Continuar assim?`)) return;
  
-  // Calcular acertos comparando com o gabarito
-  let acertos = 0;
-  for(let i = 0; i < pv.nq; i++){
-    if(resps[i] && resps[i] === pv.gab[i]) acertos++;
+  // Calcular acertos
+  let acertos=0;
+  const erros=[];
+  for(let i=0;i<pv.nq;i++){
+    if(resps[i]===pv.gab[i]) acertos++;
+    else erros.push({q:i+1,deu:resps[i],era:pv.gab[i]});
   }
  
-  const valor = parseFloat(pv.valor) || 10;
-  const notaFinal = parseFloat(((acertos / pv.nq) * valor).toFixed(2));
-  const pct = Math.round((acertos / pv.nq) * 100);
+  const valor=parseFloat(pv.valor)||10;
+  const nb=(acertos/pv.nq)*10;
+  const notaFinal=(acertos/pv.nq)*valor;
+  const pct=Math.round((acertos/pv.nq)*100);
  
-  // Situação baseada em nota proporcional ao valor
-  const notaBase10 = (acertos / pv.nq) * 10;
-  const sit = notaBase10 >= 7 ? 'Aprovado ✓' : notaBase10 >= 5 ? 'Recuperação' : 'Reprovado';
-  const sitCor = notaBase10 >= 7 ? 'rgba(255,255,255,.9)' : notaBase10 >= 5 ? '#ffe9a0' : '#ffd0cc';
-  const bgGrad = notaBase10 >= 7
-    ? 'linear-gradient(135deg,#0c6e52,#0a8f68)'
-    : notaBase10 >= 5
-    ? 'linear-gradient(135deg,#c47600,#e89a00)'
-    : 'linear-gradient(135deg,#c23b2b,#e04a37)';
- 
-  const erros = [];
-  for(let i = 0; i < pv.nq; i++){
-    if(resps[i] !== pv.gab[i]){
-      erros.push({q: i+1, correta: pv.gab[i], deu: resps[i]});
-    }
-  }
- 
-  // Salvar pendingCorrecao para uso em registrarCorrecao (sem passar por HTML)
-  pendingCorrecao = {
-    pvId, alId, acertos, total: pv.nq,
-    nota: notaFinal,
-    resps: resps.slice(),
-    turma: S.turma
+  // SALVAR CORREÇÃO IMEDIATAMENTE no localStorage
+  const novaCorrecao={
+    id:uid(),
+    turma:S.turma,
+    provaId:pv.id,
+    alunoId:al.id,
+    acertos,
+    total:pv.nq,
+    nota:parseFloat(notaFinal.toFixed(2)),
+    resps:resps.slice(),
+    data:new Date().toLocaleDateString('pt-BR')
   };
+  const cors=[...S.correcoes];
+  // Substituir se já existe correção deste aluno nesta prova
+  const idx=cors.findIndex(c=>c.provaId===pv.id&&c.alunoId===al.id&&c.turma===S.turma);
+  if(idx>=0) cors[idx]=novaCorrecao;
+  else cors.push(novaCorrecao);
+  S.correcoes=cors; // salva no localStorage
  
-  const areaEl = document.getElementById('resultadoArea');
-  if(!areaEl) return;
-  areaEl.innerHTML = `
-    <div class="result-hero" style="background:${bgGrad}">
-      <div class="result-nota">${notaFinal.toFixed(1)}</div>
-      <div class="result-sit" style="color:${sitCor}">${sit} — ${al.nome}</div>
-      <div class="result-sub">${acertos} de ${pv.nq} corretas (${pct}%) · ${pv.materia}${pv.desc?' — '+pv.desc:''} · Valor: ${valor} pts</div>
-      <div class="result-bar-wrap"><div class="result-bar" style="width:${pct}%"></div></div>
-    </div>
-    ${erros.length ? `
-    <div class="card">
-      <div class="card-title" style="margin-bottom:12px">Questões erradas — ${erros.length}</div>
-      <div class="erros-grid">
-        ${erros.map(e => `<span class="erro-chip wrong">Q${e.q}: ${e.deu||'—'} → ${e.correta}</span>`).join('')}
+  // Limpar sessão de respostas deste aluno
+  S.sessao={...sess, alunoId:'', resps:[]};
+ 
+  // Mostrar resultado inline
+  const area=document.getElementById('resultadoInline');
+  if(area){
+    area.innerHTML=`
+      <div class="result-hero" style="background:${gradCor(nb)};margin-top:14px">
+        <div class="result-nota">${notaFinal.toFixed(1)}</div>
+        <div class="result-sit">${situacao(nb)} — ${al.nome}</div>
+        <div class="result-sub">${acertos}/${pv.nq} corretas (${pct}%)</div>
+        <div class="result-bar-bg"><div class="result-bar" style="width:${pct}%"></div></div>
       </div>
-    </div>` : `<div class="card" style="text-align:center;padding:20px"><span style="font-size:32px">🎉</span><br><strong style="color:var(--teal)">Gabarito perfeito!</strong></div>`}
-    <div style="display:flex;gap:8px;margin-bottom:20px">
-      <button class="btn btn-primary" onclick="registrarCorrecao()">💾 Salvar nos Resultados</button>
-      <button class="btn" onclick="limparCorrecao()">Nova Correção</button>
-    </div>`;
+      ${erros.length?`<div class="card"><div class="card-title" style="margin-bottom:10px">Questões erradas — ${erros.length}</div>
+        <div class="erros-grid">${erros.map(e=>`<span class="erro-chip">Q${e.q}: ${e.deu||'—'} → ${e.era}</span>`).join('')}</div>
+      </div>`:`<div class="card" style="text-align:center;padding:18px"><span style="font-size:28px">🎉</span><br><strong style="color:var(--teal)">Gabarito perfeito!</strong></div>`}
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <button class="btn btn-primary" onclick="proximoAluno()">Próximo Aluno →</button>
+        <button class="btn" onclick="setPage('resultados')">Ver Resultados</button>
+      </div>`;
+  }
  
-  areaEl.scrollIntoView({behavior:'smooth', block:'start'});
+  // Atualizar lista de alunos sem re-renderizar tudo
+  renderMain();
 }
  
-function registrarCorrecao(){
-  // Usa pendingCorrecao — sem risco de quebra por HTML encoding
-  if(!pendingCorrecao){ alert('Nenhuma correção para salvar.'); return; }
-  const c = pendingCorrecao;
-  S.correcoes.push({
-    id: uid(),
-    turma: c.turma,
-    provaId: c.pvId,
-    alunoId: c.alId,
-    acertos: c.acertos,
-    total: c.total,
-    nota: c.nota,
-    resps: c.resps,
-    data: new Date().toLocaleDateString('pt-BR')
-  });
-  save();
-  pendingCorrecao = null;
-  respostasTemp = [];
-  setPage('resultados');
+function proximoAluno(){
+  // Encontrar próximo aluno não corrigido
+  const sess=S.sessao||{};
+  const pvId=sess.provaId;
+  if(!pvId){renderMain();return}
+  const corrigidos=S.correcoes.filter(c=>c.provaId===pvId&&c.turma===S.turma).map(c=>c.alunoId);
+  const als=[...alunosDaTurma()].sort((a,b)=>a.nome.localeCompare(b.nome));
+  const proximo=als.find(a=>!corrigidos.includes(a.id));
+  if(proximo){
+    S.sessao={...sess,alunoId:proximo.id,resps:[]};
+  } else {
+    S.sessao={...sess,alunoId:'',resps:[]};
+    alert('Todos os alunos desta turma foram corrigidos nesta prova! ✓');
+  }
+  renderMain();
 }
  
-function limparCorrecao(){
-  respostasTemp = [];
-  pendingCorrecao = null;
-  setPage('corrigir');
-}
- 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  RESULTADOS
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function pageResultados(){
-  const cors = corrDaTurma();
-  const turmaChips = TURMAS.map(t=>
-    `<span class="turma-chip${S.turma===t?' active':''}" onclick="setTurmaPage('${t}','resultados')">${t}</span>`
-  ).join('');
-  const med = cors.length?(cors.reduce((a,b)=>a+b.nota,0)/cors.length).toFixed(1):'—';
-  const apr = cors.filter(c=>(c.acertos/c.total)>=0.7).length;
-  const rec = cors.filter(c=>(c.acertos/c.total)>=0.5&&(c.acertos/c.total)<0.7).length;
-  const rep = cors.filter(c=>(c.acertos/c.total)<0.5).length;
+  const cors=corrDaTurma();
+  const med=cors.length?(cors.reduce((a,b)=>a+notaBase(b),0)/cors.length).toFixed(1):'—';
+  const apr=cors.filter(c=>notaBase(c)>=7).length;
+  const rec=cors.filter(c=>notaBase(c)>=5&&notaBase(c)<7).length;
+  const rep=cors.filter(c=>notaBase(c)<5).length;
   return `
     <div class="page-header"><div class="page-title">Resultados</div><div class="page-sub">Histórico completo de correções</div></div>
-    <div class="turma-chips">${turmaChips}</div>
+    <div class="turma-chips">${TURMAS.map(t=>`<span class="turma-chip${S.turma===t?' active':''}" onclick="setTurmaPage('${t}','resultados')">${t}</span>`).join('')}</div>
     <div class="stats-row">
-      <div class="stat"><div class="stat-n">${cors.length}</div><div class="stat-l">Total</div></div>
-      <div class="stat"><div class="stat-n">${med}</div><div class="stat-l">Média</div></div>
-      <div class="stat"><div class="stat-n" style="color:var(--teal)">${apr}</div><div class="stat-l">Aprovados ≥5</div></div>
-      <div class="stat"><div class="stat-n" style="color:var(--amber)">${rec}</div><div class="stat-l">Recuperação</div></div>
-      <div class="stat"><div class="stat-n" style="color:var(--red)">${rep}</div><div class="stat-l">Reprovados</div></div>
+      <div class="stat"><div class="stat-n">${cors.length}</div><div class="stat-l">Correções</div></div>
+      <div class="stat"><div class="stat-n">${med}</div><div class="stat-l">Média (base 10)</div></div>
+      <div class="stat"><div class="stat-n" style="color:var(--teal)">${apr}</div><div class="stat-l">Aprovados ≥7</div></div>
+      <div class="stat"><div class="stat-n" style="color:var(--amber)">${rec}</div><div class="stat-l">Recuperação 5–7</div></div>
+      <div class="stat"><div class="stat-n" style="color:var(--red)">${rep}</div><div class="stat-l">Reprovados &lt;5</div></div>
     </div>
     <div class="card">
       <div class="card-hd">
-        <div class="card-title">${S.turma} — ${cors.length} correção(ões)</div>
+        <div class="card-title">${S.turma}</div>
         ${cors.length?`<button class="btn btn-danger btn-sm" onclick="limparResultados()">🗑 Limpar tudo</button>`:''}
       </div>
-      ${cors.length?`
-        <div class="tbl-wrap"><table>
-          <thead><tr><th>Aluno</th><th>Matéria</th><th>Prova</th><th>Acertos</th><th>Nota</th><th>%</th><th>Situação</th><th>Data</th><th></th></tr></thead>
-          <tbody>${[...cors].reverse().map(c=>{
-            const al = getAluno(c.alunoId);
-            const pv = getProva(c.provaId);
-            const pct = Math.round(c.acertos/c.total*100);
-            const notaBase = (c.acertos/c.total)*10;
-            const sit = notaBase>=7?'Aprovado':notaBase>=5?'Recuperação':'Reprovado';
-            const bc = notaBase>=7?'badge-teal':notaBase>=5?'badge-amber':'badge-red';
-            return `<tr>
-              <td style="font-weight:500">${al?al.nome:'—'}</td>
-              <td><span class="badge badge-blue">${pv?pv.materia:'—'}</span></td>
-              <td style="font-size:12px;color:var(--text2)">${pv?pv.desc||'s/d':'—'}</td>
-              <td style="font-family:'JetBrains Mono',monospace;font-size:12px">${c.acertos}/${c.total}</td>
-              <td><strong style="font-family:'JetBrains Mono',monospace">${c.nota.toFixed(1)}</strong></td>
-              <td>
-                <div style="min-width:80px">
-                  <div style="font-size:11px;color:var(--text3);margin-bottom:2px">${pct}%</div>
-                  <div class="prog-wrap"><div class="prog" style="width:${pct}%"></div></div>
-                </div>
-              </td>
-              <td><span class="badge ${bc}">${sit}</span></td>
-              <td style="color:var(--text3);font-size:12px">${c.data}</td>
-              <td><button class="btn btn-danger btn-sm" style="padding:3px 8px" onclick="delCorrecao('${c.id}')">✕</button></td>
-            </tr>`;
-          }).join('')}</tbody>
-        </table></div>`:`
-        <div class="empty"><span class="empty-icon">📊</span><p>Nenhuma correção para o ${S.turma}.</p></div>`}
+      ${cors.length?`<div class="tbl-wrap"><table>
+        <thead><tr><th>Aluno</th><th>Matéria</th><th>Prova</th><th>Acertos</th><th>Nota</th><th>%</th><th>Situação</th><th>Data</th><th></th></tr></thead>
+        <tbody>${[...cors].reverse().map(c=>{
+          const al=getAluno(c.alunoId);const pv=getProva(c.provaId);
+          const nb=notaBase(c);const pct=Math.round((c.acertos/c.total)*100);
+          const notaExibir=((c.acertos/c.total)*(pv?pv.valor||10:10)).toFixed(1);
+          return`<tr>
+            <td style="font-weight:500">${al?al.nome:'—'}</td>
+            <td><span class="badge badge-blue">${pv?pv.materia:'—'}</span></td>
+            <td style="font-size:12px;color:var(--text2)">${pv?pv.desc||'s/d':'—'}</td>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:12px">${c.acertos}/${c.total}</td>
+            <td><strong style="font-family:'JetBrains Mono',monospace">${notaExibir}</strong></td>
+            <td><div style="min-width:70px"><div style="font-size:11px;color:var(--text3)">${pct}%</div>
+              <div class="prog-wrap"><div class="prog" style="width:${pct}%"></div></div></div></td>
+            <td><span class="badge ${badgeCor(nb)}">${situacao(nb)}</span></td>
+            <td style="color:var(--text3);font-size:12px">${c.data}</td>
+            <td><button class="btn btn-danger btn-sm" style="padding:3px 8px" onclick="delCorrecao('${c.id}')">✕</button></td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table></div>`:`<div class="empty"><span class="empty-icon">📊</span><p>Nenhuma correção para o ${S.turma}.</p></div>`}
     </div>`;
 }
  
-// ══════════════════════════════════════════
-//  MODAIS
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  MODAL — GABARITO (com autosave bolinha a bolinha)
+// ═══════════════════════════════════════════════
 function renderModal(){
-  const root = document.getElementById('modalRoot');
+  const root=document.getElementById('modalRoot');
   if(!S.modal){root.innerHTML='';return}
   if(S.modal==='novoAluno') root.innerHTML=modalNovoAluno();
   else if(S.modal==='importarAlunos') root.innerHTML=modalImportarAlunos();
@@ -697,11 +604,11 @@ function renderModal(){
 }
  
 function modalNovoAluno(){
-  return `<div class="modal-bg" onclick="closeModal(event)"><div class="modal">
+  return`<div class="modal-bg" onclick="closeModal(event)"><div class="modal">
     <h3>Adicionar Aluno — ${S.turma}</h3>
     <div class="form-grid">
       <div class="form-row"><label>Nome completo</label><input id="m_nome" type="text" placeholder="Nome do aluno" autofocus></div>
-      <div class="form-row"><label>Número</label><input id="m_num" type="number" placeholder="Ex: 01" min="1" max="99"></div>
+      <div class="form-row"><label>Número</label><input id="m_num" type="number" placeholder="01" min="1" max="99"></div>
     </div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModalBtn()">Cancelar</button>
@@ -711,13 +618,12 @@ function modalNovoAluno(){
 }
  
 function modalImportarAlunos(){
-  return `<div class="modal-bg" onclick="closeModal(event)"><div class="modal">
-    <h3>Importar Lista de Alunos — ${S.turma}</h3>
-    <div class="form-row">
-      <label>Cole os nomes (um por linha)</label>
+  return`<div class="modal-bg" onclick="closeModal(event)"><div class="modal">
+    <h3>Importar Lista — ${S.turma}</h3>
+    <div class="form-row"><label>Cole os nomes (um por linha)</label>
       <textarea id="m_lista" rows="10" placeholder="Maria Silva&#10;João Santos&#10;Ana Oliveira&#10;..."></textarea>
     </div>
-    <div style="font-size:12px;color:var(--text3);margin-top:-8px;margin-bottom:12px">Os nomes existentes não serão duplicados.</div>
+    <div style="font-size:12px;color:var(--text3);margin-top:-6px;margin-bottom:10px">Nomes duplicados serão ignorados.</div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModalBtn()">Cancelar</button>
       <button class="btn btn-primary" onclick="importarAlunos()">Importar</button>
@@ -726,53 +632,63 @@ function modalImportarAlunos(){
 }
  
 function modalProva(){
-  const editando = S.modal==='editarProva';
-  const pv = editando?getProva(S.editProvaId):null;
-  const nq = pv?pv.nq:10;
-  const gab = pv?pv.gab:[];
+  const editando=S.modal==='editarProva';
+  const pv=editando?getProva(S.editProvaId):null;
  
-  const gabRows = Array.from({length:nq},(_,i)=>{
-    const sel = gab[i]||null;
-    const opts = OPTS.map(o=>{
-      const filled = o===sel?'filled':'';
-      return `<div class="gab-opt ${filled}" onclick="modalSelGab(${i},'${o}')" data-mq="${i}" data-mo="${o}">${o}</div>`;
+  // Carregar draft (rascunho salvo automaticamente) se não for edição
+  let draft=S.draft;
+  let draftAtivo=!editando&&draft&&draft.turma===S.turma;
+ 
+  const nq=editando?(pv?pv.nq:10):(draftAtivo?draft.nq:10);
+  const gab=editando?(pv?[...pv.gab]:[]):(draftAtivo?[...draft.gab]:[]);
+  const mat=editando?(pv?pv.materia:'Português'):(draftAtivo?draft.materia:'Português');
+  const desc=editando?(pv?pv.desc||'':''):(draftAtivo?draft.desc||'':'');
+  const data=editando?(pv?pv.data||'':''):(draftAtivo?draft.data||'':'');
+  const valor=editando?(pv?pv.valor||10:10):(draftAtivo?draft.valor||10:10);
+ 
+  function gabRows(nqr,gabr){
+    return Array.from({length:nqr},(_,i)=>{
+      const sel=gabr[i]||null;
+      const sep=(i>0&&i%5===0)?'<div class="gab-sep"></div>':'';
+      const opts=OPTS.map(o=>`<div class="gab-opt${o===sel?' filled':''}" onclick="modalSelGab(${i},'${o}')" data-mq="${i}" data-mo="${o}">${o}</div>`).join('');
+      return sep+`<div class="gab-row${sel?' done':''}" id="mgabrow_${i}">
+        <div class="gab-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="gab-opts">${opts}</div>
+      </div>`;
     }).join('');
-    const sep = (i>0&&i%5===0)?'<div class="gab-sep"></div>':'';
-    return sep+`<div class="gab-row${sel?' selected-row':''}" id="mgabrow_${i}">
-      <div class="gab-num">${String(i+1).padStart(2,'0')}</div>
-      <div class="gab-opts">${opts}</div>
-    </div>`;
-  }).join('');
+  }
  
-  const gabValores = gab.length?JSON.stringify(gab):'[]';
+  // Inicializar modalGabTemp
+  modalGabTemp={};
+  gab.forEach((v,i)=>{if(v) modalGabTemp[i]=v;});
  
-  return `<div class="modal-bg" onclick="closeModal(event)"><div class="modal modal-lg">
-    <h3>${editando?'Editar Gabarito':'Novo Gabarito'} — ${S.turma}</h3>
+  return`<div class="modal-bg" onclick="closeModal(event)"><div class="modal modal-lg">
+    <h3>${editando?'Editar Gabarito':'Novo Gabarito'} — ${S.turma}${draftAtivo?' <span style="font-size:12px;color:var(--amber);font-weight:400">(rascunho recuperado ✓)</span>':''}</h3>
     <div class="form-grid col3">
       <div class="form-row"><label>Matéria</label>
-        <select id="m_mat">${MATERIAS.map(m=>`<option${pv&&pv.materia===m?' selected':''}>${m}</option>`).join('')}</select>
+        <select id="m_mat" onchange="autoSaveDraft()">${MATERIAS.map(m=>`<option${mat===m?' selected':''}>${m}</option>`).join('')}</select>
       </div>
       <div class="form-row"><label>Nº de Questões</label>
-        <input id="m_nq" type="number" value="${nq}" min="1" max="60" onchange="modalAtualizarGab(this.value,'${gabValores.replace(/'/g,'&apos;')}')">
+        <input id="m_nq" type="number" value="${nq}" min="1" max="60" onchange="modalMudaNQ(this.value)">
       </div>
       <div class="form-row"><label>Valor da prova (pts)</label>
-        <input id="m_val" type="number" value="${pv?pv.valor||10:10}" min="1" max="100" step="0.5">
+        <input id="m_val" type="number" value="${valor}" min="1" max="100" step="0.5" onchange="autoSaveDraft()">
       </div>
     </div>
     <div class="form-grid">
       <div class="form-row"><label>Descrição</label>
-        <input id="m_desc" type="text" placeholder="Ex: 1ª Avaliação Bimestral" value="${pv?pv.desc||'':''}">
+        <input id="m_desc" type="text" placeholder="Ex: 1ª Avaliação Bimestral" value="${desc}" oninput="autoSaveDraft()">
       </div>
       <div class="form-row"><label>Data</label>
-        <input id="m_data" type="date" value="${pv?pv.data||'':''}">
+        <input id="m_data" type="date" value="${data}" onchange="autoSaveDraft()">
       </div>
     </div>
     <div class="form-row">
-      <label>Gabarito oficial — marque as bolinhas</label>
-      <div class="gab-sheet" id="modalGabSheet">${gabRows}</div>
+      <label>Gabarito oficial — clique nas bolinhas</label>
+      <div class="gab-sheet" id="modalGabSheet">${gabRows(nq,gab)}</div>
     </div>
-    <input type="hidden" id="m_gabData" value="${gabValores}">
     <div class="modal-footer">
+      ${!editando?`<button class="btn btn-danger" onclick="descartarDraft()">Descartar</button>`:''}
       <button class="btn" onclick="closeModalBtn()">Cancelar</button>
       <button class="btn btn-primary" onclick="salvarProva(${editando?`'${S.editProvaId}'`:'null'})">
         ${editando?'Salvar Alterações':'Salvar Gabarito'}
@@ -781,112 +697,134 @@ function modalProva(){
   </div></div>`;
 }
  
-let modalGabTemp = {};
-function modalSelGab(q, o){
-  modalGabTemp[q] = o;
-  const row = document.getElementById('mgabrow_'+q);
-  if(!row) return;
-  row.classList.add('selected-row');
-  row.querySelectorAll('.gab-opt').forEach(el=>{
-    el.classList.remove('filled');
-    if(el.dataset.mo===o) el.classList.add('filled');
-  });
-  // update hidden
-  const nq = parseInt(document.getElementById('m_nq')?.value||10);
-  const arr = Array.from({length:nq},(_,i)=>modalGabTemp[i]||null);
-  const hid = document.getElementById('m_gabData');
-  if(hid) hid.value = JSON.stringify(arr);
+let modalGabTemp={};
+ 
+function modalSelGab(q,o){
+  modalGabTemp[q]=o;
+  // Atualizar visual
+  const row=document.getElementById('mgabrow_'+q);
+  if(row){
+    row.classList.add('done');
+    row.querySelectorAll('.gab-opt').forEach(el=>{
+      el.classList.remove('filled');
+      if(el.dataset.mo===o) el.classList.add('filled');
+    });
+  }
+  // Autosave imediato
+  autoSaveDraft();
 }
  
-function modalAtualizarGab(nqStr, gabStr){
-  const nq = Math.min(parseInt(nqStr)||10,60);
-  let gab = [];
-  try{gab=JSON.parse(gabStr.replace(/&apos;/g,"'"))}catch{}
-  // rebuild modalGabTemp
-  modalGabTemp = {};
-  gab.forEach((v,i)=>{if(v) modalGabTemp[i]=v;});
-  const sheet = document.getElementById('modalGabSheet');
+function autoSaveDraft(){
+  // Só salva draft se não for edição
+  if(S.modal!=='novaProva') return;
+  const nq=Math.min(parseInt(document.getElementById('m_nq')?.value)||10,60);
+  const gab=Array.from({length:nq},(_,i)=>modalGabTemp[i]||null);
+  S.draft={
+    turma:S.turma,
+    materia:document.getElementById('m_mat')?.value||'Português',
+    desc:document.getElementById('m_desc')?.value||'',
+    data:document.getElementById('m_data')?.value||'',
+    valor:parseFloat(document.getElementById('m_val')?.value)||10,
+    nq, gab,
+    ts:Date.now()
+  };
+}
+ 
+function modalMudaNQ(nqStr){
+  const nq=Math.min(parseInt(nqStr)||10,60);
+  modalGabTemp={...modalGabTemp}; // manter respostas existentes
+  const sheet=document.getElementById('modalGabSheet');
   if(!sheet) return;
   let html='';
   for(let i=0;i<nq;i++){
     const sel=modalGabTemp[i]||null;
     const sep=(i>0&&i%5===0)?'<div class="gab-sep"></div>':'';
     const opts=OPTS.map(o=>`<div class="gab-opt${o===sel?' filled':''}" onclick="modalSelGab(${i},'${o}')" data-mq="${i}" data-mo="${o}">${o}</div>`).join('');
-    html+=sep+`<div class="gab-row${sel?' selected-row':''}" id="mgabrow_${i}">
+    html+=sep+`<div class="gab-row${sel?' done':''}" id="mgabrow_${i}">
       <div class="gab-num">${String(i+1).padStart(2,'0')}</div>
       <div class="gab-opts">${opts}</div>
     </div>`;
   }
   sheet.innerHTML=html;
+  autoSaveDraft();
 }
  
-// ══════════════════════════════════════════
-//  ACTIONS
-// ══════════════════════════════════════════
-function salvarAluno(){
-  const nome = document.getElementById('m_nome')?.value.trim();
-  const num = document.getElementById('m_num')?.value.trim();
-  if(!nome){alert('Informe o nome do aluno.');return}
-  if(!S.alunos[S.turma]) S.alunos[S.turma]=[];
-  if(S.alunos[S.turma].find(a=>a.nome.toLowerCase()===nome.toLowerCase())){
-    alert('Aluno já cadastrado!');return;
-  }
-  S.alunos[S.turma].push({id:uid(),nome,numero:num||''});
-  save();
+function retomaDraft(){
+  S.modal='novaProva';
+  renderModal();
+}
+ 
+function descartarDraft(){
+  if(!confirm('Descartar o rascunho?')) return;
+  S.draft=null;
   closeModalBtn();
-  renderMain();
+}
+ 
+// ═══════════════════════════════════════════════
+//  ACTIONS
+// ═══════════════════════════════════════════════
+function salvarAluno(){
+  const nome=document.getElementById('m_nome')?.value.trim();
+  const num=document.getElementById('m_num')?.value.trim();
+  if(!nome){alert('Informe o nome do aluno.');return}
+  const als={...S.alunos};
+  if(!als[S.turma]) als[S.turma]=[];
+  if(als[S.turma].find(a=>a.nome.toLowerCase()===nome.toLowerCase())){alert('Aluno já cadastrado!');return}
+  als[S.turma].push({id:uid(),nome,numero:num||''});
+  S.alunos=als;
+  closeModalBtn();renderMain();
 }
  
 function importarAlunos(){
-  const txt = document.getElementById('m_lista')?.value||'';
-  const nomes = txt.split('\n').map(l=>l.trim()).filter(Boolean);
+  const txt=document.getElementById('m_lista')?.value||'';
+  const nomes=txt.split('\n').map(l=>l.trim()).filter(Boolean);
   if(!nomes.length){alert('Nenhum nome encontrado.');return}
-  if(!S.alunos[S.turma]) S.alunos[S.turma]=[];
-  let adicionados=0;
-  nomes.forEach((nome,i)=>{
-    if(!S.alunos[S.turma].find(a=>a.nome.toLowerCase()===nome.toLowerCase())){
-      S.alunos[S.turma].push({id:uid(),nome,numero:String(S.alunos[S.turma].length+1).padStart(2,'0')});
-      adicionados++;
+  const als={...S.alunos};
+  if(!als[S.turma]) als[S.turma]=[];
+  let add=0;
+  nomes.forEach(nome=>{
+    if(!als[S.turma].find(a=>a.nome.toLowerCase()===nome.toLowerCase())){
+      als[S.turma].push({id:uid(),nome,numero:String(als[S.turma].length+1).padStart(2,'0')});
+      add++;
     }
   });
-  save();
-  closeModalBtn();
-  renderMain();
-  alert(`${adicionados} aluno(s) importado(s)!`);
+  S.alunos=als;
+  closeModalBtn();renderMain();
+  alert(`${add} aluno(s) importado(s)!`);
 }
  
 function delAluno(id){
-  if(!confirm('Excluir este aluno? As correções dele serão mantidas.')) return;
-  S.alunos[S.turma]=(S.alunos[S.turma]||[]).filter(a=>a.id!==id);
-  save();renderMain();
+  if(!confirm('Excluir este aluno?')) return;
+  const als={...S.alunos};
+  als[S.turma]=(als[S.turma]||[]).filter(a=>a.id!==id);
+  S.alunos=als;renderMain();
 }
  
 function salvarProva(editId){
-  const nq = Math.min(parseInt(document.getElementById('m_nq')?.value)||10,60);
-  let gab=[];
-  try{gab=JSON.parse(document.getElementById('m_gabData')?.value||'[]')}catch{}
-  // fill missing
-  gab=Array.from({length:nq},(_,i)=>gab[i]||'A');
- 
+  const nq=Math.min(parseInt(document.getElementById('m_nq')?.value)||10,60);
+  const gab=Array.from({length:nq},(_,i)=>modalGabTemp[i]||'A');
   const prova={
-    id:editId||uid(),
+    id:editId&&editId!=='null'?editId:uid(),
     turma:S.turma,
     materia:document.getElementById('m_mat')?.value||'Português',
     desc:document.getElementById('m_desc')?.value||'',
     data:document.getElementById('m_data')?.value||'',
     valor:parseFloat(document.getElementById('m_val')?.value)||10,
-    nq, gab
+    nq,gab
   };
-  if(editId){
-    S.provas=S.provas.map(p=>p.id===editId?prova:p);
+  const pvs=[...S.provas];
+  if(editId&&editId!=='null'){
+    const idx=pvs.findIndex(p=>p.id===editId);
+    if(idx>=0) pvs[idx]=prova; else pvs.push(prova);
   } else {
-    S.provas.push(prova);
+    pvs.push(prova);
   }
-  save();
+  S.provas=pvs;
+  // Limpar draft após salvar
+  if(!editId||editId==='null') S.draft=null;
   modalGabTemp={};
   S.editProvaId=null;
-  closeModalBtn();
-  renderMain();
+  closeModalBtn();renderMain();
 }
  
 function editarGabarito(id){
@@ -899,31 +837,31 @@ function editarGabarito(id){
 }
  
 function delProva(id){
-  const ncor=S.correcoes.filter(c=>c.provaId===id).length;
-  if(!confirm(`Excluir este gabarito?${ncor?` Há ${ncor} correção(ões) vinculadas que também serão excluídas.`:''}`)) return;
+  const nc=S.correcoes.filter(c=>c.provaId===id).length;
+  if(!confirm(`Excluir este gabarito?${nc?` ${nc} correção(ões) também serão excluídas.`:''}`)) return;
   S.provas=S.provas.filter(p=>p.id!==id);
   S.correcoes=S.correcoes.filter(c=>c.provaId!==id);
-  save();renderMain();
+  renderMain();
 }
  
 function delCorrecao(id){
   if(!confirm('Excluir esta correção?')) return;
   S.correcoes=S.correcoes.filter(c=>c.id!==id);
-  save();renderMain();
+  renderMain();
 }
  
 function limparResultados(){
   if(!confirm('Apagar TODAS as correções do '+S.turma+'?')) return;
   S.correcoes=S.correcoes.filter(c=>c.turma!==S.turma);
-  save();renderMain();
+  renderMain();
 }
  
-function openModal(m){S.modal=m;modalGabTemp={};renderModal();}
+function openModal(m){S.modal=m;if(m==='novaProva'){modalGabTemp={};const d=S.draft;if(d&&d.turma===S.turma){d.gab.forEach((v,i)=>{if(v) modalGabTemp[i]=v;})}}renderModal();}
 function closeModalBtn(){S.modal=null;S.editProvaId=null;renderModal();}
 function closeModal(e){if(e.target.classList.contains('modal-bg'))closeModalBtn();}
-function setPage(p){S.page=p;respostasTemp=[];renderSidebar();renderMain();}
-function setTurma(t){S.turma=t;respostasTemp=[];render();}
-function setTurmaPage(t,p){S.turma=t;S.page=p;respostasTemp=[];render();}
+function setPage(p){S.page=p;renderSidebar();renderMain();}
+function setTurma(t){S.turma=t;render();}
+function setTurmaPage(t,p){S.turma=t;S.page=p;render();}
  
 render();
 </script>
